@@ -3,6 +3,7 @@ appogg.com网站前端项目
 
 ### 网站前后端分离
 
+（使用nginx端口转发
 
 
 > A Vue.js project
