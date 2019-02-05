@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import IndexPage from '../pages/IndexPage'
 
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -18,6 +20,52 @@ export default new Router({
       name: 'Test',
       component: () => import('@/pages/Test.vue'),
     },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/pages/login/login.vue'),
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: () => import('@/pages/login/signup.vue'),
+    },
+    {
+      path: '/recover',
+      name: 'Recover',
+      component: () => import('@/pages/login/recover.vue'),
+    },
+    {
+      path: '/privacy',
+      name: 'Privacy',
+      component: () => import('@/pages/privacy/Privacy.vue'),
+    },
+
+
+    //article
+    {
+      path: '/articleIndex',
+      name: 'ArticleIndex',
+      component: () => import('@/pages/article/ArticleIndex.vue'),
+    },
+    {
+      path: '/articleDetails',
+      name: 'ArticleDetails',
+      component: () => import('@/pages/article/ArticleDetails.vue'),
+    },
+    {
+      path: '/articlePush',
+      name: 'ArticlePush',
+      component: () => import('@/pages/article/ArticlePush.vue'),
+    },
+
+    //user
+    {
+      path: '/user',
+      name: 'UserPage',
+      component: () => import('@/pages/user/UserPage.vue'),
+    },
+
 
   ]
 })

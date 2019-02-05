@@ -2,54 +2,10 @@
 
 
 
-  <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-    <FormItem prop="user">
+  <Form style="background-color: darkblue;" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
-      <Menu mode="horizontal" :theme="theme1" active-name="1">
-        <MenuItem name="1">
-          <Icon type="ios-paper" />
-          文章
-        </MenuItem>
-        <MenuItem name="2">
-          <Icon type="ios-people" />
-          破解
-        </MenuItem>
-        <Submenu name="3">
-          <template slot="title">
-            <Icon type="ios-stats" />
-            软件
-
-          </template>
-          <!--<MenuGroup title="使用">-->
-          <MenuItem v-for="d in listdata">{{ d.id }}</MenuItem>
-          <!--<MenuItem name="3-2">iphone</MenuItem>-->
-          <!--<MenuItem name="3-3">windows</MenuItem>-->
-          <!--</MenuGroup>-->
-          <!--<MenuGroup title="留存">-->
-          <!--<MenuItem name="3-4">linux</MenuItem>-->
-          <!--<MenuItem name="3-5">mac</MenuItem>-->
-          <!--<MenuItem name="3-6">其他</MenuItem>-->
-          <!--</MenuGroup>-->
-        </Submenu>
-        <MenuItem name="4">
-          <Icon type="ios-construct" />
-          我的地盘
-        </MenuItem>
-      </Menu>
-    </FormItem>
-    <br/>
-    <FormItem>
-      <!--<Button type="primary" @click="handleSubmit('formInline')">登录</Button>-->
-      <!--<Button type="primary" @click="handleSubmit('formInline')">登录</Button>-->
-      <!--<Button type="primary" @click="handleSubmit('formInline')">登录</Button>-->
-      <!--<Button type="primary" @click="handleSubmit('formInline')">登录</Button>-->
-      <!--<Button type="primary" @click="handleSubmit('formInline')">登录</Button>-->
-    </FormItem>
-
-
-
-    <FormItem>
-      <Card style="width:20%;float: left;margin:20px;" class="mb-10" >
+    <FormItem style="background-color: aqua">
+      <Card style="width:26%;float: left;margin:20px;" class="mb-10" >
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
           Classic film
@@ -68,7 +24,7 @@
           </li>
         </ul>
       </Card>
-      <Card style="width:20%;float: left;margin:20px;" class="mb-8" >
+      <Card style="width:26%;float: left;margin:20px;" class="mb-8" >
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
           Classic film
@@ -87,7 +43,7 @@
           </li>
         </ul>
       </Card>
-      <Card style="width:20%;float: left;margin:20px;" class="mb-3" >
+      <Card style="width:26%;float: left;margin:20px;" class="mb-3" >
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
           Classic film
@@ -106,7 +62,7 @@
           </li>
         </ul>
       </Card>
-      <Card style="width:20%;float: left;margin:20px;">
+      <Card style="width:26%;float: left;margin:20px;">
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
           Classic film
@@ -125,7 +81,7 @@
           </li>
         </ul>
       </Card>
-      <Card style="width:20%;float: left;margin:20px;">
+      <Card style="width:26%;float: left;margin:20px;">
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
           Classic film
@@ -144,7 +100,7 @@
           </li>
         </ul>
       </Card>
-      <Card style="width:20%;float: left;margin:20px;">
+      <Card style="width:26%;float: left;margin:20px;">
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
           Classic film
