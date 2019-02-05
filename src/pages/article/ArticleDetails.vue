@@ -72,7 +72,7 @@
         </p>
         <Divider/>
         <div style="width: 100%;">
-          <Input style="width: 90%;margin:10px;" v-model="value6" type="textarea" :rows="4" placeholder="输入评论内容..." />
+          <Input style="width: 90%;margin:10px;" v-model="value6" type="textarea" :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..." />
           <Button style="width: 90%;margin:10px;" type="primary">提交</Button>
         </div>
       </Card>
@@ -90,13 +90,13 @@
             <div>
               <Row style="text-align: center">
                 <Col span="11">
-                  <Card dis-hover :bordered="true">
+                  <Card dis-hover :bordered="false">
                     <p>文章</p>
                     <p><Strong>22</Strong></p>
                   </Card>
                 </Col>
                 <Col span="11" offset="2">
-                  <Card dis-hover :bordered="true">
+                  <Card dis-hover :bordered="false">
                     <p>总阅读量</p>
                     <p><Strong>3522</Strong></p>
                   </Card>
