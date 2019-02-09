@@ -140,6 +140,7 @@
 
 
           </TabPane>
+
           <TabPane label="关注的人 43">
 
             <div>
@@ -203,10 +204,20 @@
 
     <FormItem style="width:23%;margin-top: -10px;">
 
-      <Card :bordered="true" style="text-align: center">
+      <Card :bordered="true" style="text-align: left;margin-bottom: 10px;">
+        <p slot="title">分类标签</p>
+        <a slot="extra">编辑</a>
+        <Tag color="cyan">java</Tag>
+        <Tag color="cyan">c语言</Tag>
+        <Tag color="cyan">python</Tag>
+        <Tag color="cyan">spring</Tag>
+        <Tag color="cyan">编程</Tag>
+      </Card>
+      <Card :bordered="true" style="text-align: center;margin-bottom: 10px;">
         <Icon type="md-paw"/>
         <p>07-11 16:01加入appogg</p>
       </Card>
+
     </FormItem>
 
 

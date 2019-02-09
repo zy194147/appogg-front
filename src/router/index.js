@@ -67,5 +67,26 @@ export default new Router({
     },
 
 
+    //soft
+    {
+      path: '/soft',
+      name: 'softIndex',
+      component: () => import('@/pages/soft/softIndex.vue'),
+    },
+
+
+    //need
+    {
+      path: '/need',
+      name: 'needIndex',
+      component: () => import('@/pages/need/needIndex.vue'),
+    },
+    {
+      path: '/needPush',
+      name: 'needPush',
+      component: () => import('@/pages/need/needPush.vue'),
+    },
+
+
   ]
 })

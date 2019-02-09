@@ -9,9 +9,14 @@
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
           <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+          <Tooltip content="钻石会员" placement="bottom">
+            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+
+          </Tooltip>
           <span>　2018-12-11 21:34　</span>
-          <Icon type="ios-chatbubbles" />32
+          <Tooltip content="文章评论数" placement="bottom">
+            <Icon type="ios-chatbubbles" />32
+          </Tooltip>
 
         </div>
         <p style="font-size: 20px;">
@@ -52,9 +57,13 @@
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
           <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11 21:34　</span>
-          <Icon type="ios-chatbubbles" />4
+          <Tooltip content="钻石会员" placement="bottom">
+            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+
+          </Tooltip>          <span>　2018-12-11 21:34　</span>
+          <Tooltip content="文章评论数" placement="bottom">
+            <Icon type="ios-chatbubbles" />32
+          </Tooltip>
 
         </div>
         <p style="font-size: 20px;">
@@ -89,8 +98,10 @@
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
           <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>2018-12-11 21:34</span>
+          <Tooltip content="钻石会员" placement="bottom">
+            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+
+          </Tooltip>          <span>2018-12-11 21:34</span>
         </div>
         <p style="font-size: 20px;">
           <span style="line-height: 40px;">写给 iView 开发者的一封信</span>
@@ -130,8 +141,10 @@
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
           <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>2018-12-11 21:34</span>
+          <Tooltip content="钻石会员" placement="bottom">
+            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+
+          </Tooltip>          <span>2018-12-11 21:34</span>
         </div>
         <p style="font-size: 20px;">
           <span style="line-height: 40px;">写给 iView 开发者的一封信</span>
@@ -170,8 +183,10 @@
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
           <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>2018-12-11 21:34</span>
+          <Tooltip content="钻石会员" placement="bottom">
+            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+
+          </Tooltip>          <span>2018-12-11 21:34</span>
         </div>
         <p style="font-size: 20px;">
           <span style="line-height: 40px;">写给 iView 开发者的一封信</span>
@@ -207,8 +222,10 @@
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
           <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>2018-12-11 21:34</span>
+          <Tooltip content="钻石会员" placement="bottom">
+            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+
+          </Tooltip>          <span>2018-12-11 21:34</span>
         </div>
         <p style="font-size: 20px;">
           <span style="line-height: 40px;">写给 iView 开发者的一封信</span>

@@ -12,22 +12,25 @@
             <Input style="width:100%;" search enter-button placeholder="搜索..." />
           </FormItem>
 
-        <MenuItem name="1" >
+        <MenuItem name="1">
+          首页
+        </MenuItem>
+        <MenuItem name="2" >
           文章
         </MenuItem>
-        <MenuItem name="2">
-          破解
+        <MenuItem name="33">
+          <!--<template slot="title">-->
+            破解软件
+          <!--</template>-->
+          <!--<MenuItem v-for="d in listdata" name="33">{{ d.id }}</MenuItem>-->
         </MenuItem>
-        <Submenu name="3">
-          <template slot="title">
-            软件
-          </template>
-          <MenuItem v-for="d in listdata">{{ d.id }}</MenuItem>
-        </Submenu>
-        <MenuItem name="4">
-          我的地盘
+        <MenuItem name="44" >
+          需求
         </MenuItem>
         <MenuItem name="5">
+          我的地盘
+        </MenuItem>
+        <MenuItem name="6">
           博客
         </MenuItem>
 
@@ -100,14 +103,29 @@
 
       articleIndex(name){
         console.log("name:",name)
-        this.$router.push('/articleIndex')
+        if(name === "1"){
+          this.$router.push('/')
+        }
+        if(name === "33"){
+          this.$router.push('/soft')
+        }
+        if(name === "44"){
+          this.$router.push('/need')
+        }
+        else {
+          this.$router.push('/articleIndex')
+        }
       },
 
       login(){
+        this.$Loading.start()
         this.$router.push('/login')
+        this.$Loading.finish()
       },
       signup(){
+        this.$Loading.start()
         this.$router.push('/signup')
+        this.$Loading.finish()
       },
 
       go(){
