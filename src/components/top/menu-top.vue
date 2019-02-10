@@ -12,27 +12,27 @@
             <Input style="width:100%;" search enter-button placeholder="搜索..." />
           </FormItem>
 
-        <MenuItem name="1">
-          首页
+        <MenuItem v-for="menu in menuList" :name="menu.menuNameEnglish">
+          {{menu.menuName}}
         </MenuItem>
-        <MenuItem name="2" >
-          文章
-        </MenuItem>
-        <MenuItem name="33">
-          <!--<template slot="title">-->
-            破解软件
-          <!--</template>-->
-          <!--<MenuItem v-for="d in listdata" name="33">{{ d.id }}</MenuItem>-->
-        </MenuItem>
-        <MenuItem name="44" >
-          需求
-        </MenuItem>
-        <MenuItem name="5">
-          我的地盘
-        </MenuItem>
-        <MenuItem name="6">
-          博客
-        </MenuItem>
+        <!--<MenuItem name="2" >-->
+          <!--文章-->
+        <!--</MenuItem>-->
+        <!--<MenuItem name="33">-->
+          <!--&lt;!&ndash;<template slot="title">&ndash;&gt;-->
+            <!--破解软件-->
+          <!--&lt;!&ndash;</template>&ndash;&gt;-->
+          <!--&lt;!&ndash;<MenuItem v-for="d in listdata" name="33">{{ d.id }}</MenuItem>&ndash;&gt;-->
+        <!--</MenuItem>-->
+        <!--<MenuItem name="44" >-->
+          <!--需求-->
+        <!--</MenuItem>-->
+        <!--<MenuItem name="5">-->
+          <!--我的地盘-->
+        <!--</MenuItem>-->
+        <!--<MenuItem name="6">-->
+          <!--博客-->
+        <!--</MenuItem>-->
 
         <FormItem style="margin-top: 15px;margin-left: 80px;">
           <Button @click="login">登录</Button>
@@ -49,6 +49,7 @@
   export default {
     data () {
       return {
+        menuList:[],
         formInline: {
           user: '',
           password: ''
@@ -79,7 +80,7 @@
       },
       getData() {
         console.log("开始")
-        axios.get('/api/hello/say')
+        axios.get('/api/menu/list')
           .then((response) => {
             console.log(1)
             console.log(response.data.data,"hahahahahaha",response.data.status);
@@ -87,12 +88,12 @@
 
             if(response.data.status === 200){
               console.log("yes")
-              this.listdata = response.data.data
+              this.menuList = response.data.data
               console.log(this.listdata,"1111111111111")
             } else {
               console.log("no")
 
-              this.listdata = []
+              this.menuList = []
             }
           })
           .catch(function (error) {
@@ -103,18 +104,32 @@
 
       articleIndex(name){
         console.log("name:",name)
-        if(name === "1"){
+        if(name === "indexPage"){
+          console.log("nnn1:" + name)
           this.$router.push('/')
         }
-        if(name === "33"){
-          this.$router.push('/soft')
-        }
-        if(name === "44"){
-          this.$router.push('/need')
-        }
-        else {
+        else if(name === "article"){
+          console.log("nnn2:" + name)
+
           this.$router.push('/articleIndex')
         }
+        else if(name === "soft"){
+          this.$router.push('/soft')
+        }
+        else if(name === "need"){
+          this.$router.push('/need')
+        }
+        else if(name === "selfCenter"){
+          this.$router.push('/user')
+        }
+        else if(name === "about"){
+          this.$router.push('/about')
+        }
+        // else {
+        //   console.log("nnn3:" + name)
+        //
+        //   this.$router.push('/')
+        // }
       },
 
       login(){

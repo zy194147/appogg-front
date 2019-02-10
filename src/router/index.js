@@ -88,5 +88,13 @@ export default new Router({
     },
 
 
+    //about
+    {
+      path: '/about',
+      name: 'aboutPage',
+      component: () => import('@/pages/about/aboutPage.vue'),
+    },
+
+
   ]
 })
