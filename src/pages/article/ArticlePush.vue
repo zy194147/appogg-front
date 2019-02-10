@@ -54,18 +54,18 @@
 
 
       <FormItem label="文章标题">
-        <Input v-model="formItem.input" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
+        <Input v-model="articleMsg.articleTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
       <FormItem label="文章权限">
-        <RadioGroup v-model="formItem.radio" style="float: left">
-          <Radio label="male">公共</Radio>
-          <Radio label="female">仅自己可见</Radio>
+        <RadioGroup v-model="articleMsg.articleAuthId" style="float: left">
+          <Radio label="0">公共</Radio>
+          <Radio label="1">仅自己可见</Radio>
         </RadioGroup>
         <a style="position: absolute;right: 10px;">设置好友可见</a>
       </FormItem>
       <FormItem label="文章分类">
-        <CheckboxGroup v-model="formItem.checkbox" style="float: left">
+        <CheckboxGroup v-model="articleMsg.articleClassifyGroup" style="float: left">
           <Checkbox label="java"></Checkbox>
           <Checkbox label="编程"></Checkbox>
           <Checkbox label="生活"></Checkbox>
@@ -74,7 +74,7 @@
         <a style="position: absolute;right: 10px;">添加分类</a>
       </FormItem>
       <FormItem label="文章概述">
-        <Input v-model="formItem.textarea" type="textarea" :maxlength="200" :autosize="{minRows: 2,maxRows: 5}"
+        <Input v-model="articleMsg.articleSummary" type="textarea" :maxlength="200" :autosize="{minRows: 2,maxRows: 5}"
                placeholder="输入文章概述(最多200个汉字)..."></Input>
       </FormItem>
 
@@ -90,9 +90,11 @@
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary">发布</Button>
+        <Button type="primary" @click="submitArticleMsg">发布</Button>
 
       </FormItem>
+
+      <Spin size="large" fix v-if="spinShow"></Spin>
     </Form>
 
 
@@ -102,12 +104,28 @@
 </template>
 
 <script>
+
+
+  import axios from 'axios'
+  import Httpservice from '@/router/service'
   import E from 'wangeditor'
 
   export default {
     name: 'editor',
     data() {
       return {
+        spinShow:false,
+        editor: {},
+
+        articleMsg: {
+          articleTitleIcon: "https://avatars1.githubusercontent.com/u/32634412?s=400&v=4",
+          articleTitleName: "",
+          articleAuthId: "",
+          articleClassifyGroup: [],
+          articleSummary: "",
+          articleContent: ""
+        },
+
         editorContent: '',
 
         formItem: {
@@ -126,20 +144,55 @@
     methods: {
       getContent: function () {
         alert(this.editorContent)
-      }
+      },
+      handleSpinCustom () {
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'demo-spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '文章发布中')
+            ])
+          }
+        });
+        // setTimeout(() => {
+        //   this.$Spin.hide();
+        // }, 3000);
+      },
+
+      submitArticleMsg(){
+        this.handleSpinCustom()
+        // this.spinShow = true
+        axios.post('/api/article/add', this.articleMsg)
+          .then((response) => {
+            if(response.data.status === 200){
+              // this.spinShow = false
+              this.$router.push('/articleIndex')
+            }
+
+            console.log("add...article:" , response)
+          })
+      },
     },
     mounted() {
-      var editor = new E(this.$refs.editor)
-      editor.customConfig.onchange = (html) => {
-        this.editorContent = html
+      this.editor = new E(this.$refs.editor)
+
+      // 获取编辑器内容
+      this.editor.customConfig.onchange = (html) => {
+        this.articleMsg.articleContent = html
       }
 
 
-      editor.customConfig.uploadImgMaxSize = 1 * 1024 * 1024; // 一张图片最大1MB
-      editor.customConfig.uploadImgMaxLength = 1; // 限一次只能上传1张
-      editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
+      this.editor.customConfig.uploadImgMaxSize = 1 * 1024 * 1024; // 一张图片最大1MB
+      this.editor.customConfig.uploadImgMaxLength = 1; // 限一次只能上传1张
+      this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
       // 普通的自定义菜单
-      editor.customConfig.menus = [
+      this.editor.customConfig.menus = [
         "head", // 标题
         "bold", // 粗体
         "fontSize", // 字号
@@ -163,7 +216,8 @@
 
 
       ];
-      editor.create()
+      this.editor.create()
+      this.getEditorContent();
     }
   }
 </script>
