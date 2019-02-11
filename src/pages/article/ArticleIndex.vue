@@ -20,7 +20,7 @@
 
         </div>
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;cursor: pointer;" @click="articleDtails">{{article.articleTitleName}}</span>
+          <span style="line-height: 40px;cursor: pointer;" @click="articleDtails(article.id)">{{article.articleTitleName}}</span>
         </p>
         <div style="position:absolute;width:50px;right: 15px;top:15px;">
           <Tag v-if="article.isSticky === 1" style="float: left;" color="green">置顶</Tag>
@@ -203,8 +203,9 @@
 
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
-      articleDtails() {
-        this.$router.push('/articleDetails')
+      articleDtails(articleId) {
+        // 页面带参跳转
+        this.$router.push({name: 'ArticleDetails',params: {articleId:articleId}})
       },
       articlePush() {
         this.$router.push('/articlePush')
