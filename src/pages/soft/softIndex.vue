@@ -320,7 +320,7 @@
         this.$router.push('/articleDetails')
       },
       articlePush(){
-        this.$router.push('/articlePush')
+        this.$router.push('/softPush')
       },
       go(){
         this.$router.push('/test')

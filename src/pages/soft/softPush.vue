@@ -4,18 +4,76 @@
 
     <Form :model="formItem" :label-width="80">
 
-      <h2 style="margin-bottom: 30px;">发布需求</h2>
+      <h2 style="margin-bottom: 30px;">发布软件</h2>
 
-      <FormItem label="需求标题">
+      <FormItem label="标题图片">
+
+        <div style="text-align: center; margin: 20px 0 20px 0">
+          <img v-if="isEditState" :src="articleMsg.icon" style="width:200px;height:100px;">
+          <div
+            class="demo-upload-list"
+            v-for="item in uploadList"
+            style="width:200px;height:100px;background-color:white; margin:0 20px 20px 200px;float: left;"
+          >
+            <template v-if="item.status === 'finished'">
+              <div style="width:200px;height:100px;background-color: lightgrey">
+                <img :src="item.url" style="width:200px;height:100px;">
+              </div>
+              <div class="demo-upload-list-cover">
+                <!--<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>-->
+                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+              </div>
+            </template>
+            <template v-else>
+              <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+            </template>
+          </div>
+          <Upload
+            ref="upload"
+            :show-upload-list="false"
+            :default-file-list="defaultList"
+            :on-success="handleSuccess"
+            :format="format"
+            :max-size="2048"
+            :on-format-error="handleFormatError"
+            :on-exceeded-size="handleMaxSize"
+            :before-upload="handleBeforeUpload"
+            type="drag"
+            :action="uploadImage"
+            style="display: inline-block;width:200px;height:100px;margin-bottom: 20px;"
+          >
+            <div style="width: 200px;height:100px;line-height: 50px;">
+              <Icon type="ios-camera" size="20"></Icon>
+              <p v-if="isEditState">修改标题图片</p>
+              <p v-else>添加标题图片</p>
+            </div>
+          </Upload>
+        </div>
+
+      </FormItem>
+
+
+      <FormItem label="文章标题">
         <Input v-model="articleMsg.articleTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
-      <FormItem label="需求分类">
+      <FormItem label="系统平台">
+        <RadioGroup v-model="articleMsg.articleAuthId" style="float: left">
+          <Radio label="0">安卓</Radio>
+          <Radio label="1">苹果</Radio>
+          <Radio label="2">windows</Radio>
+          <Radio label="3">mac</Radio>
+          <Radio label="4">linux</Radio>
+          <Radio label="5">其他</Radio>
+        </RadioGroup>
+        <a style="position: absolute;right: 10px;">都不是?</a>
+      </FormItem>
+      <FormItem label="软件分类">
         <CheckboxGroup v-model="articleMsg.articleClassifyGroup" style="float: left">
-          <Checkbox label="java资料"></Checkbox>
-          <Checkbox label="求软件"></Checkbox>
-          <Checkbox label="破解技能"></Checkbox>
-          <Checkbox label="软件使用技巧"></Checkbox>
+          <Checkbox label="实用工具"></Checkbox>
+          <Checkbox label="音乐软件"></Checkbox>
+          <Checkbox label="视频"></Checkbox>
+          <Checkbox label="破解"></Checkbox>
         </CheckboxGroup>
         <a style="position: absolute;right: 10px;">添加分类</a>
       </FormItem>

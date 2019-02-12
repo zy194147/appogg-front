@@ -124,7 +124,7 @@
       <div style="width: 100%;">
 
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">需求状态</p>
+          <p slot="title">状态</p>
           <RadioGroup v-model="articleListType">
             <Radio label="all">
               <span>全部</span>
@@ -139,7 +139,7 @@
         </Card>
 
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">需求来源</p>
+          <p slot="title">来源</p>
           <RadioGroup v-model="articleListType1">
             <Radio label="all1">
               <span>全部</span>
@@ -150,7 +150,7 @@
           </RadioGroup>
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">最新发布</p>
+          <p slot="title">最新需求</p>
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开发者的一封信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
             <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开发者的一封信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>

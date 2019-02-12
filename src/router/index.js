@@ -73,6 +73,11 @@ export default new Router({
       name: 'softIndex',
       component: () => import('@/pages/soft/softIndex.vue'),
     },
+    {
+      path: '/softPush',
+      name: 'softPush',
+      component: () => import('@/pages/soft/softPush.vue'),
+    },
 
 
     //need
