@@ -8,8 +8,12 @@
       <Card v-model="articleDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
 
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;">{{articleDetail.articleTitleName}}</span>
+          <span style="line-height: 40px;">{{articleDetail.articleTitleName}}
+          </span>
         </p>
+        <!--<div style="line-height: 20px;">-->
+          <!--<Tag v-if="articleDetail.isFine === 1" style="float: left;" color="gold">精选文章</Tag>-->
+        <!--</div>-->
         <div  style="position:absolute;width:50px;right: 15px;top:15px;">
         </div>
         <!--<Tag style="position:absolute;right: 15px;top:15px;" color="green">置顶</Tag>-->
@@ -23,17 +27,13 @@
 
             <img style="width:100%;height:200px;" src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar">
 
-          <p style="width: 100%;float: left;margin-right: 30px;">
+          <p style="width: 100%;float: left;margin-right: 30px;" v-html="articleDetail.articleContent">
             {{articleDetail.articleContent}}
           </p>
 
         </div>
         <div style="width: 100%;float: left;margin:10px;">
           <Tag v-for="articleTag in articleDetail.articleClassifyGroup" color="cyan">{{articleTag}}</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
         </div>
 
       </Card>
@@ -66,7 +66,7 @@
           <p slot="title">关于作者</p>
           <div>
             <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-            <span style="">Aresn</span>
+            <span style="">{{articleUserDetail.userName}}</span>
             <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
             <Divider/>
             <div>
@@ -74,13 +74,13 @@
                 <Col span="11">
                   <Card dis-hover :bordered="false">
                     <p>文章</p>
-                    <p><Strong>22</Strong></p>
+                    <p><Strong>{{articleUserDetail.articleNum}}</Strong></p>
                   </Card>
                 </Col>
                 <Col span="11" offset="2">
                   <Card dis-hover :bordered="false">
                     <p>总阅读量</p>
-                    <p><Strong>3522</Strong></p>
+                    <p><Strong>{{articleUserDetail.articleReadNum}}</Strong></p>
                   </Card>
                 </Col>
               </Row>
@@ -96,8 +96,8 @@
 
 
           <ul style="list-style:none;">
-            <li style="margin-bottom: 4px;"><Icon type="ios-time" /> 发布时间: 2018-02-14 12:32</li>
-            <li style="margin-bottom: 4px;"><Icon type="ios-book" /> 阅读量: 2123</li>
+            <li style="margin-bottom: 4px;"><Icon type="ios-time" /> 发布时间: {{articleDetail.modifyDateTime}}</li>
+            <li style="margin-bottom: 4px;"><Icon type="ios-book" /> 阅读量: {{articleDetail.readNum}}</li>
 
           </ul>
 
@@ -143,7 +143,9 @@
       return {
 
         articleId:{},
+        articleUserId:'',
         articleDetail:'',
+        articleUserDetail:'',
 
         articleListType:"all",
         formInline: {
@@ -197,6 +199,29 @@
           })
         console.log("结束")
       },
+      getUserData(articleUserId) {
+        console.log("开始")
+
+
+        axios.get('/api/user/detail',{
+          params : {
+            'userId' : articleUserId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.articleUserDetail = response.data.data
+              console.log(this.articleDetail,"11111333333333333311111111")
+            } else {
+              console.log("no")
+
+              this.articleUserDetail = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        console.log("结束")
+      },
 
       changeLimit () {
         function getArrayItems(arr, num) {
@@ -228,8 +253,10 @@
     created() {
 
       this.articleId = this.$route.params.articleId
+      this.articleUserId = this.$route.params.articleUserId
 
       this.getData(this.articleId);
+      this.getUserData(this.articleUserId);
       this.changeLimit();
     }
   }

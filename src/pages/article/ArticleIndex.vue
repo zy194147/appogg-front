@@ -7,12 +7,12 @@
       <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" :src="article.articleTitleIcon">
-          <span>Aresn</span>
+          <span>{{article.modifyUserName}}</span>
           <Tooltip content="钻石会员" placement="bottom">
             <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
 
           </Tooltip>
-          <span>　2018-12-11 21:34　</span>
+          <span>　{{article.modifyDateTime}}　</span>
           <Tooltip content="文章评论数" placement="bottom">
             <Icon type="ios-chatbubbles"/>
             {{ article.commentNum }}
@@ -20,7 +20,7 @@
 
         </div>
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;cursor: pointer;" @click="articleDtails(article.id)">{{article.articleTitleName}}</span>
+          <span style="line-height: 40px;cursor: pointer;" @click="articleDtails(article)">{{article.articleTitleName}}</span>
         </p>
         <div style="position:absolute;width:50px;right: 15px;top:15px;">
           <Tag v-if="article.isSticky === 1" style="float: left;" color="green">置顶</Tag>
@@ -203,9 +203,9 @@
 
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
-      articleDtails(articleId) {
+      articleDtails(article) {
         // 页面带参跳转
-        this.$router.push({name: 'ArticleDetails',params: {articleId:articleId}})
+        this.$router.push({name: 'ArticleDetails',params: {articleId:article.id,articleUserId:article.createUserId}})
       },
       articlePush() {
         this.$router.push('/articlePush')

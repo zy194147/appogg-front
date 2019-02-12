@@ -22,6 +22,8 @@
               <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
 
               钻石会员
+
+              <Button style="margin-left: 30px;" type="dashed">编辑我的信息</Button>
             </p>
             <p>
               <Icon type="ios-briefcase"/>
@@ -40,6 +42,7 @@
               <!--畅销书籍《Vue.js实战》的作者（Vue.js 作者尤雨溪作序）。-->
               <!--除了前端，也对 Python、Hybrid、Electron 等技术感兴趣。-->
             </p>
+
           </div>
 
 

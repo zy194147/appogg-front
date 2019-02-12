@@ -148,7 +148,7 @@
       handleSpinCustom () {
         this.$Spin.show({
           render: (h) => {
-            return h('div', [
+            return h('div',   [
               h('Icon', {
                 'class': 'demo-spin-icon-load',
                 props: {
@@ -172,6 +172,7 @@
           .then((response) => {
             if(response.data.status === 200){
               // this.spinShow = false
+              this.$Spin.hide();
               this.$router.push('/articleIndex')
             }
 
