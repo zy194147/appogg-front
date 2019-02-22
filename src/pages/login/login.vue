@@ -129,8 +129,8 @@
 
               // this.changeLogin({ Authorization: this.userToken });
 
-              window.localStorage.setItem('token',this.userToken)
-              console.log("userName:" ,response.data.data.user.userName,this.$store)
+              // window.localStorage.setItem('token',this.userToken)
+              // console.log("userName:" ,response.data.data.user.userName,this.$store)
               // this.$store.commit('handleUserName',response.data.data.user.userName);
               // window.localStorage.setItem('loginUser',response.data.data.user)
 

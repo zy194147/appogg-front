@@ -146,6 +146,9 @@
 
       logout(){
         this.$store.state.userName = null
+        this.$store.state.token = null
+        window.localStorage.removeItem("token")
+
         this.$router.push('/')
 
       },

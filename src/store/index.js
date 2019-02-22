@@ -16,7 +16,7 @@ const store = new Vuex.Store({
       console.log('mutations', res);
       state.token = res.data.token;
       state.userName = res.data.user.userName;
-      localStorage.setItem('token', res.data.user.token);
+      localStorage.setItem('token', res.data.token);
     }
   }
 });
