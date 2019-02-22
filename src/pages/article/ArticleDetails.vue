@@ -39,6 +39,186 @@
       </Card>
 
 
+      <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
+      <Card style="text-align:left;width:100%;float: left;margin-bottom: 5px;" :bordered="false" :dis-hover="true" >
+        <Row>
+          <Col span="1">
+            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
+
+          </Col>
+          <Col span="23" >
+            <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true" >
+              <p style="color: darkgray">
+                谢沧行　
+                <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+                　11-20 11:29
+              </p>
+              <p>Content of card</p>
+              <p>Content of card</p>
+            </Card>
+          </Col>
+        </Row>
+      </Card>
+
+      <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
+      <Card style="text-align:left;width:100%;float: left;margin-bottom: 5px;" :bordered="false" :dis-hover="true" >
+        <Row>
+          <Col span="1">
+            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
+
+          </Col>
+          <Col span="23" >
+            <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true" >
+              <p style="color: darkgray">
+                谢沧行　
+                <!--<img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
+                　11-20 11:29
+              </p>
+              <p>Cont
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ent of carontent of carontent of carontent of carontent of carontent of car
+                ontent of carontent of carontent of carontent of card</p>
+            </Card>
+          </Col>
+        </Row>
+      </Card>
+
+      <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
+      <Card style="text-align:left;width:100%;float: left;margin-bottom: 5px;" :bordered="false" :dis-hover="true" >
+        <Row>
+          <Col span="1">
+            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
+
+          </Col>
+          <Col span="23" >
+            <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true" >
+              <p style="color: darkgray">
+                谢沧行　
+                <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+                　11-20 11:29
+              </p>
+              <p>Content of card</p>
+            </Card>
+          </Col>
+        </Row>
+      </Card>
+
+
+
+
+
+
       <Card style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
         <img style="width:180px;height:120px;" src="../../assets/article/not_login.jpg">
         <p style="font-size: 22px;">尚未登录</p>
@@ -135,7 +315,6 @@
 </template>
 <script>
 
-  import axios from 'axios'
   import Httpservice from '@/router/service'
 
   export default {
@@ -180,7 +359,7 @@
         console.log("开始")
 
 
-        axios.get('/api/article/detail',{
+        this.$http.get('/api/article/detail',{
           params : {
             'id' : articleId
           }})

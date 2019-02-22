@@ -35,8 +35,15 @@
         <!--</MenuItem>-->
 
         <FormItem style="margin-top: 15px;margin-left: 80px;">
-          <Button @click="login">登录</Button>
-          <Button type="primary" @click="signup">注册</Button>
+
+          <div v-if="$store.state.userName !== null">
+            <span>欢迎你，　</span><a @click="userDetails">{{$store.state.userName}}　</a>
+            <Button @click="logout">注销</Button>
+          </div>
+          <div v-else>
+            <Button @click="login">登录</Button>
+            <Button type="primary" @click="signup">注册</Button>
+          </div>
         </FormItem>
       </Menu>
 
@@ -130,6 +137,17 @@
         //
         //   this.$router.push('/')
         // }
+      },
+
+      userDetails(){
+        this.$router.push('/user')
+
+      },
+
+      logout(){
+        this.$store.state.userName = null
+        this.$router.push('/')
+
       },
 
       login(){

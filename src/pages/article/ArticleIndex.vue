@@ -8,6 +8,7 @@
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" :src="article.articleTitleIcon">
           <span>{{article.modifyUserName}}</span>
+          <!--<span>{{$store.getters.username}}</span>-->
           <Tooltip content="钻石会员" placement="bottom">
             <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
 

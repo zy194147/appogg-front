@@ -1,9 +1,5 @@
 <template>
-
-
-
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
-
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
       <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
         <div>
@@ -119,10 +115,8 @@
       </Card>
       <Page style="text-align: center" :total="29" show-total show-elevator />
     </FormItem>
-
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
-
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">状态</p>
           <RadioGroup v-model="articleListType">
@@ -137,7 +131,6 @@
             </Radio>
           </RadioGroup>
         </Card>
-
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">来源</p>
           <RadioGroup v-model="articleListType1">
@@ -159,18 +152,10 @@
             <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
           </ul>
         </Card>
-
         <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush"><Icon type="ios-create-outline"/> 发布需求</Button>
       </div>
-
     </FormItem>
-
-
   </Form>
-
-
-
-
 </template>
 <script>
 
@@ -180,7 +165,6 @@
   export default {
     data () {
       return {
-
         articleListType:"all",
         articleListType1:"all1",
         formInline: {
@@ -266,21 +250,16 @@
       },
       getData() {
         console.log("开始")
-
-
         axios.get('/api/hello/say')
           .then((response) => {
             console.log(1)
             console.log(response.data.data,"hahahahahaha",response.data.status);
-
-
             if(response.data.status === 200){
               console.log("yes")
               this.listdata = response.data.data
               console.log(this.listdata,"1111111111111")
             } else {
               console.log("no")
-
               this.listdata = []
             }
           })
@@ -289,7 +268,6 @@
           })
         console.log("结束")
       },
-
       changeLimit () {
         function getArrayItems(arr, num) {
           const temp_array = [];
@@ -323,7 +301,6 @@
       },
     },
     created() {
-
       this.getData();
       this.changeLimit();
     }

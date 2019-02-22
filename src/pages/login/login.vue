@@ -16,10 +16,10 @@
         <!--</a>-->
         <div>
 
-          <Input prefix="ios-contact" placeholder="用户名或邮箱" style="width: 70%;margin:20px;" /><br/>
-          <Input prefix="md-lock" placeholder="密码" style="width: 70%;margin:10px;" /><br/>
+          <Input v-model="userLogin.userName" prefix="ios-contact" placeholder="用户名或邮箱" style="width: 70%;margin:20px;" /><br/>
+          <Input v-model="userLogin.userPassword" prefix="md-lock" type="password" placeholder="密码" style="width: 70%;margin:10px;" /><br/>
 
-          <Button type="success" style="width: 70%;margin:20px;">登录</Button>
+          <Button type="success" style="width: 70%;margin:20px;" @click="userLoginSubmit">登录</Button>
 
 
 
@@ -46,10 +46,18 @@
 
   import axios from 'axios'
   import Httpservice from '@/router/service'
+  import { mapMutations } from 'vuex';
 
   export default {
     data () {
       return {
+
+
+        userToken:'',
+        userLogin:{
+          userName:"",
+          userPassword:""
+        },
         formInline: {
           user: '',
           password: ''
@@ -66,62 +74,11 @@
         http:Httpservice.getAxios,
         listdata:[],
         theme1: 'light',
-        movieList: [
-          {
-            name: 'The Shawshank Redemption',
-            url: 'https://movie.douban.com/subject/1292052/',
-            rate: 9.6
-          },
-          {
-            name: 'Leon:The Professional',
-            url: 'https://movie.douban.com/subject/1295644/',
-            rate: 9.4
-          },
-          {
-            name: 'Farewell to My Concubine',
-            url: 'https://movie.douban.com/subject/1291546/',
-            rate: 9.5
-          },
-          {
-            name: 'Forrest Gump',
-            url: 'https://movie.douban.com/subject/1292720/',
-            rate: 9.4
-          },
-          {
-            name: 'Life Is Beautiful',
-            url: 'https://movie.douban.com/subject/1292063/',
-            rate: 9.5
-          },
-          {
-            name: 'Spirited Away',
-            url: 'https://movie.douban.com/subject/1291561/',
-            rate: 9.2
-          },
-          {
-            name: 'Schindlers List',
-            url: 'https://movie.douban.com/subject/1295124/',
-            rate: 9.4
-          },
-          {
-            name: 'The Legend of 1900',
-            url: 'https://movie.douban.com/subject/1292001/',
-            rate: 9.2
-          },
-          {
-            name: 'WALL·E',
-            url: 'https://movie.douban.com/subject/2131459/',
-            rate: 9.3
-          },
-          {
-            name: 'Inception',
-            url: 'https://movie.douban.com/subject/3541415/',
-            rate: 9.2
-          }
-        ],
-        randomMovieList: [],
       }
     },
     methods: {
+
+      ...mapMutations(['changeLogin']),
       handleSubmit (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -144,6 +101,9 @@
             if(response.data.status === 200){
               console.log("yes")
               this.listdata = response.data.data
+
+
+
               console.log(this.listdata,"1111111111111")
             } else {
               console.log("no")
@@ -155,6 +115,31 @@
             console.log(error);
           })
         console.log("结束")
+      },
+
+      userLoginSubmit(){
+        axios.post('/api/user/login', this.userLogin)
+          .then((response) => {
+            let data  = response.data;
+            this.$store.commit('changeLogin', data);
+            if(response.data.status === 200){
+              // this.spinShow = false
+
+              this.userToken = response.data.data.token
+
+              // this.changeLogin({ Authorization: this.userToken });
+
+              window.localStorage.setItem('token',this.userToken)
+              console.log("userName:" ,response.data.data.user.userName,this.$store)
+              // this.$store.commit('handleUserName',response.data.data.user.userName);
+              // window.localStorage.setItem('loginUser',response.data.data.user)
+
+              console.log("loginUser:",window.localStorage.getItem("loginUser"))
+              this.$router.push('/articleIndex')
+            }
+
+            console.log("user.....login:" , response)
+          })
       },
 
       changeLimit () {
