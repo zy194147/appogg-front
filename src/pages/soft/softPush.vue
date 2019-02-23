@@ -87,6 +87,11 @@
         </div>
       </FormItem>
 
+      <FormItem label="下载地址">
+
+        <Input v-model="value" placeholder="http://" />
+      </FormItem>
+
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>

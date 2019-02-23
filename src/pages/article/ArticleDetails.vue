@@ -8,7 +8,7 @@
       <Card v-model="articleDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
 
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;">{{articleDetail.articleTitleName}}
+          <span style="line-height: 40px;"><Tag color="green">文</Tag>{{articleDetail.articleTitleName}}
           </span>
         </p>
         <!--<div style="line-height: 20px;">-->
@@ -39,196 +39,7 @@
       </Card>
 
 
-      <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card style="text-align:left;width:100%;float: left;margin-bottom: 5px;" :bordered="false" :dis-hover="true" >
-        <Row>
-          <Col span="1">
-            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
-
-          </Col>
-          <Col span="23" >
-            <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true" >
-              <p style="color: darkgray">
-                谢沧行　
-                <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-                　11-20 11:29
-              </p>
-              <p>Content of card</p>
-              <p>Content of card</p>
-            </Card>
-          </Col>
-        </Row>
-      </Card>
-
-      <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card style="text-align:left;width:100%;float: left;margin-bottom: 5px;" :bordered="false" :dis-hover="true" >
-        <Row>
-          <Col span="1">
-            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
-
-          </Col>
-          <Col span="23" >
-            <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true" >
-              <p style="color: darkgray">
-                谢沧行　
-                <!--<img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
-                　11-20 11:29
-              </p>
-              <p>Cont
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ent of carontent of carontent of carontent of carontent of carontent of car
-                ontent of carontent of carontent of carontent of card</p>
-            </Card>
-          </Col>
-        </Row>
-      </Card>
-
-      <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card style="text-align:left;width:100%;float: left;margin-bottom: 5px;" :bordered="false" :dis-hover="true" >
-        <Row>
-          <Col span="1">
-            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
-
-          </Col>
-          <Col span="23" >
-            <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true" >
-              <p style="color: darkgray">
-                谢沧行　
-                <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-                　11-20 11:29
-              </p>
-              <p>Content of card</p>
-            </Card>
-          </Col>
-        </Row>
-      </Card>
-
-
-
-
-
-
-      <Card style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <img style="width:180px;height:120px;" src="../../assets/article/not_login.jpg">
-        <p style="font-size: 22px;">尚未登录</p>
-        <p>您当前尚未登录，无法使用<strong>评论</strong>功能，请先前往登录。</p>
-        <div style="width: 100%;">
-          <Button style="width: 20%;margin:10px;" type="primary">登录</Button>
-        </div>
-      </Card>
-
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
+      <Card v-if="$store.state.userName !== null" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
         <p style="font-size: 20px;">
           <span style="line-height: 40px;">评论</span>
         </p>
@@ -238,6 +49,56 @@
           <Button style="width: 90%;margin:10px;" type="primary">提交</Button>
         </div>
       </Card>
+
+      <Card v-else style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
+        <img style="width:180px;height:120px;" src="../../assets/article/not_login.jpg">
+        <p style="font-size: 22px;">尚未登录</p>
+        <p>您当前尚未登录，无法使用<strong>评论</strong>功能，请先前往登录。</p>
+        <div style="width: 100%;">
+          <Button style="width: 20%;margin:10px;" type="primary" @click="toLoginPage">登录</Button>
+        </div>
+      </Card>
+
+      <div v-if="articleDetail.commentNum === 0" style="font-size: 14px;text-align: left">
+        <span>暂无评论</span>
+      </div>
+      <div v-else style="font-size: 12px;text-align: left">
+        <span>共计 {{articleCommentTotal}} 条评论</span>
+      </div>
+
+
+      <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
+      <Card v-for="comment in articleCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;" :bordered="false" :dis-hover="true" >
+        <Row>
+          <Col span="1">
+            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
+
+          </Col>
+          <Col span="23" >
+            <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true" >
+              <p style="color: darkgray">
+                {{comment.createUserName}}　
+                <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+                　{{comment.createDateTime}}　
+              </p>
+
+              <p v-if="comment.backToUserId === 0">{{comment.commentContent}}</p>
+
+              <p v-else>{{comment.createUserName}} @ {{comment.backToUserName}} : {{comment.commentContent}}</p>
+
+              <div v-if="comment.children" class="children-item">
+                <articleCommentList :list="comment.children"></articleCommentList>
+              </div>
+
+
+
+            </Card>
+          </Col>
+        </Row>
+      </Card>
+
+
+
     </FormItem>
 
     <FormItem style="position: relative;left: 10px;width:24%;">
@@ -314,12 +175,25 @@
 
 </template>
 <script>
-
   import Httpservice from '@/router/service'
 
   export default {
     data () {
+
+      props: {
+        list: Array
+      }
       return {
+
+        articleCommentList:[],
+        articleCommentTotal:'',
+
+        filter: {
+          // 是否精选文章：0全部，1精选
+          commentArticleId:'',
+          limit: 10,
+          page: 1
+        },
 
         articleId:{},
         articleUserId:'',
@@ -382,14 +256,38 @@
         console.log("开始")
 
 
-        axios.get('/api/user/detail',{
+        this.$http.get('/api/user/detail',{
           params : {
             'userId' : articleUserId
           }})
           .then((response) => {
             if(response.data.status === 200){
               this.articleUserDetail = response.data.data
-              console.log(this.articleDetail,"11111333333333333311111111")
+              console.log("111**********11111",this.articleUserDetail,)
+            } else {
+              console.log("no")
+
+              this.articleUserDetail = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        console.log("结束")
+      },
+      getCommentData(params) {
+        this.$http.get('/api/article/comment/detail',{params})
+          .then((response) => {
+            if(response.data.status === 200){
+
+
+              console.log("yes",response.data.data.rows)
+              this.articleCommentList = response.data.data.rows
+              this.articleCommentTotal = response.data.data.total
+
+              console.log("yes......",response.data.data.rows)
+
+
             } else {
               console.log("no")
 
@@ -423,20 +321,51 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
       userPage(){
-        this.$router.push('/user')
+        this.$router.push({name: 'UserPage',params: {articleUserId:this.articleUserId}})
       },
       go(){
         this.$router.push('/test')
       },
+      toLoginPage(){
+        this.$router.push('/login')
+      },
+
+      updateReadNum(articleId){
+
+        this.$http.get('/api/article/updateReadNum',{
+          params : {
+            'id' : articleId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.getData(this.articleId);
+              // this.articleDetail = response.data.data
+              // console.log(this.articleDetail,"11111333333333333311111111")
+            } else {
+              console.log("no")
+
+              // this.articleDetail = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
     },
     created() {
 
       this.articleId = this.$route.params.articleId
+      this.filter.commentArticleId = this.$route.params.articleId
       this.articleUserId = this.$route.params.articleUserId
+      this.updateReadNum(this.articleId);
 
       this.getData(this.articleId);
       this.getUserData(this.articleUserId);
+      this.getCommentData(this.filter);
+
+
       this.changeLimit();
+
     }
   }
 </script>

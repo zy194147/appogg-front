@@ -209,7 +209,11 @@
         this.$router.push({name: 'ArticleDetails',params: {articleId:article.id,articleUserId:article.createUserId}})
       },
       articlePush() {
-        this.$router.push('/articlePush')
+        if(this.$store.state.userName !== null){
+          this.$router.push('/articlePush')
+        } else {
+          this.$router.push('/login')
+        }
       },
       go() {
         this.$router.push('/test')

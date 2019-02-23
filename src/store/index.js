@@ -17,6 +17,7 @@ const store = new Vuex.Store({
       state.token = res.data.token;
       state.userName = res.data.user.userName;
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userName', res.data.user.userName);
     }
   }
 });

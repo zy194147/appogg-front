@@ -262,7 +262,11 @@
         this.$router.push('/articleDetails')
       },
       articlePush(){
-        this.$router.push('/articlePush')
+        if(this.$store.state.userName !== null){
+          this.$router.push('/articlePush')
+        } else {
+          this.$router.push('/login')
+        }
       },
       go(){
         this.$router.push('/test')

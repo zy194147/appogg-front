@@ -18,29 +18,22 @@
 
           <div style="text-align: left;width:70%;margin-left: 240px;">
             <p>
-              <span style="font-size: 18px;"><strong>张永江</strong></span>
+              <span style="font-size: 18px;"><strong>{{userDetail.userName}}</strong></span>
               <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
 
-              钻石会员
+              {{userDetail.memberLevelName}}
 
               <Button style="margin-left: 30px;" type="dashed">编辑我的信息</Button>
             </p>
             <p>
-              <Icon type="ios-briefcase"/>
-              TalkingData |
               <Icon type="ios-pin"/>
-              贵阳 |
-              <Icon type="ios-create"/>
-              专栏作者
+              {{userDetail.userCity}}
               |
               <Icon type="md-male"/>
             </p>
-            <p style="margin-bottom: 10px;">
+            <p v-if="userDetail.userIntroduce !== null">{{userDetail.userIntroduce}}</p>
+            <p v-else style="margin-bottom: 10px;">
               暂时没有任何简介。
-              <!--Hi，我是 Aresn，基于 Vue.js 的开源 UI 组件库 — iView 的作者。-->
-              <!--现担任大数据公司 TalkingData 前端架构师。-->
-              <!--畅销书籍《Vue.js实战》的作者（Vue.js 作者尤雨溪作序）。-->
-              <!--除了前端，也对 Python、Hybrid、Electron 等技术感兴趣。-->
             </p>
 
           </div>
@@ -218,7 +211,7 @@
       </Card>
       <Card :bordered="true" style="text-align: center;margin-bottom: 10px;">
         <Icon type="md-paw"/>
-        <p>07-11 16:01加入appogg</p>
+        <p>{{userDetail.createDateTime}}加入appogg</p>
       </Card>
 
     </FormItem>
@@ -236,6 +229,8 @@
   export default {
     data() {
       return {
+        userId:'',
+        userDetail:'',
 
         articleListType: "all",
         formInline: {
@@ -254,59 +249,6 @@
         http: Httpservice.getAxios,
         listdata: [],
         theme1: 'light',
-        movieList: [
-          {
-            name: 'The Shawshank Redemption',
-            url: 'https://movie.douban.com/subject/1292052/',
-            rate: 9.6
-          },
-          {
-            name: 'Leon:The Professional',
-            url: 'https://movie.douban.com/subject/1295644/',
-            rate: 9.4
-          },
-          {
-            name: 'Farewell to My Concubine',
-            url: 'https://movie.douban.com/subject/1291546/',
-            rate: 9.5
-          },
-          {
-            name: 'Forrest Gump',
-            url: 'https://movie.douban.com/subject/1292720/',
-            rate: 9.4
-          },
-          {
-            name: 'Life Is Beautiful',
-            url: 'https://movie.douban.com/subject/1292063/',
-            rate: 9.5
-          },
-          {
-            name: 'Spirited Away',
-            url: 'https://movie.douban.com/subject/1291561/',
-            rate: 9.2
-          },
-          {
-            name: 'Schindlers List',
-            url: 'https://movie.douban.com/subject/1295124/',
-            rate: 9.4
-          },
-          {
-            name: 'The Legend of 1900',
-            url: 'https://movie.douban.com/subject/1292001/',
-            rate: 9.2
-          },
-          {
-            name: 'WALL·E',
-            url: 'https://movie.douban.com/subject/2131459/',
-            rate: 9.3
-          },
-          {
-            name: 'Inception',
-            url: 'https://movie.douban.com/subject/3541415/',
-            rate: 9.2
-          }
-        ],
-        randomMovieList: [],
       }
     },
     methods: {
@@ -319,30 +261,26 @@
           }
         })
       },
-      getData() {
+      getData(userId) {
         console.log("开始")
 
-
-        axios.get('/api/hello/say')
+        this.$http.get('/api/user/detail',{
+          params : {
+            'userId' : userId
+          }})
           .then((response) => {
-            console.log(1)
-            console.log(response.data.data, "hahahahahaha", response.data.status);
-
-
-            if (response.data.status === 200) {
-              console.log("yes")
-              this.listdata = response.data.data
-              console.log(this.listdata, "1111111111111")
+            if(response.data.status === 200){
+              this.userDetail = response.data.data
+              console.log("111*******////***11111",this.userDetail,)
             } else {
               console.log("no")
 
-              this.listdata = []
+              this.userDetail = ''
             }
           })
           .catch(function (error) {
             console.log(error);
           })
-        console.log("结束")
       },
 
       changeLimit() {
@@ -371,8 +309,9 @@
       }
     },
     created() {
+      this.userId = this.$route.params.articleUserId
 
-      this.getData();
+      this.getData(this.userId);
       this.changeLimit();
     }
   }
