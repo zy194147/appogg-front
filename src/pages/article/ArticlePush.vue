@@ -8,49 +8,33 @@
 
       <FormItem label="标题图片">
 
-        <div style="text-align: center; margin: 20px 0 20px 0">
-          <img v-if="isEditState" :src="articleMsg.icon" style="width:200px;height:100px;">
-          <div
-            class="demo-upload-list"
-            v-for="item in uploadList"
-            style="width:200px;height:100px;background-color:white; margin:0 20px 20px 200px;float: left;"
-          >
-            <template v-if="item.status === 'finished'">
-              <div style="width:200px;height:100px;background-color: lightgrey">
-                <img :src="item.url" style="width:200px;height:100px;">
-              </div>
-              <div class="demo-upload-list-cover">
-                <!--<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>-->
-                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-              </div>
-            </template>
-            <template v-else>
-              <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-            </template>
-          </div>
+        <div style="text-align: center; margin: 2px 0 20px 0">
+
           <Upload
             ref="upload"
             :show-upload-list="false"
-            :default-file-list="defaultList"
             :on-success="handleSuccess"
-            :format="format"
+            :format="['jpg','jpeg','png']"
             :max-size="2048"
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
             type="drag"
-            :action="uploadImage"
-            style="display: inline-block;width:200px;height:100px;margin-bottom: 20px;"
-          >
-            <div style="width: 200px;height:100px;line-height: 50px;">
-              <Icon type="ios-camera" size="20"></Icon>
-              <p v-if="isEditState">修改标题图片</p>
-              <p v-else>添加标题图片</p>
+            action="/api/article/uploadTitleImage">
+            <div>
+              <Icon type="ios-cloud-upload" size="32" style="color: #3399ff"></Icon>
+              <p>点我上传文章标题图片</p>
             </div>
           </Upload>
         </div>
+        <div>
+          <img :src="articleTitleImage">
+        </div>
+
 
       </FormItem>
+
+
 
 
       <FormItem label="文章标题">
@@ -114,6 +98,10 @@
     name: 'editor',
     data() {
       return {
+        articleTitleImage:'',
+        visible: false,
+        uploadList: [],
+
         spinShow:false,
         editor: {},
 
@@ -179,6 +167,46 @@
             console.log("add...article:" , response)
           })
       },
+
+      //图片上传
+      handleView (name) {
+        this.articleTitleImage = name;
+        this.visible = true;
+      },
+      handleRemove (file) {
+        const fileList = this.$refs.upload.fileList;
+        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+      },
+      handleSuccess (res, file) {
+        console.log(res.data)
+        console.log(file)
+        this.articleTitleImage = res.data
+        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+      },
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: 'The file format is incorrect',
+          desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+        });
+      },
+      handleMaxSize (file) {
+        this.$Notice.warning({
+          title: 'Exceeding file size limit',
+          desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+        });
+      },
+      handleBeforeUpload () {
+        const check = this.uploadList.length < 5;
+        if (!check) {
+          this.$Notice.warning({
+            title: 'Up to five pictures can be uploaded.'
+          });
+        }
+        return check;
+      }
+
+
     },
     mounted() {
       this.editor = new E(this.$refs.editor)
