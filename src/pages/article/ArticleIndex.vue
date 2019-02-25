@@ -35,9 +35,9 @@
         <!--Change-->
         <!--</a>-->
         <div style="width: 100%;">
-          <p style="width: 76%;float: left;margin-right: 30px;">{{article.articleSummary}}</p>
+          <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;"@click="articleDtails(article)">{{article.articleSummary}}</p>
           <div>
-            <img style="position:absolute;right: 40px; width:120px;height: 80px;" src="../../assets/logo.png">
+            <img style="position:absolute;right: 40px; top:80px; width:120px;height: 80px;" :src="article.articleTitleIcon">
           </div>
         </div>
         <div style="width: 100%;float: left;margin:10px;">

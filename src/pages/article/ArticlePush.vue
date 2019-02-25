@@ -106,7 +106,7 @@
         editor: {},
 
         articleMsg: {
-          articleTitleIcon: "https://avatars1.githubusercontent.com/u/32634412?s=400&v=4",
+          articleTitleIcon: "",
           articleTitleName: "",
           articleAuthId: "",
           articleClassifyGroup: [],
@@ -155,6 +155,7 @@
 
       submitArticleMsg(){
         this.handleSpinCustom()
+        this.articleMsg.articleTitleIcon = this.articleTitleImage
         // this.spinShow = true
         axios.post('/api/article/add', this.articleMsg)
           .then((response) => {

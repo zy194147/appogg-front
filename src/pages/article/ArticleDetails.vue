@@ -10,7 +10,14 @@
         <p style="font-size: 20px;">
           <span style="line-height: 40px;"><Tag color="green">文</Tag>{{articleDetail.articleTitleName}}
           </span>
+
+
+
         </p>
+        <div style="position:absolute;width:50px;right: 15px;top:25px;">
+          <Tag v-if="articleDetail.isSticky === 1" style="float: left;" color="green">置顶</Tag>
+          <Tag v-if="articleDetail.isFine === 1" style="float: left;" color="gold">精选</Tag>
+        </div>
         <!--<div style="line-height: 20px;">-->
           <!--<Tag v-if="articleDetail.isFine === 1" style="float: left;" color="gold">精选文章</Tag>-->
         <!--</div>-->
@@ -25,7 +32,7 @@
         <!--</a>-->
         <div style="width: 100%;">
 
-            <img style="width:100%;height:200px;" src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar">
+            <!--<img style="width:100%;height:200px;" :src="articleDetail.articleTitleIcon">-->
 
           <p style="width: 100%;float: left;margin-right: 30px;" v-html="articleDetail.articleContent">
             {{articleDetail.articleContent}}
@@ -45,8 +52,8 @@
         </p>
         <Divider/>
         <div style="width: 100%;">
-          <Input style="width: 90%;margin:10px;" v-model="value6" type="textarea" :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..." />
-          <Button style="width: 90%;margin:10px;" type="primary">提交</Button>
+          <Input style="width: 90%;margin:10px;" v-model="commentContentMsg" type="textarea" :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..." />
+          <Button style="width: 90%;margin:10px;" type="primary" @click="commentPush">提交</Button>
         </div>
       </Card>
 
@@ -184,6 +191,14 @@
         list: Array
       }
       return {
+
+        commentContentMsg:'',
+
+        articleCommentMsg:{
+          commentContent:'',
+          commentArticleId:''
+
+        },
 
         articleCommentList:[],
         articleCommentTotal:'',
@@ -349,6 +364,22 @@
           })
           .catch(function (error) {
             console.log(error);
+          })
+      },
+      commentPush(){
+        this.articleCommentMsg.commentArticleId = this.articleId
+        this.articleCommentMsg.commentContent = this.commentContentMsg
+
+        this.$http.post('/api/article/comment/add', this.articleCommentMsg)
+          .then((response) => {
+            if(response.data.status === 200){
+              // this.spinShow = false
+              this.$Spin.hide();
+              this.$router.push('/articleIndex')
+              // this.getData(this.articleId);
+            }
+
+            console.log("add...article...comment:" , response)
           })
       }
     },
