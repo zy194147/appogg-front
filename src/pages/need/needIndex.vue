@@ -1,125 +1,27 @@
 <template>
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
+      <Card v-for="need in needPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
+          <span>{{need.createUserId}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
+          <span>　{{need.createDateTime}}　</span>
         </div>
         <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写一封信写给 iView 开发者的一封信　<Tag color="warning">未解决</Tag></span>
+          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="needdetails(need)">{{need.needTitleName}}　<Tag color="warning">未解决</Tag></span>
         </div>
         <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
           <Icon type="ios-chatbubbles" />32
         </div>
       </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
-        </div>
-        <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信　<Tag color="success">已解决</Tag></span>
-        </div>
-        <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
-        </div>
-        <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写一封信写给 iView 开发者的一封信　<Tag color="success">未解决</Tag></span>
-        </div>
-        <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
-        </div>
-        <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信　<Tag color="success">已解决</Tag></span>
-        </div>
-        <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
-        </div>
-        <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写一封信写给 iView 开发者的一封信　<Tag color="success">未解决</Tag></span>
-        </div>
-        <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
-        </div>
-        <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信　<Tag color="success">已解决</Tag></span>
-        </div>
-        <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
-        </div>
-        <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写一封信写给 iView 开发者的一封信　<Tag color="success">未解决</Tag></span>
-        </div>
-        <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11　</span>
-        </div>
-        <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信　<Tag color="success">已解决</Tag></span>
-        </div>
-        <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
-        </div>
-      </Card>
-      <Page style="text-align: center" :total="29" show-total show-elevator />
+      <Page style="text-align: center" :total="needPublicTotal" show-total show-elevator />
     </FormItem>
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">状态</p>
-          <RadioGroup v-model="articleListType">
+          <RadioGroup v-model="needListType">
             <Radio label="all">
               <span>全部</span>
             </Radio>
@@ -133,7 +35,7 @@
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">来源</p>
-          <RadioGroup v-model="articleListType1">
+          <RadioGroup v-model="needListType1">
             <Radio label="all1">
               <span>全部</span>
             </Radio>
@@ -152,7 +54,7 @@
             <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
           </ul>
         </Card>
-        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush"><Icon type="ios-create-outline"/> 发布需求</Button>
+        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush"><Icon type="ios-create-outline"/> 发布需求</Button>
       </div>
     </FormItem>
   </Form>
@@ -165,8 +67,20 @@
   export default {
     data () {
       return {
-        articleListType:"all",
-        articleListType1:"all1",
+
+        needPublicList:[],
+        needPublicTotal:"",
+
+        filter: {
+          // 全部系统：0全部，，，，
+          isSolved:0,
+          limit: 10,
+          page: 1
+        },
+
+
+        needListType:"all",
+        needListType1:"all1",
         formInline: {
           user: '',
           password: ''
@@ -183,59 +97,7 @@
         http:Httpservice.getAxios,
         listdata:[],
         theme1: 'light',
-        movieList: [
-          {
-            name: 'The Shawshank Redemption',
-            url: 'https://movie.douban.com/subject/1292052/',
-            rate: 9.6
-          },
-          {
-            name: 'Leon:The Professional',
-            url: 'https://movie.douban.com/subject/1295644/',
-            rate: 9.4
-          },
-          {
-            name: 'Farewell to My Concubine',
-            url: 'https://movie.douban.com/subject/1291546/',
-            rate: 9.5
-          },
-          {
-            name: 'Forrest Gump',
-            url: 'https://movie.douban.com/subject/1292720/',
-            rate: 9.4
-          },
-          {
-            name: 'Life Is Beautiful',
-            url: 'https://movie.douban.com/subject/1292063/',
-            rate: 9.5
-          },
-          {
-            name: 'Spirited Away',
-            url: 'https://movie.douban.com/subject/1291561/',
-            rate: 9.2
-          },
-          {
-            name: 'Schindlers List',
-            url: 'https://movie.douban.com/subject/1295124/',
-            rate: 9.4
-          },
-          {
-            name: 'The Legend of 1900',
-            url: 'https://movie.douban.com/subject/1292001/',
-            rate: 9.2
-          },
-          {
-            name: 'WALL·E',
-            url: 'https://movie.douban.com/subject/2131459/',
-            rate: 9.3
-          },
-          {
-            name: 'Inception',
-            url: 'https://movie.douban.com/subject/3541415/',
-            rate: 9.2
-          }
-        ],
-        randomMovieList: [],
+
       }
     },
     methods: {
@@ -248,18 +110,21 @@
           }
         })
       },
-      getData() {
+      getData(params) {
         console.log("开始")
-        axios.get('/api/hello/say')
+        axios.get('/api/need/list', {params})
           .then((response) => {
             console.log(1)
-            console.log(response.data.data,"hahahahahaha",response.data.status);
-            if(response.data.status === 200){
+            console.log(response.data.data, "hahahah.............ahaha", response.data);
+
+
+            if (response.data.status === 200) {
               console.log("yes")
-              this.listdata = response.data.data
-              console.log(this.listdata,"1111111111111")
+              this.needPublicList = response.data.data.rows
+              this.needPublicTotal = response.data.data.total
             } else {
               console.log("no")
+
               this.listdata = []
             }
           })
@@ -288,10 +153,11 @@
         }
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
-      articleDtails(){
-        this.$router.push('/articleDetails')
+      needdetails(need){
+        this.$router.push({name: 'needDetails',params: {needId:need.id,needUserId:need.createUserId}})
+
       },
-      articlePush(){
+      needPush(){
         this.$Loading.start()
         this.$router.push('/needPush')
         this.$Loading.finish()
@@ -301,7 +167,7 @@
       },
     },
     created() {
-      this.getData();
+      this.getData(this.filter);
       this.changeLimit();
     }
   }

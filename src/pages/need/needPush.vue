@@ -7,11 +7,11 @@
       <h2 style="margin-bottom: 30px;">发布需求</h2>
 
       <FormItem label="需求标题">
-        <Input v-model="articleMsg.articleTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
+        <Input v-model="needMsg.needTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
       <FormItem label="需求分类">
-        <CheckboxGroup v-model="articleMsg.articleClassifyGroup" style="float: left">
+        <CheckboxGroup v-model="needMsg.needClassifyGroup" style="float: left">
           <Checkbox label="java资料"></Checkbox>
           <Checkbox label="求软件"></Checkbox>
           <Checkbox label="破解技能"></Checkbox>
@@ -21,7 +21,7 @@
       </FormItem>
 
 
-      <FormItem label="文章内容">
+      <FormItem label="需求简介">
 
         <div>
           <div ref="editor" style="text-align:left"></div>
@@ -32,7 +32,7 @@
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitArticleMsg">发布</Button>
+        <Button type="primary" @click="submitNeedMsg">发布</Button>
 
       </FormItem>
 
@@ -59,13 +59,11 @@
         spinShow:false,
         editor: {},
 
-        articleMsg: {
-          articleTitleIcon: "https://avatars1.githubusercontent.com/u/32634412?s=400&v=4",
-          articleTitleName: "",
-          articleAuthId: "",
-          articleClassifyGroup: [],
-          articleSummary: "",
-          articleContent: ""
+        needMsg: {
+          needTitleName: "",
+          needAuthId: "",
+          needClassifyGroup: [],
+          needContent: ""
         },
 
         editorContent: '',
@@ -107,18 +105,18 @@
         // }, 3000);
       },
 
-      submitArticleMsg(){
+      submitNeedMsg(){
         this.handleSpinCustom()
         // this.spinShow = true
-        axios.post('/api/article/add', this.articleMsg)
+        axios.post('/api/need/add', this.needMsg)
           .then((response) => {
             if(response.data.status === 200){
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/articleIndex')
+              this.$router.push('/needIndex')
             }
 
-            console.log("add...article:" , response)
+            console.log("add...need:" , response)
           })
       },
     },
@@ -127,7 +125,7 @@
 
       // 获取编辑器内容
       this.editor.customConfig.onchange = (html) => {
-        this.articleMsg.articleContent = html
+        this.needMsg.needContent = html
       }
 
 

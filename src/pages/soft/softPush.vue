@@ -8,57 +8,39 @@
 
       <FormItem label="标题图片">
 
-        <div style="text-align: center; margin: 20px 0 20px 0">
-          <img v-if="isEditState" :src="articleMsg.icon" style="width:200px;height:100px;">
-          <div
-            class="demo-upload-list"
-            v-for="item in uploadList"
-            style="width:200px;height:100px;background-color:white; margin:0 20px 20px 200px;float: left;"
-          >
-            <template v-if="item.status === 'finished'">
-              <div style="width:200px;height:100px;background-color: lightgrey">
-                <img :src="item.url" style="width:200px;height:100px;">
-              </div>
-              <div class="demo-upload-list-cover">
-                <!--<Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>-->
-                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-              </div>
-            </template>
-            <template v-else>
-              <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
-            </template>
-          </div>
+        <div style="text-align: center; margin: 2px 0 20px 0">
+
           <Upload
             ref="upload"
             :show-upload-list="false"
-            :default-file-list="defaultList"
             :on-success="handleSuccess"
-            :format="format"
+            :format="['jpg','jpeg','png']"
             :max-size="2048"
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
             type="drag"
-            :action="uploadImage"
-            style="display: inline-block;width:200px;height:100px;margin-bottom: 20px;"
-          >
-            <div style="width: 200px;height:100px;line-height: 50px;">
-              <Icon type="ios-camera" size="20"></Icon>
-              <p v-if="isEditState">修改标题图片</p>
-              <p v-else>添加标题图片</p>
+            action="/api/article/uploadTitleImage">
+            <div>
+              <Icon type="ios-cloud-upload" size="32" style="color: #3399ff"></Icon>
+              <p>点我上传文章标题图片</p>
             </div>
           </Upload>
         </div>
+        <div>
+          <img :src="softTitleImage">
+        </div>
+
 
       </FormItem>
 
 
       <FormItem label="文章标题">
-        <Input v-model="articleMsg.articleTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
+        <Input v-model="softMsg.softTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
       <FormItem label="系统平台">
-        <RadioGroup v-model="articleMsg.articleAuthId" style="float: left">
+        <RadioGroup v-model="softMsg.softSystemPlatform" style="float: left">
           <Radio label="0">安卓</Radio>
           <Radio label="1">苹果</Radio>
           <Radio label="2">windows</Radio>
@@ -69,7 +51,7 @@
         <a style="position: absolute;right: 10px;">都不是?</a>
       </FormItem>
       <FormItem label="软件分类">
-        <CheckboxGroup v-model="articleMsg.articleClassifyGroup" style="float: left">
+        <CheckboxGroup v-model="softMsg.softClassifyGroup" style="float: left">
           <Checkbox label="实用工具"></Checkbox>
           <Checkbox label="音乐软件"></Checkbox>
           <Checkbox label="视频"></Checkbox>
@@ -89,13 +71,13 @@
 
       <FormItem label="下载地址">
 
-        <Input v-model="value" placeholder="http://" />
+        <Input v-model="softMsg.softDownloadAddr" placeholder="http://...(多个地址使用英文分号隔开)" />
       </FormItem>
 
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitArticleMsg">发布</Button>
+        <Button type="primary" @click="submitsoftMsg">发布</Button>
 
       </FormItem>
 
@@ -122,13 +104,19 @@
         spinShow:false,
         editor: {},
 
-        articleMsg: {
-          articleTitleIcon: "https://avatars1.githubusercontent.com/u/32634412?s=400&v=4",
-          articleTitleName: "",
-          articleAuthId: "",
-          articleClassifyGroup: [],
-          articleSummary: "",
-          articleContent: ""
+        visible: false,
+        uploadList: [],
+
+        softTitleImage:'',
+
+        softMsg: {
+          softTitleIcon: "",
+          softTitleName: "",
+          softSystemPlatform: "",
+          softClassifyGroup: [],
+          softSummary: "",
+          softContent: "",
+          softDownloadAddr:"",
         },
 
         editorContent: '',
@@ -170,27 +158,68 @@
         // }, 3000);
       },
 
-      submitArticleMsg(){
+      submitsoftMsg(){
         this.handleSpinCustom()
         // this.spinShow = true
-        axios.post('/api/article/add', this.articleMsg)
+        this.softMsg.softTitleIcon = this.softTitleImage
+        axios.post('/api/soft/add', this.softMsg)
           .then((response) => {
             if(response.data.status === 200){
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/articleIndex')
+              this.$router.push('/soft')
             }
 
-            console.log("add...article:" , response)
+            console.log("add...soft:" , response)
           })
       },
+
+
+      //图片上传
+      handleView (name) {
+        this.softTitleImage = name;
+        this.visible = true;
+      },
+      handleRemove (file) {
+        const fileList = this.$refs.upload.fileList;
+        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+      },
+      handleSuccess (res, file) {
+        console.log(res.data)
+        console.log(file)
+        this.softTitleImage = res.data
+        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+      },
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: 'The file format is incorrect',
+          desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+        });
+      },
+      handleMaxSize (file) {
+        this.$Notice.warning({
+          title: 'Exceeding file size limit',
+          desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+        });
+      },
+      handleBeforeUpload () {
+        const check = this.uploadList.length < 5;
+        if (!check) {
+          this.$Notice.warning({
+            title: 'Up to five pictures can be uploaded.'
+          });
+        }
+        return check;
+      }
+
     },
     mounted() {
       this.editor = new E(this.$refs.editor)
 
       // 获取编辑器内容
       this.editor.customConfig.onchange = (html) => {
-        this.articleMsg.articleContent = html
+        this.softMsg.softContent = html
       }
 
 

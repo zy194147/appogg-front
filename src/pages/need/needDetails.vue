@@ -4,20 +4,20 @@
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
     <FormItem style="width:70%;margin-right: 20px;">
-      <Card v-model="articleDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
+      <Card v-model="needDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
 
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;"><Tag color="green">文</Tag>{{articleDetail.articleTitleName}}
+          <span style="line-height: 40px;"><Tag color="green">软</Tag>{{needDetail.needTitleName}}
           </span>
 
 
         </p>
         <div style="position:absolute;width:50px;right: 15px;top:25px;">
-          <Tag v-if="articleDetail.isSticky === 1" style="float: left;" color="green">置顶</Tag>
-          <Tag v-if="articleDetail.isFine === 1" style="float: left;" color="gold">精选</Tag>
+          <Tag v-if="needDetail.isSticky === 1" style="float: left;" color="green">置顶</Tag>
+          <Tag v-if="needDetail.isFine === 1" style="float: left;" color="gold">精选</Tag>
         </div>
         <!--<div style="line-height: 20px;">-->
-        <!--<Tag v-if="articleDetail.isFine === 1" style="float: left;" color="gold">精选文章</Tag>-->
+        <!--<Tag v-if="needDetail.isFine === 1" style="float: left;" color="gold">精选文章</Tag>-->
         <!--</div>-->
         <div style="position:absolute;width:50px;right: 15px;top:15px;">
         </div>
@@ -30,15 +30,15 @@
         <!--</a>-->
         <div style="width: 100%;">
 
-          <!--<img style="width:100%;height:200px;" :src="articleDetail.articleTitleIcon">-->
+          <!--<img style="width:100%;height:200px;" :src="needDetail.needTitleIcon">-->
 
-          <p style="width: 100%;float: left;margin-right: 30px;" v-html="articleDetail.articleContent">
-            {{articleDetail.articleContent}}
+          <p style="width: 100%;float: left;margin-right: 30px;" v-html="needDetail.needContent">
+            {{needDetail.needContent}}
           </p>
 
         </div>
         <div style="width: 100%;float: left;margin:10px;">
-          <Tag v-for="articleTag in articleDetail.articleClassifyGroup" color="cyan">{{articleTag}}</Tag>
+          <Tag v-for="needTag in needDetail.needClassifyGroup" color="cyan">{{needTag}}</Tag>
         </div>
 
       </Card>
@@ -65,16 +65,16 @@
         </div>
       </Card>
 
-      <div v-if="articleDetail.commentNum === 0" style="font-size: 14px;text-align: left">
+      <div v-if="needDetail.commentNum === 0" style="font-size: 14px;text-align: left">
         <span>暂无评论</span>
       </div>
       <div v-else style="font-size: 12px;text-align: left">
-        <span>共计 {{articleCommentTotal}} 条评论</span>
+        <span>共计 {{needCommentTotal}} 条评论</span>
       </div>
 
 
       <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card v-for="comment in articleCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
+      <Card v-for="comment in needCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
@@ -94,7 +94,7 @@
               <p v-else>{{comment.createUserName}} @ {{comment.backToUserName}} : {{comment.commentContent}}</p>
 
               <div v-if="comment.children" class="children-item">
-                <articleCommentList :list="comment.children"></articleCommentList>
+                <needCommentList :list="comment.children"></needCommentList>
               </div>
 
 
@@ -113,46 +113,43 @@
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">关于作者</p>
+          <p slot="title">关于提问者</p>
           <div>
             <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-            <span style="">{{articleUserDetail.userName}}</span>
+            <span style="">{{needUserDetail.userName}}</span>
             <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
             <Divider/>
             <div>
               <Row style="text-align: center">
                 <Col span="11">
                   <Card dis-hover :bordered="false">
-                    <p>文章</p>
-                    <p><Strong>{{articleUserDetail.articleNum}}</Strong></p>
+                    <p>问题</p>
+                    <p><Strong>{{needUserDetail.needNum}}</Strong></p>
                   </Card>
                 </Col>
                 <Col span="11" offset="2">
                   <Card dis-hover :bordered="false">
                     <p>总阅读量</p>
-                    <p><Strong>{{articleUserDetail.articleReadNum}}</Strong></p>
+                    <p><Strong>{{needUserDetail.needReadNum}}</Strong></p>
                   </Card>
                 </Col>
               </Row>
             </div>
-
-
             <Button style="width:100%;" @click="userPage">了解作者</Button>
-
           </div>
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">文章信息</p>
+          <p slot="title">需求信息</p>
 
 
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;">
               <Icon type="ios-time"/>
-              发布时间: {{articleDetail.modifyDateTime}}
+              发布时间: {{needDetail.modifyDateTime}}
             </li>
             <li style="margin-bottom: 4px;">
               <Icon type="ios-book"/>
-              阅读量: {{articleDetail.readNum}}
+              阅读量: {{needDetail.readNum}}
             </li>
 
           </ul>
@@ -166,7 +163,7 @@
 
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">ta的其他文章</p>
+          <p slot="title">Ta的其他问题</p>
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
@@ -199,7 +196,7 @@
 
         <Button style="width:100%;margin-bottom: 10px;" type="primary">
           <Icon type="ios-create-outline"/>
-          写文章
+          我也要发布软件
         </Button>
       </div>
 
@@ -223,28 +220,28 @@
 
         commentContentMsg: '',
 
-        articleCommentMsg: {
+        needCommentMsg: {
           commentContent: '',
-          commentArticleId: ''
+          commentNeedId: ''
 
         },
 
-        articleCommentList: [],
-        articleCommentTotal: '',
+        needCommentList: [],
+        needCommentTotal: '',
 
         filter: {
           // 是否精选文章：0全部，1精选
-          commentArticleId: '',
+          commentNeedId: '',
           limit: 10,
           page: 1
         },
 
-        articleId: {},
-        articleUserId: '',
-        articleDetail: '',
-        articleUserDetail: '',
+        needId: {},
+        needUserId: '',
+        needDetail: '',
+        needUserDetail: '',
 
-        articleListType: "all",
+        needListType: "all",
         formInline: {
           user: '',
           password: ''
@@ -273,23 +270,23 @@
           }
         })
       },
-      getData(articleId) {
+      getData(needId) {
         console.log("开始")
 
 
-        this.$http.get('/api/article/detail', {
+        this.$http.get('/api/need/detail', {
           params: {
-            'id': articleId
+            'id': needId
           }
         })
           .then((response) => {
             if (response.data.status === 200) {
-              this.articleDetail = response.data.data
-              console.log(this.articleDetail, "11111333333333333311111111")
+              this.needDetail = response.data.data
+              console.log(this.needDetail, "11111333333333333311111111")
             } else {
               console.log("no")
 
-              this.articleDetail = ''
+              this.needDetail = ''
             }
           })
           .catch(function (error) {
@@ -297,23 +294,23 @@
           })
         console.log("结束")
       },
-      getUserData(articleUserId) {
+      getUserData(needUserId) {
         console.log("开始")
 
 
         this.$http.get('/api/user/detail', {
           params: {
-            'userId': articleUserId
+            'userId': needUserId
           }
         })
           .then((response) => {
             if (response.data.status === 200) {
-              this.articleUserDetail = response.data.data
-              console.log("111**********11111", this.articleUserDetail,)
+              this.needUserDetail = response.data.data
+              console.log("111**********11111", this.needUserDetail,)
             } else {
               console.log("no")
 
-              this.articleUserDetail = ''
+              this.needUserDetail = ''
             }
           })
           .catch(function (error) {
@@ -322,14 +319,14 @@
         console.log("结束")
       },
       getCommentData(params) {
-        this.$http.get('/api/article/comment/detail', {params})
+        this.$http.get('/api/need/comment/detail', {params})
           .then((response) => {
             if (response.data.status === 200) {
 
 
               console.log("yes", response.data.data.rows)
-              this.articleCommentList = response.data.data.rows
-              this.articleCommentTotal = response.data.data.total
+              this.needCommentList = response.data.data.rows
+              this.needCommentTotal = response.data.data.total
 
               console.log("yes......", response.data.data.rows)
 
@@ -337,7 +334,7 @@
             } else {
               console.log("no")
 
-              this.articleUserDetail = ''
+              this.needUserDetail = ''
             }
           })
           .catch(function (error) {
@@ -368,7 +365,7 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
       userPage() {
-        this.$router.push({name: 'UserPage', params: {articleUserId: this.articleUserId}})
+        this.$router.push({name: 'UserPage', params: {needUserId: this.needUserId}})
       },
       go() {
         this.$router.push('/test')
@@ -377,22 +374,22 @@
         this.$router.push('/login')
       },
 
-      updateReadNum(articleId) {
+      updateReadNum(needId) {
 
-        this.$http.get('/api/article/updateReadNum', {
+        this.$http.get('/api/need/updateReadNum', {
           params: {
-            'id': articleId
+            'id': needId
           }
         })
           .then((response) => {
             if (response.data.status === 200) {
-              this.getData(this.articleId);
-              // this.articleDetail = response.data.data
-              // console.log(this.articleDetail,"11111333333333333311111111")
+              this.getData(this.needId);
+              // this.needDetail = response.data.data
+              // console.log(this.needDetail,"11111333333333333311111111")
             } else {
               console.log("no")
 
-              // this.articleDetail = ''
+              // this.needDetail = ''
             }
           })
           .catch(function (error) {
@@ -400,36 +397,36 @@
           })
       },
       commentPush() {
-        this.articleCommentMsg.commentArticleId = this.articleId
-        this.articleCommentMsg.commentContent = this.commentContentMsg
+        this.needCommentMsg.commentNeedId = this.needId
+        this.needCommentMsg.commentContent = this.commentContentMsg
 
-        this.$http.post('/api/article/comment/add', this.articleCommentMsg)
+        this.$http.post('/api/need/comment/add', this.needCommentMsg)
           .then((response) => {
             if (response.data.status === 200) {
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/articleIndex')
-              // this.getData(this.articleId);
+              this.$router.push('/needIndex')
+              // this.getData(this.needId);
             }
 
-            console.log("add...article...comment:", response)
+            console.log("add...need...comment:", response)
           })
       },
 
-      getMoreComment(){
+      getMoreComment() {
         this.filter.page = this.filter.page + 1;
         this.getCommentData(this.filter);
       }
     },
     created() {
 
-      this.articleId = this.$route.params.articleId
-      this.filter.commentArticleId = this.$route.params.articleId
-      this.articleUserId = this.$route.params.articleUserId
-      this.updateReadNum(this.articleId);
+      this.needId = this.$route.params.needId
+      this.filter.commentNeedId = this.$route.params.needId
+      this.needUserId = this.$route.params.needUserId
+      this.updateReadNum(this.needId);
 
-      this.getData(this.articleId);
-      this.getUserData(this.articleUserId);
+      this.getData(this.needId);
+      this.getUserData(this.needUserId);
       this.getCommentData(this.filter);
 
 

@@ -4,20 +4,20 @@
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
     <FormItem style="width:70%;margin-right: 20px;">
-      <Card v-model="articleDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
+      <Card v-model="softDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
 
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;"><Tag color="green">文</Tag>{{articleDetail.articleTitleName}}
+          <span style="line-height: 40px;"><Tag color="green">软</Tag>{{softDetail.softTitleName}}
           </span>
 
 
         </p>
         <div style="position:absolute;width:50px;right: 15px;top:25px;">
-          <Tag v-if="articleDetail.isSticky === 1" style="float: left;" color="green">置顶</Tag>
-          <Tag v-if="articleDetail.isFine === 1" style="float: left;" color="gold">精选</Tag>
+          <Tag v-if="softDetail.isSticky === 1" style="float: left;" color="green">置顶</Tag>
+          <Tag v-if="softDetail.isFine === 1" style="float: left;" color="gold">精选</Tag>
         </div>
         <!--<div style="line-height: 20px;">-->
-        <!--<Tag v-if="articleDetail.isFine === 1" style="float: left;" color="gold">精选文章</Tag>-->
+        <!--<Tag v-if="softDetail.isFine === 1" style="float: left;" color="gold">精选文章</Tag>-->
         <!--</div>-->
         <div style="position:absolute;width:50px;right: 15px;top:15px;">
         </div>
@@ -30,15 +30,15 @@
         <!--</a>-->
         <div style="width: 100%;">
 
-          <!--<img style="width:100%;height:200px;" :src="articleDetail.articleTitleIcon">-->
+          <!--<img style="width:100%;height:200px;" :src="softDetail.softTitleIcon">-->
 
-          <p style="width: 100%;float: left;margin-right: 30px;" v-html="articleDetail.articleContent">
-            {{articleDetail.articleContent}}
+          <p style="width: 100%;float: left;margin-right: 30px;" v-html="softDetail.softContent">
+            {{softDetail.softContent}}
           </p>
 
         </div>
         <div style="width: 100%;float: left;margin:10px;">
-          <Tag v-for="articleTag in articleDetail.articleClassifyGroup" color="cyan">{{articleTag}}</Tag>
+          <Tag v-for="softTag in softDetail.softClassifyGroup" color="cyan">{{softTag}}</Tag>
         </div>
 
       </Card>
@@ -65,16 +65,16 @@
         </div>
       </Card>
 
-      <div v-if="articleDetail.commentNum === 0" style="font-size: 14px;text-align: left">
+      <div v-if="softDetail.commentNum === 0" style="font-size: 14px;text-align: left">
         <span>暂无评论</span>
       </div>
       <div v-else style="font-size: 12px;text-align: left">
-        <span>共计 {{articleCommentTotal}} 条评论</span>
+        <span>共计 {{softCommentTotal}} 条评论</span>
       </div>
 
 
       <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card v-for="comment in articleCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
+      <Card v-for="comment in softCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
@@ -94,7 +94,7 @@
               <p v-else>{{comment.createUserName}} @ {{comment.backToUserName}} : {{comment.commentContent}}</p>
 
               <div v-if="comment.children" class="children-item">
-                <articleCommentList :list="comment.children"></articleCommentList>
+                <softCommentList :list="comment.children"></softCommentList>
               </div>
 
 
@@ -112,47 +112,48 @@
 
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
+        <!--<Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">-->
+          <!--<p slot="title">关于作者</p>-->
+          <!--<div>-->
+            <!--<img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">-->
+            <!--<span style="">{{softUserDetail.userName}}</span>-->
+            <!--<img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
+            <!--<Divider/>-->
+            <!--<div>-->
+              <!--<Row style="text-align: center">-->
+                <!--<Col span="11">-->
+                  <!--<Card dis-hover :bordered="false">-->
+                    <!--<p>软件</p>-->
+                    <!--<p><Strong>{{softUserDetail.softNum}}</Strong></p>-->
+                  <!--</Card>-->
+                <!--</Col>-->
+                <!--<Col span="11" offset="2">-->
+                  <!--<Card dis-hover :bordered="false">-->
+                    <!--<p>总阅读量</p>-->
+                    <!--<p><Strong>{{softUserDetail.softReadNum}}</Strong></p>-->
+                  <!--</Card>-->
+                <!--</Col>-->
+              <!--</Row>-->
+            <!--</div>-->
+            <!--<Button style="width:100%;" @click="userPage">了解作者</Button>-->
+          <!--</div>-->
+        <!--</Card>-->
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">关于作者</p>
-          <div>
-            <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-            <span style="">{{articleUserDetail.userName}}</span>
-            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-            <Divider/>
-            <div>
-              <Row style="text-align: center">
-                <Col span="11">
-                  <Card dis-hover :bordered="false">
-                    <p>文章</p>
-                    <p><Strong>{{articleUserDetail.articleNum}}</Strong></p>
-                  </Card>
-                </Col>
-                <Col span="11" offset="2">
-                  <Card dis-hover :bordered="false">
-                    <p>总阅读量</p>
-                    <p><Strong>{{articleUserDetail.articleReadNum}}</Strong></p>
-                  </Card>
-                </Col>
-              </Row>
-            </div>
-
-
-            <Button style="width:100%;" @click="userPage">了解作者</Button>
-
-          </div>
-        </Card>
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">文章信息</p>
+          <p slot="title">软件信息</p>
 
 
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;">
               <Icon type="ios-time"/>
-              发布时间: {{articleDetail.modifyDateTime}}
+              发布时间: {{softDetail.modifyDateTime}}
+            </li>
+            <li style="margin-bottom: 4px;">
+              <Icon type="md-settings"/>
+              适用系统: {{softDetail.softSystemPlatform}}
             </li>
             <li style="margin-bottom: 4px;">
               <Icon type="ios-book"/>
-              阅读量: {{articleDetail.readNum}}
+              阅读量: {{softDetail.readNum}}
             </li>
 
           </ul>
@@ -166,7 +167,7 @@
 
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">ta的其他文章</p>
+          <p slot="title">其他相关软件</p>
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
@@ -199,7 +200,7 @@
 
         <Button style="width:100%;margin-bottom: 10px;" type="primary">
           <Icon type="ios-create-outline"/>
-          写文章
+          我也要发布软件
         </Button>
       </div>
 
@@ -223,28 +224,28 @@
 
         commentContentMsg: '',
 
-        articleCommentMsg: {
+        softCommentMsg: {
           commentContent: '',
-          commentArticleId: ''
+          commentSoftId: ''
 
         },
 
-        articleCommentList: [],
-        articleCommentTotal: '',
+        softCommentList: [],
+        softCommentTotal: '',
 
         filter: {
           // 是否精选文章：0全部，1精选
-          commentArticleId: '',
+          commentSoftId: '',
           limit: 10,
           page: 1
         },
 
-        articleId: {},
-        articleUserId: '',
-        articleDetail: '',
-        articleUserDetail: '',
+        softId: {},
+        softUserId: '',
+        softDetail: '',
+        softUserDetail: '',
 
-        articleListType: "all",
+        softListType: "all",
         formInline: {
           user: '',
           password: ''
@@ -273,23 +274,23 @@
           }
         })
       },
-      getData(articleId) {
+      getData(softId) {
         console.log("开始")
 
 
-        this.$http.get('/api/article/detail', {
+        this.$http.get('/api/soft/detail', {
           params: {
-            'id': articleId
+            'id': softId
           }
         })
           .then((response) => {
             if (response.data.status === 200) {
-              this.articleDetail = response.data.data
-              console.log(this.articleDetail, "11111333333333333311111111")
+              this.softDetail = response.data.data
+              console.log(this.softDetail, "11111333333333333311111111")
             } else {
               console.log("no")
 
-              this.articleDetail = ''
+              this.softDetail = ''
             }
           })
           .catch(function (error) {
@@ -297,23 +298,23 @@
           })
         console.log("结束")
       },
-      getUserData(articleUserId) {
+      getUserData(softUserId) {
         console.log("开始")
 
 
         this.$http.get('/api/user/detail', {
           params: {
-            'userId': articleUserId
+            'userId': softUserId
           }
         })
           .then((response) => {
             if (response.data.status === 200) {
-              this.articleUserDetail = response.data.data
-              console.log("111**********11111", this.articleUserDetail,)
+              this.softUserDetail = response.data.data
+              console.log("111**********11111", this.softUserDetail,)
             } else {
               console.log("no")
 
-              this.articleUserDetail = ''
+              this.softUserDetail = ''
             }
           })
           .catch(function (error) {
@@ -322,14 +323,14 @@
         console.log("结束")
       },
       getCommentData(params) {
-        this.$http.get('/api/article/comment/detail', {params})
+        this.$http.get('/api/soft/comment/detail', {params})
           .then((response) => {
             if (response.data.status === 200) {
 
 
               console.log("yes", response.data.data.rows)
-              this.articleCommentList = response.data.data.rows
-              this.articleCommentTotal = response.data.data.total
+              this.softCommentList = response.data.data.rows
+              this.softCommentTotal = response.data.data.total
 
               console.log("yes......", response.data.data.rows)
 
@@ -337,7 +338,7 @@
             } else {
               console.log("no")
 
-              this.articleUserDetail = ''
+              this.softUserDetail = ''
             }
           })
           .catch(function (error) {
@@ -368,7 +369,7 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
       userPage() {
-        this.$router.push({name: 'UserPage', params: {articleUserId: this.articleUserId}})
+        this.$router.push({name: 'UserPage', params: {softUserId: this.softUserId}})
       },
       go() {
         this.$router.push('/test')
@@ -377,22 +378,22 @@
         this.$router.push('/login')
       },
 
-      updateReadNum(articleId) {
+      updateReadNum(softId) {
 
-        this.$http.get('/api/article/updateReadNum', {
+        this.$http.get('/api/soft/updateReadNum', {
           params: {
-            'id': articleId
+            'id': softId
           }
         })
           .then((response) => {
             if (response.data.status === 200) {
-              this.getData(this.articleId);
-              // this.articleDetail = response.data.data
-              // console.log(this.articleDetail,"11111333333333333311111111")
+              this.getData(this.softId);
+              // this.softDetail = response.data.data
+              // console.log(this.softDetail,"11111333333333333311111111")
             } else {
               console.log("no")
 
-              // this.articleDetail = ''
+              // this.softDetail = ''
             }
           })
           .catch(function (error) {
@@ -400,19 +401,19 @@
           })
       },
       commentPush() {
-        this.articleCommentMsg.commentArticleId = this.articleId
-        this.articleCommentMsg.commentContent = this.commentContentMsg
+        this.softCommentMsg.commentSoftId = this.softId
+        this.softCommentMsg.commentContent = this.commentContentMsg
 
-        this.$http.post('/api/article/comment/add', this.articleCommentMsg)
+        this.$http.post('/api/soft/comment/add', this.softCommentMsg)
           .then((response) => {
             if (response.data.status === 200) {
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/articleIndex')
-              // this.getData(this.articleId);
+              this.$router.push('/softIndex')
+              // this.getData(this.softId);
             }
 
-            console.log("add...article...comment:", response)
+            console.log("add...soft...comment:", response)
           })
       },
 
@@ -423,13 +424,13 @@
     },
     created() {
 
-      this.articleId = this.$route.params.articleId
-      this.filter.commentArticleId = this.$route.params.articleId
-      this.articleUserId = this.$route.params.articleUserId
-      this.updateReadNum(this.articleId);
+      this.softId = this.$route.params.softId
+      this.filter.commentSoftId = this.$route.params.softId
+      this.softUserId = this.$route.params.softUserId
+      this.updateReadNum(this.softId);
 
-      this.getData(this.articleId);
-      this.getUserData(this.articleUserId);
+      this.getData(this.softId);
+      this.getUserData(this.softUserId);
       this.getCommentData(this.filter);
 
 

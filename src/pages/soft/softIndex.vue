@@ -5,95 +5,25 @@
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
+      <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
         <div>
           <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
+          <span>{{soft.createUserName}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11 21:34　</span>
-          <Icon type="ios-chatbubbles" />32
+          <span>　{{soft.createDateTime}}　</span>
+          <Icon type="ios-chatbubbles" />{{soft.commentNum}}
         </div>
         <div style="width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信</span>
+          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="softDetails(soft)">{{soft.softTitleName}}</span>
         </div>
         <div>
-          <img style="position:absolute;right: 40px;top:40px; width:120px;height: 80px;" src="../../assets/logo.png">
+          <img style="position:absolute;right: 40px;top:40px; width:120px;height: 80px;" :src=soft.softTitleIcon>
         </div>
-        <div style="width: 100%;float: left;margin:10px;">
-          <Tag color="cyan">java</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
+        <div v-for="softTag in soft.softClassifyGroup" style="width: 100%;margin:10px;">
+          <Tag style="float: left" color="cyan">{{softTag}}</Tag>
         </div>
       </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11 21:34　</span>
-          <Icon type="ios-chatbubbles" />32
-        </div>
-        <div style="width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信</span>
-        </div>
-        <div>
-          <img style="position:absolute;right: 40px;top:40px; width:120px;height: 80px;" src="../../assets/logo.png">
-        </div>
-        <div style="width: 100%;float: left;margin:10px;">
-          <Tag color="cyan">java</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11 21:34　</span>
-          <Icon type="ios-chatbubbles" />32
-        </div>
-        <div style="width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信</span>
-        </div>
-        <div>
-          <img style="position:absolute;right: 40px;top:40px; width:120px;height: 80px;" src="../../assets/logo.png">
-        </div>
-        <div style="width: 100%;float: left;margin:10px;">
-          <Tag color="cyan">java</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
-        </div>
-      </Card>
-      <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
-        <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-          <span>Aresn</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-          <span>　2018-12-11 21:34　</span>
-          <Icon type="ios-chatbubbles" />32
-        </div>
-        <div style="width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="articleDtails">写给 iVi信写给 iView 开发者的一封信写给 iView 开 iVi信写给 iView 开发者的一封信写给 iView 开发者的一封信</span>
-        </div>
-        <div>
-          <img style="position:absolute;right: 40px;top:40px; width:120px;height: 80px;" src="../../assets/logo.png">
-        </div>
-        <div style="width: 100%;float: left;margin:10px;">
-          <Tag color="cyan">java</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
-        </div>
-      </Card>
-      <Page style="text-align: center" :total="29" show-total show-elevator />
+      <Page style="text-align: center" :total="softPublicTotal" show-total show-elevator />
     </FormItem>
 
     <FormItem style="position: relative;left: 10px;width:24%;">
@@ -188,6 +118,15 @@
     data () {
       return {
 
+        softPublicList:[],
+        softPublicTotal:"",
+
+        filter: {
+          // 全部系统：0全部，，，，
+          softSystemPlatform:'0',
+          limit: 10,
+          page: 1
+        },
         articleListType:"all",
         formInline: {
           user: '',
@@ -205,59 +144,6 @@
         http:Httpservice.getAxios,
         listdata:[],
         theme1: 'light',
-        movieList: [
-          {
-            name: 'The Shawshank Redemption',
-            url: 'https://movie.douban.com/subject/1292052/',
-            rate: 9.6
-          },
-          {
-            name: 'Leon:The Professional',
-            url: 'https://movie.douban.com/subject/1295644/',
-            rate: 9.4
-          },
-          {
-            name: 'Farewell to My Concubine',
-            url: 'https://movie.douban.com/subject/1291546/',
-            rate: 9.5
-          },
-          {
-            name: 'Forrest Gump',
-            url: 'https://movie.douban.com/subject/1292720/',
-            rate: 9.4
-          },
-          {
-            name: 'Life Is Beautiful',
-            url: 'https://movie.douban.com/subject/1292063/',
-            rate: 9.5
-          },
-          {
-            name: 'Spirited Away',
-            url: 'https://movie.douban.com/subject/1291561/',
-            rate: 9.2
-          },
-          {
-            name: 'Schindlers List',
-            url: 'https://movie.douban.com/subject/1295124/',
-            rate: 9.4
-          },
-          {
-            name: 'The Legend of 1900',
-            url: 'https://movie.douban.com/subject/1292001/',
-            rate: 9.2
-          },
-          {
-            name: 'WALL·E',
-            url: 'https://movie.douban.com/subject/2131459/',
-            rate: 9.3
-          },
-          {
-            name: 'Inception',
-            url: 'https://movie.douban.com/subject/3541415/',
-            rate: 9.2
-          }
-        ],
-        randomMovieList: [],
       }
     },
     methods: {
@@ -270,20 +156,20 @@
           }
         })
       },
-      getData() {
+      getData(params) {
         console.log("开始")
 
 
-        axios.get('/api/hello/say')
+        axios.get('/api/soft/list', {params})
           .then((response) => {
             console.log(1)
-            console.log(response.data.data,"hahahahahaha",response.data.status);
+            console.log(response.data.data, "hahahah.............ahaha", response.data);
 
 
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               console.log("yes")
-              this.listdata = response.data.data
-              console.log(this.listdata,"1111111111111")
+              this.softPublicList = response.data.data.rows
+              this.softPublicTotal = response.data.data.total
             } else {
               console.log("no")
 
@@ -316,8 +202,9 @@
         }
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
-      articleDtails(){
-        this.$router.push('/articleDetails')
+      softDetails(soft){
+        this.$router.push({name: 'softDetails',params: {softId:soft.id,softUserId:soft.createUserId}})
+
       },
       articlePush(){
         this.$router.push('/softPush')
@@ -328,7 +215,7 @@
     },
     created() {
 
-      this.getData();
+      this.getData(this.filter);
       this.changeLimit();
     }
   }

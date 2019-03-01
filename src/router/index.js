@@ -78,6 +78,11 @@ const router = new Router({
       name: 'softPush',
       component: () => import('@/pages/soft/softPush.vue'),
     },
+    {
+      path: '/softDetails',
+      name: 'softDetails',
+      component: () => import('@/pages/soft/softDetails.vue'),
+    },
 
 
     //need
@@ -90,6 +95,11 @@ const router = new Router({
       path: '/needPush',
       name: 'needPush',
       component: () => import('@/pages/need/needPush.vue'),
+    },
+    {
+      path: '/needDetails',
+      name: 'needDetails',
+      component: () => import('@/pages/need/needDetails.vue'),
     },
 
 

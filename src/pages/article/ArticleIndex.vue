@@ -35,7 +35,7 @@
         <!--Change-->
         <!--</a>-->
         <div style="width: 100%;">
-          <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;"@click="articleDtails(article)">{{article.articleSummary}}</p>
+          <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;"@click="articleDetails(article)">{{article.articleSummary}}</p>
           <div>
             <img style="position:absolute;right: 40px; top:80px; width:120px;height: 80px;" :src="article.articleTitleIcon">
           </div>
@@ -204,7 +204,7 @@
 
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
-      articleDtails(article) {
+      articleDetails(article) {
         // 页面带参跳转
         this.$router.push({name: 'ArticleDetails',params: {articleId:article.id,articleUserId:article.createUserId}})
       },
