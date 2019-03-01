@@ -46,35 +46,35 @@
 
       <Card v-if="$store.state.userName !== null" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;">评论</span>
+          <span style="line-height: 40px;">回答</span>
         </p>
         <Divider/>
         <div style="width: 100%;">
-          <Input style="width: 90%;margin:10px;" v-model="commentContentMsg" type="textarea"
-                 :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..."/>
-          <Button style="width: 90%;margin:10px;" type="primary" @click="commentPush">提交</Button>
+          <Input style="width: 90%;margin:10px;" v-model="answerContentMsg" type="textarea"
+                 :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入回答内容..."/>
+          <Button style="width: 90%;margin:10px;" type="primary" @click="answerPush">提交</Button>
         </div>
       </Card>
 
       <Card v-else style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <img style="width:180px;height:120px;" src="../../assets/article/not_login.jpg">
         <p style="font-size: 22px;">尚未登录</p>
-        <p>您当前尚未登录，无法使用<strong>评论</strong>功能，请先前往登录。</p>
+        <p>您当前尚未登录，无法使用<strong>回答</strong>功能，请先前往登录。</p>
         <div style="width: 100%;">
           <Button style="width: 20%;margin:10px;" type="primary" @click="toLoginPage">登录</Button>
         </div>
       </Card>
 
-      <div v-if="needDetail.commentNum === 0" style="font-size: 14px;text-align: left">
-        <span>暂无评论</span>
+      <div v-if="needDetail.answerNum === 0" style="font-size: 14px;text-align: left">
+        <span>暂无回答</span>
       </div>
       <div v-else style="font-size: 12px;text-align: left">
-        <span>共计 {{needCommentTotal}} 条评论</span>
+        <span>共计 {{needAnswerTotal}} 条回答</span>
       </div>
 
 
       <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card v-for="comment in needCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
+      <Card v-for="answer in needAnswerList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
@@ -84,17 +84,17 @@
           <Col span="23">
             <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true">
               <p style="color: darkgray">
-                {{comment.createUserName}}　
+                {{answer.createUserName}}　
                 <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
-                　{{comment.createDateTime}}　
+                　{{answer.createDateTime}}　
               </p>
 
-              <p v-if="comment.backToUserId === 0">{{comment.commentContent}}</p>
+              <p v-if="answer.backToUserId === 0">{{answer.answerContent}}</p>
 
-              <p v-else>{{comment.createUserName}} @ {{comment.backToUserName}} : {{comment.commentContent}}</p>
+              <p v-else>{{answer.createUserName}} @ {{answer.backToUserName}} : {{answer.answerContent}}</p>
 
-              <div v-if="comment.children" class="children-item">
-                <needCommentList :list="comment.children"></needCommentList>
+              <div v-if="answer.children" class="children-item">
+                <needAnswerList :list="answer.children"></needAnswerList>
               </div>
 
 
@@ -103,7 +103,7 @@
         </Row>
       </Card>
       <div style="text-align: center;">
-        <Button style="text-align: center;margin:0 auto;" @click="getMoreComment">查看更多</Button>
+        <Button style="text-align: center;margin:0 auto;" @click="getMoreAnswer">查看更多</Button>
 
       </div>
 
@@ -218,20 +218,20 @@
       }
       return {
 
-        commentContentMsg: '',
+        answerContentMsg: '',
 
-        needCommentMsg: {
-          commentContent: '',
-          commentNeedId: ''
+        needAnswerMsg: {
+          answerContent: '',
+          answerNeedId: ''
 
         },
 
-        needCommentList: [],
-        needCommentTotal: '',
+        needAnswerList: [],
+        needAnswerTotal: '',
 
         filter: {
           // 是否精选文章：0全部，1精选
-          commentNeedId: '',
+          answerNeedId: '',
           limit: 10,
           page: 1
         },
@@ -318,15 +318,15 @@
           })
         console.log("结束")
       },
-      getCommentData(params) {
-        this.$http.get('/api/need/comment/detail', {params})
+      getAnswerData(params) {
+        this.$http.get('/api/need/answer/detail', {params})
           .then((response) => {
             if (response.data.status === 200) {
 
 
               console.log("yes", response.data.data.rows)
-              this.needCommentList = response.data.data.rows
-              this.needCommentTotal = response.data.data.total
+              this.needAnswerList = response.data.data.rows
+              this.needAnswerTotal = response.data.data.total
 
               console.log("yes......", response.data.data.rows)
 
@@ -396,11 +396,11 @@
             console.log(error);
           })
       },
-      commentPush() {
-        this.needCommentMsg.commentNeedId = this.needId
-        this.needCommentMsg.commentContent = this.commentContentMsg
+      answerPush() {
+        this.needAnswerMsg.answerNeedId = this.needId
+        this.needAnswerMsg.answerContent = this.answerContentMsg
 
-        this.$http.post('/api/need/comment/add', this.needCommentMsg)
+        this.$http.post('/api/need/answer/add', this.needAnswerMsg)
           .then((response) => {
             if (response.data.status === 200) {
               // this.spinShow = false
@@ -409,25 +409,25 @@
               // this.getData(this.needId);
             }
 
-            console.log("add...need...comment:", response)
+            console.log("add...need...answer:", response)
           })
       },
 
-      getMoreComment() {
+      getMoreAnswer() {
         this.filter.page = this.filter.page + 1;
-        this.getCommentData(this.filter);
+        this.getAnswerData(this.filter);
       }
     },
     created() {
 
       this.needId = this.$route.params.needId
-      this.filter.commentNeedId = this.$route.params.needId
+      this.filter.answerNeedId = this.$route.params.needId
       this.needUserId = this.$route.params.needUserId
       this.updateReadNum(this.needId);
 
       this.getData(this.needId);
       this.getUserData(this.needUserId);
-      this.getCommentData(this.filter);
+      this.getAnswerData(this.filter);
 
 
       this.changeLimit();
