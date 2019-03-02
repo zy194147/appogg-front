@@ -4,54 +4,29 @@
     <FormItem prop="user" style="width: 100%;">
       <Menu @on-select="articleIndex" style="float: left;width: 100%;" mode="horizontal" :theme="theme1"
             active-name="1">
-        <FormItem>
-          <a href="/">
-            <!--<img style="width: 60px;height:60px;" src="../../assets/logo1.svg">-->
-          </a>
-        </FormItem>
-        <FormItem style="margin-top: 15px;">
+        <!--<FormItem>-->
+        <a href="/">
+          <img style="width: 60px;height:60px;left:0;position: absolute" src="../../assets/logo1.svg">
+        </a>
+        <!--</FormItem>-->
+        <FormItem style="margin-top: 15px;position: relative;left:120px;">
           <Input style="width:100%;" search enter-button placeholder="搜索..."/>
         </FormItem>
 
-        <MenuItem v-for="menu in menuList" :name="menu.menuNameEnglish">
+        <MenuItem style="position: relative;left:80px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
           {{menu.menuName}}
         </MenuItem>
-        <!--<MenuItem name="2" >-->
-        <!--文章-->
-        <!--</MenuItem>-->
-        <!--<MenuItem name="33">-->
-        <!--&lt;!&ndash;<template slot="title">&ndash;&gt;-->
-        <!--破解软件-->
-        <!--&lt;!&ndash;</template>&ndash;&gt;-->
-        <!--&lt;!&ndash;<MenuItem v-for="d in listdata" name="33">{{ d.id }}</MenuItem>&ndash;&gt;-->
-        <!--</MenuItem>-->
-        <!--<MenuItem name="44" >-->
-        <!--需求-->
-        <!--</MenuItem>-->
-        <!--<MenuItem name="5">-->
-        <!--我的地盘-->
-        <!--</MenuItem>-->
-        <!--<MenuItem name="6">-->
-        <!--博客-->
-        <!--</MenuItem>-->
-
-        <FormItem style="margin-top: 15px;margin-left: 80px;">
-
+        <FormItem style="margin-top: 15px;position: relative;left: 200px;">
           <div v-if="loginUserName !== null && loginUserName !== ''">
             <span>欢迎你，　</span><a @click="userDetails">{{loginUserName}}　</a>
-            <Button @click="logout">注销</Button>
-            <!--<Button type="primary" @click="asyncOK">Display dialog box</Button>-->
-            <!--<Modal-->
-              <!--v-model="modal6"-->
-              <!--title="退出登录">-->
-              <!--<p>确认退出登录?</p>-->
-              <!--<div slot="footer">-->
-                <!--<Button @click="cancel">取消</Button>-->
-                <!--<Button type="primary" @click="logout">-->
-                  <!--<span>确认</span>-->
-                <!--</Button>-->
-              <!--</div>-->
-            <!--</Modal>-->
+            <Button @click="modal1 = true">退出登录</Button>
+
+            <Modal
+              v-model="modal1"
+              @on-ok="ok"
+              @on-cancel="cancel">
+              <p style="text-align: center;font-size: 16px;">确定退出登录?</p>
+            </Modal>
           </div>
           <div v-else>
             <Button @click="login">登录</Button>
@@ -70,7 +45,10 @@
   export default {
     data() {
       return {
-        loginUserName:'',
+
+        modal1: false,
+
+        loginUserName: '',
         // modal6: false,
         // loading: true,
 
@@ -94,6 +72,44 @@
       }
     },
     methods: {
+
+      ok () {
+
+        this.$http.get('/api/user/logout')
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.info('退出登录成功');
+              this.$store.state.userName = null
+              this.$store.state.token = null
+              window.localStorage.removeItem("token")
+              window.localStorage.removeItem("userName")
+              // this.getData();
+              this.$router.go('/')
+            } else {
+              console.log("no")
+
+              this.articleDetail = ''
+            }
+          })
+          .catch(function (error) {
+            this.$Message.info('退出登录失败');
+
+            console.log(error);
+          })
+      },
+      cancel () {
+        // this.$Message.info('Clicked cancel');
+      },
+      logoutModal() {
+        const title = 'Title';
+        const content = '<p>Content of dialog</p><p>Content of dialog</p>';
+        this.$Modal.info({
+          title: title,
+          content: content
+        });
+      },
+
+
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -138,7 +154,7 @@
         else if (name === "article") {
           console.log("nnn2:" + name)
 
-          this.$router.push('/articleIndex')
+          this.$router.push('/article')
         }
         else if (name === "soft") {
           this.$router.push('/soft')
@@ -163,37 +179,8 @@
         this.$router.push('/user')
 
       },
-
-      logout() {
-        // this.modal6 = false;
-
-        this.$http.get('/api/user/logout')
-          .then((response) => {
-            if(response.data.status === 200){
-              console.log("logout....",response)
-              this.$store.state.userName = null
-              this.$store.state.token = null
-              window.localStorage.removeItem("token")
-              window.localStorage.removeItem("userName")
-              this.getData();
-              this.$router.push('/')
-            } else {
-              console.log("no")
-
-              this.articleDetail = ''
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-
-
-
-
-
-      },
       // cancel(){
-        // this.modal6 = false;
+      // this.modal6 = false;
       // },
 
       login() {
@@ -212,7 +199,7 @@
         this.$router.push('/test')
       },
       // asyncOK() {
-        // this.modal6 = true;
+      // this.modal6 = true;
 
       // }
     },

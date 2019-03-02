@@ -91,29 +91,6 @@
       getData() {
         console.log("开始")
 
-
-        axios.get('/api/hello/say')
-          .then((response) => {
-            console.log(1)
-            console.log(response.data.data,"hahahahahaha",response.data.status);
-
-
-            if(response.data.status === 200){
-              console.log("yes")
-              this.listdata = response.data.data
-
-
-
-              console.log(this.listdata,"1111111111111")
-            } else {
-              console.log("no")
-
-              this.listdata = []
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
         console.log("结束")
       },
 
@@ -123,6 +100,7 @@
             let data  = response.data;
             this.$store.commit('changeLogin', data);
             if(response.data.status === 200){
+
               // this.spinShow = false
 
               this.userToken = response.data.data.token
@@ -135,33 +113,14 @@
               // window.localStorage.setItem('loginUser',response.data.data.user)
 
               console.log("loginUser:",window.localStorage.getItem("loginUser"))
-              this.$router.push('/articleIndex')
+              this.$router.go("/")
+              this.$router.push("/soft")
             }
 
             console.log("user.....login:" , response)
           })
       },
 
-      changeLimit () {
-        function getArrayItems(arr, num) {
-          const temp_array = [];
-          for (let index in arr) {
-            temp_array.push(arr[index]);
-          }
-          const return_array = [];
-          for (let i = 0; i<num; i++) {
-            if (temp_array.length>0) {
-              const arrIndex = Math.floor(Math.random()*temp_array.length);
-              return_array[i] = temp_array[arrIndex];
-              temp_array.splice(arrIndex, 1);
-            } else {
-              break;
-            }
-          }
-          return return_array;
-        }
-        this.randomMovieList = getArrayItems(this.movieList, 5);
-      },
 
       signup(){
         this.$router.push('/signup')
@@ -178,7 +137,6 @@
     created() {
 
       this.getData();
-      this.changeLimit();
     }
   }
 </script>

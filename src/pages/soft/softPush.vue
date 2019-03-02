@@ -39,6 +39,16 @@
         <Input v-model="softMsg.softTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
+      <FormItem label="软件分类">
+        <CheckboxGroup v-model="softMsg.softClassifyGroup" style="float: left">
+          <Checkbox label="实用工具"></Checkbox>
+          <Checkbox label="音乐软件"></Checkbox>
+          <Checkbox label="视频"></Checkbox>
+          <Checkbox label="破解"></Checkbox>
+        </CheckboxGroup>
+        <a style="position: absolute;right: 10px;" @click="addData">添加分类</a>
+      </FormItem>
+
       <FormItem label="系统平台">
         <RadioGroup v-model="softMsg.softSystemPlatform" style="float: left">
           <Radio label="0">安卓</Radio>
@@ -48,17 +58,28 @@
           <Radio label="4">linux</Radio>
           <Radio label="5">其他</Radio>
         </RadioGroup>
-        <a style="position: absolute;right: 10px;">都不是?</a>
       </FormItem>
-      <FormItem label="软件分类">
-        <CheckboxGroup v-model="softMsg.softClassifyGroup" style="float: left">
-          <Checkbox label="实用工具"></Checkbox>
-          <Checkbox label="音乐软件"></Checkbox>
-          <Checkbox label="视频"></Checkbox>
-          <Checkbox label="破解"></Checkbox>
-        </CheckboxGroup>
-        <a style="position: absolute;right: 10px;">添加分类</a>
-      </FormItem>
+
+
+      <Modal v-model="addModal" title="添加分类" @on-cancel="cancel" >
+        <Form>
+
+          <!--<div style="width: 100%;">-->
+          <!--<Input style="width: 100%;margin-bottom: 20px;" v-model="commentContentMsg" type="textarea"-->
+          <!--:autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>-->
+          <!--</div>-->
+          <FormItem :label-width="80" label="名称" prop="guidName"
+                    :rules="{ required: true, type: 'string', trigger: 'change', message: '参数名称不能为空'}">
+            <Input placeholder="请输入分类名称"></Input>
+          </FormItem>
+
+          <Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>
+        </Form>
+        <div slot="footer">
+          <Button @click="cancel">取消</Button>
+          <Button @click="confirm" type="primary">保存</Button>
+        </div>
+      </Modal>
 
 
       <FormItem label="文章内容">
@@ -71,7 +92,7 @@
 
       <FormItem label="下载地址">
 
-        <Input v-model="softMsg.softDownloadAddr" placeholder="http://...(多个地址使用英文分号隔开)" />
+        <Input v-model="softMsg.softDownloadAddr" placeholder="http://...(多个地址使用英文分号隔开)"/>
       </FormItem>
 
 
@@ -101,13 +122,17 @@
     name: 'editor',
     data() {
       return {
-        spinShow:false,
+        removeModal: false,
+        addModal: false,
+
+
+        spinShow: false,
         editor: {},
 
         visible: false,
         uploadList: [],
 
-        softTitleImage:'',
+        softTitleImage: '',
 
         softMsg: {
           softTitleIcon: "",
@@ -116,7 +141,7 @@
           softClassifyGroup: [],
           softSummary: "",
           softContent: "",
-          softDownloadAddr:"",
+          softDownloadAddr: "",
         },
 
         editorContent: '',
@@ -135,13 +160,54 @@
       }
     },
     methods: {
+
+
+      addData() {
+        this.addModal = true;
+      },
+      cancel() {
+        this.addModal = false;
+      },
+
+      confirm() {
+        // this.updatetDictType();
+
+        // this.softCommentMsg.commentSoftId = this.softId
+        // this.softCommentMsg.commentContent = this.commentContentMsg
+        //
+        // this.$http.post('/api/soft/comment/add', this.softCommentMsg)
+        //   .then((response) => {
+        //     if (response.data.status === 200) {
+        //       this.$Message.info("评论成功")
+        //       this.getCommentData(this.filter);
+        //       this.addModal = false;
+        //
+        //     }
+        //
+        //     console.log("add...soft...comment:", response)
+        //   }).catch(function (error) {
+        //   this.$Message.info('评论失败，请稍后再试');
+        //   this.addModal = false;
+        //
+        //   console.log(error);
+        // })
+
+
+        // this.addDictType();
+      },
+
+
+
+
+
+
       getContent: function () {
         alert(this.editorContent)
       },
-      handleSpinCustom () {
+      handleSpinCustom() {
         this.$Spin.show({
           render: (h) => {
-            return h('div',   [
+            return h('div', [
               h('Icon', {
                 'class': 'demo-spin-icon-load',
                 props: {
@@ -158,52 +224,52 @@
         // }, 3000);
       },
 
-      submitsoftMsg(){
+      submitsoftMsg() {
         this.handleSpinCustom()
         // this.spinShow = true
         this.softMsg.softTitleIcon = this.softTitleImage
         axios.post('/api/soft/add', this.softMsg)
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               // this.spinShow = false
               this.$Spin.hide();
               this.$router.push('/soft')
             }
 
-            console.log("add...soft:" , response)
+            console.log("add...soft:", response)
           })
       },
 
 
       //图片上传
-      handleView (name) {
+      handleView(name) {
         this.softTitleImage = name;
         this.visible = true;
       },
-      handleRemove (file) {
+      handleRemove(file) {
         const fileList = this.$refs.upload.fileList;
         this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
       },
-      handleSuccess (res, file) {
+      handleSuccess(res, file) {
         console.log(res.data)
         console.log(file)
         this.softTitleImage = res.data
         file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
         file.name = '7eb99afb9d5f317c912f08b5212fd69a';
       },
-      handleFormatError (file) {
+      handleFormatError(file) {
         this.$Notice.warning({
           title: 'The file format is incorrect',
           desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
         });
       },
-      handleMaxSize (file) {
+      handleMaxSize(file) {
         this.$Notice.warning({
           title: 'Exceeding file size limit',
           desc: 'File  ' + file.name + ' is too large, no more than 2M.'
         });
       },
-      handleBeforeUpload () {
+      handleBeforeUpload() {
         const check = this.uploadList.length < 5;
         if (!check) {
           this.$Notice.warning({

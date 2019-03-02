@@ -7,7 +7,7 @@
       <Card v-model="needDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
 
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;"><Tag color="green">软</Tag>{{needDetail.needTitleName}}
+          <span style="line-height: 40px;"><Tag color="green">问</Tag>{{needDetail.needTitleName}}
           </span>
 
 

@@ -44,17 +44,7 @@
       </Card>
 
 
-      <Card v-if="$store.state.userName !== null" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
-        <p style="font-size: 20px;">
-          <span style="line-height: 40px;">评论</span>
-        </p>
-        <Divider/>
-        <div style="width: 100%;">
-          <Input style="width: 90%;margin:10px;" v-model="commentContentMsg" type="textarea"
-                 :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..."/>
-          <Button style="width: 90%;margin:10px;" type="primary" @click="commentPush">提交</Button>
-        </div>
-      </Card>
+      <Button v-if="$store.state.userName !== null" style="width: 100%;" type="info" @click="addData">写评论</Button>
 
       <Card v-else style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <img style="width:180px;height:120px;" src="../../assets/article/not_login.jpg">
@@ -107,36 +97,62 @@
 
       </div>
 
+
+      <Modal v-model="addModal" title="评论" @on-cancel="cancel">
+        <Form>
+
+          <div style="width: 100%;">
+            <Input style="width: 100%;margin-bottom: 20px;" v-model="commentContentMsg" type="textarea"
+                   :autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>
+          </div>
+          <!--<FormItem :label-width="80" label="参数名称" prop="guidName" :rules="{ required: true, type: 'string', trigger: 'change', message: '参数名称不能为空'}">-->
+          <!--<Input placeholder="请输入参数名称"></Input>-->
+          <!--</FormItem>-->
+          <!--<FormItem :label-width="80" label="参数标识" prop="guidType" :rules="{ required: true, type: 'string', trigger: 'change', message: '参数标识不能为空'}">-->
+          <!--<Input  placeholder="请输入账号"></Input>-->
+          <!--</FormItem>-->
+          <!--<FormItem :label-width="80" label="备注" prop="remark" :rules="{ required: false, type: 'string', trigger: 'change', message: '手机号不能为空'}">-->
+          <!--<Input type="textarea" placeholder="请填写备注" />-->
+          <!--</FormItem>-->
+
+          <!--<Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>-->
+        </Form>
+        <div slot="footer">
+          <Button @click="cancel">取消</Button>
+          <Button @click="confirm" type="primary">保存</Button>
+        </div>
+      </Modal>
+
     </FormItem>
 
 
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
         <!--<Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">-->
-          <!--<p slot="title">关于作者</p>-->
-          <!--<div>-->
-            <!--<img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">-->
-            <!--<span style="">{{softUserDetail.userName}}</span>-->
-            <!--<img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
-            <!--<Divider/>-->
-            <!--<div>-->
-              <!--<Row style="text-align: center">-->
-                <!--<Col span="11">-->
-                  <!--<Card dis-hover :bordered="false">-->
-                    <!--<p>软件</p>-->
-                    <!--<p><Strong>{{softUserDetail.softNum}}</Strong></p>-->
-                  <!--</Card>-->
-                <!--</Col>-->
-                <!--<Col span="11" offset="2">-->
-                  <!--<Card dis-hover :bordered="false">-->
-                    <!--<p>总阅读量</p>-->
-                    <!--<p><Strong>{{softUserDetail.softReadNum}}</Strong></p>-->
-                  <!--</Card>-->
-                <!--</Col>-->
-              <!--</Row>-->
-            <!--</div>-->
-            <!--<Button style="width:100%;" @click="userPage">了解作者</Button>-->
-          <!--</div>-->
+        <!--<p slot="title">关于作者</p>-->
+        <!--<div>-->
+        <!--<img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">-->
+        <!--<span style="">{{softUserDetail.userName}}</span>-->
+        <!--<img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
+        <!--<Divider/>-->
+        <!--<div>-->
+        <!--<Row style="text-align: center">-->
+        <!--<Col span="11">-->
+        <!--<Card dis-hover :bordered="false">-->
+        <!--<p>软件</p>-->
+        <!--<p><Strong>{{softUserDetail.softNum}}</Strong></p>-->
+        <!--</Card>-->
+        <!--</Col>-->
+        <!--<Col span="11" offset="2">-->
+        <!--<Card dis-hover :bordered="false">-->
+        <!--<p>总阅读量</p>-->
+        <!--<p><Strong>{{softUserDetail.softReadNum}}</Strong></p>-->
+        <!--</Card>-->
+        <!--</Col>-->
+        <!--</Row>-->
+        <!--</div>-->
+        <!--<Button style="width:100%;" @click="userPage">了解作者</Button>-->
+        <!--</div>-->
         <!--</Card>-->
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">软件信息</p>
@@ -217,10 +233,14 @@
   export default {
     data() {
 
+
       props: {
         list: Array
       }
       return {
+
+        removeModal: false,
+        addModal: false,
 
         commentContentMsg: '',
 
@@ -265,6 +285,42 @@
       }
     },
     methods: {
+
+      addData() {
+        this.addModal = true;
+      },
+      cancel() {
+        this.addModal = false;
+      },
+
+      confirm() {
+        // this.updatetDictType();
+
+        this.softCommentMsg.commentSoftId = this.softId
+        this.softCommentMsg.commentContent = this.commentContentMsg
+
+        this.$http.post('/api/soft/comment/add', this.softCommentMsg)
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.info("评论成功")
+              this.getCommentData(this.filter);
+              this.addModal = false;
+
+            }
+
+            console.log("add...soft...comment:", response)
+          }).catch(function (error) {
+          this.$Message.info('评论失败，请稍后再试');
+          this.addModal = false;
+
+          console.log(error);
+        })
+
+
+        // this.addDictType();
+      },
+
+
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -417,7 +473,7 @@
           })
       },
 
-      getMoreComment(){
+      getMoreComment() {
         this.filter.page = this.filter.page + 1;
         this.getCommentData(this.filter);
       }

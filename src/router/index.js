@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import IndexPage from '../pages/IndexPage'
 
+import Soft from '../pages/soft/softIndex'
+
 
 
 Vue.use(Router)
@@ -12,13 +14,8 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'IndexPage',
-      component: IndexPage
-    },
-    {
-      path: '/test',
-      name: 'Test',
-      component: () => import('@/pages/Test.vue'),
+      name: 'Soft',
+      component: Soft
     },
     {
       path: '/login',
@@ -44,8 +41,8 @@ const router = new Router({
 
     //article
     {
-      path: '/articleIndex',
-      name: 'ArticleIndex',
+      path: '/article',
+      name: 'Article',
       component: () => import('@/pages/article/ArticleIndex.vue'),
     },
     {

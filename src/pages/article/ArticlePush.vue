@@ -162,7 +162,7 @@
             if(response.data.status === 200){
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/articleIndex')
+              this.$router.push('/article')
             }
 
             console.log("add...article:" , response)
