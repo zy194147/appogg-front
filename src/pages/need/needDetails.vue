@@ -44,7 +44,7 @@
       </Card>
 
 
-      <Card v-if="$store.state.userName !== null" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
+      <Card v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <p style="font-size: 20px;">
           <span style="line-height: 40px;">回答</span>
         </p>
@@ -260,6 +260,17 @@
         theme1: 'light',
       }
     },
+    computed:{
+      isLogin(){
+
+        if(window.localStorage.getItem("userName") !== null && window.localStorage.getItem("userName") !== ''){
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+
     methods: {
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {

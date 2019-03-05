@@ -18,7 +18,11 @@
         </MenuItem>
         <FormItem style="margin-top: 15px;position: relative;left: 200px;">
           <div v-if="loginUserName !== null && loginUserName !== ''">
-            <span>欢迎你，　</span><a @click="userDetails">{{loginUserName}}　</a>
+            <span>欢迎你，　</span>
+
+            <!--<Badge :count="5" type="error">-->
+              <a @click="userDetails">{{loginUserName}}　</a>
+            <!--</Badge>-->
             <Button @click="modal1 = true">退出登录</Button>
 
             <Modal
@@ -202,6 +206,7 @@
       // this.modal6 = true;
 
       // }
+
     },
     created() {
       this.getData();

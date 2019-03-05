@@ -5,7 +5,6 @@
 
     <FormItem style="width:70%;margin-right: 20px;">
       <Card v-model="softDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
-
         <p style="font-size: 20px;">
           <span style="line-height: 40px;"><Tag color="green">软</Tag>{{softDetail.softTitleName}}
           </span>
@@ -16,35 +15,45 @@
           <Tag v-if="softDetail.isSticky === 1" style="float: left;" color="green">置顶</Tag>
           <Tag v-if="softDetail.isFine === 1" style="float: left;" color="gold">精选</Tag>
         </div>
-        <!--<div style="line-height: 20px;">-->
-        <!--<Tag v-if="softDetail.isFine === 1" style="float: left;" color="gold">精选文章</Tag>-->
-        <!--</div>-->
-        <div style="position:absolute;width:50px;right: 15px;top:15px;">
-        </div>
-        <!--<Tag style="position:absolute;right: 15px;top:15px;" color="green">置顶</Tag>-->
-        <!--<Tag style="position:absolute;right: 15px;top:40px;" color="gold">精选</Tag>-->
-        <Divider/>
-        <!--<a href="#" slot="extra" @click.prevent="changeLimit">-->
-        <!--<Icon type="ios-loop-strong"></Icon>-->
-        <!--Change-->
-        <!--</a>-->
-        <div style="width: 100%;">
+        <Tabs :animated="false">
+          <TabPane label="详情">
+            <div style="width: 100%;">
+              <p style="width: 100%;float: left;margin-right: 30px;" v-html="softDetail.softContent">
+                {{softDetail.softContent}}
+              </p>
 
-          <!--<img style="width:100%;height:200px;" :src="softDetail.softTitleIcon">-->
+            </div>
+            <div style="width: 100%;float: left;margin:10px;">
+              <Tag v-for="softTag in softDetail.softClassifyGroup" color="cyan">{{softTag}}</Tag>
+            </div>
+          </TabPane>
 
-          <p style="width: 100%;float: left;margin-right: 30px;" v-html="softDetail.softContent">
-            {{softDetail.softContent}}
-          </p>
+          <TabPane label="下载地址">
+            <div v-for="(addr,index) in softDetail.softDownloadAddr">
+              <span>下载地址{{index+1}}:</span>
+              <a :href="addr">{{addr}}</a>
+              <br/>
+            </div>
+          </TabPane>
+        </Tabs>
 
-        </div>
-        <div style="width: 100%;float: left;margin:10px;">
-          <Tag v-for="softTag in softDetail.softClassifyGroup" color="cyan">{{softTag}}</Tag>
-        </div>
 
       </Card>
 
 
-      <Button v-if="$store.state.userName !== null" style="width: 100%;" type="info" @click="addData">写评论</Button>
+      <!--<Button v-if="isLogin" style="width: 100%;" type="info" @click="addData">写评论</Button>-->
+
+      <Card v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
+        <p style="font-size: 20px;">
+          <span style="line-height: 40px;">评论</span>
+        </p>
+        <Divider/>
+        <div style="width: 100%;">
+          <Input style="width: 90%;margin:10px;" v-model="commentContentMsg" type="textarea"
+                 :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..."/>
+          <Button style="width: 90%;margin:10px;" type="primary" @click="confirm">提交</Button>
+        </div>
+      </Card>
 
       <Card v-else style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <img style="width:180px;height:120px;" src="../../assets/article/not_login.jpg">
@@ -59,9 +68,10 @@
         <span>暂无评论</span>
       </div>
       <div v-else style="font-size: 12px;text-align: left">
-        <span>共计 {{softCommentTotal}} 条评论</span>
-      </div>
+        <span>共计 {{softDetail.commentNum}} 条评论</span>
 
+
+      </div>
 
       <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
       <Card v-for="comment in softCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
@@ -87,7 +97,6 @@
                 <softCommentList :list="comment.children"></softCommentList>
               </div>
 
-
             </Card>
           </Col>
         </Row>
@@ -96,6 +105,7 @@
         <Button style="text-align: center;margin:0 auto;" @click="getMoreComment">查看更多</Button>
 
       </div>
+
 
 
       <Modal v-model="addModal" title="评论" @on-cancel="cancel">
@@ -161,7 +171,7 @@
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;">
               <Icon type="ios-time"/>
-              发布时间: {{softDetail.modifyDateTime}}
+              发布时间: {{softDetail.createDateTime}}
             </li>
             <li style="margin-bottom: 4px;">
               <Icon type="md-settings"/>
@@ -173,42 +183,19 @@
             </li>
 
           </ul>
+          <Tag v-for="softTag in softDetail.softClassifyGroup" color="cyan">{{softTag}}</Tag>
 
-
-          <Tag color="cyan">java</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
 
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+
           <p slot="title">其他相关软件</p>
           <ul style="list-style:none;">
-            <li style="margin-bottom: 4px;">
+            <li v-for="soft in softRecommendList" style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iV 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
+              <!--<a :href="'/softDetails?id='+soft.id">链接</a>-->
+              <span @click="softDetails(soft)">{{soft.softTitleName}}</span>
+              <Tag color="volcano" style="margin-left: 10px;">{{soft.createDateTime}}</Tag>
             </li>
 
           </ul>
@@ -239,6 +226,10 @@
       }
       return {
 
+
+        softRecommendList:[],
+
+
         removeModal: false,
         addModal: false,
 
@@ -253,9 +244,17 @@
         softCommentList: [],
         softCommentTotal: '',
 
+        systemPlatform:{
+          // 是否精选文章：0全部，1精选
+          commentSoftId: '',
+          limit: 10,
+          page: 1
+        },
+
         filter: {
           // 是否精选文章：0全部，1精选
           commentSoftId: '',
+          softSystemPlatform:'',
           limit: 10,
           page: 1
         },
@@ -284,6 +283,16 @@
         theme1: 'light',
       }
     },
+    computed:{
+      isLogin(){
+
+        if(window.localStorage.getItem("userName") !== null && window.localStorage.getItem("userName") !== ''){
+          return true
+        } else {
+          return false
+        }
+      }
+    },
     methods: {
 
       addData() {
@@ -303,7 +312,8 @@
           .then((response) => {
             if (response.data.status === 200) {
               this.$Message.info("评论成功")
-              this.getCommentData(this.filter);
+              this.commentContentMsg = ''
+              this.getCommentData(this.systemPlatform);
               this.addModal = false;
 
             }
@@ -353,6 +363,24 @@
             console.log(error);
           })
         console.log("结束")
+      },
+
+      getRecommend(params){
+
+        this.$http.get('/api/soft/list', {params})
+          .then((response) => {
+            if (response.data.status === 200) {
+
+              this.softRecommendList = response.data.data.rows
+            } else {
+              console.log("no")
+
+              this.listdata = []
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
       },
       getUserData(softUserId) {
         console.log("开始")
@@ -472,22 +500,27 @@
             console.log("add...soft...comment:", response)
           })
       },
+      softDetails(soft){
+        this.$router.push({name: 'softDetails',params: {softId:soft.id,softUserId:soft.createUserId}})
+
+      },
+
 
       getMoreComment() {
         this.filter.page = this.filter.page + 1;
-        this.getCommentData(this.filter);
+        this.getCommentData(this.systemPlatform);
       }
     },
     created() {
 
       this.softId = this.$route.params.softId
-      this.filter.commentSoftId = this.$route.params.softId
+      this.systemPlatform.commentSoftId = this.$route.params.softId
       this.softUserId = this.$route.params.softUserId
       this.updateReadNum(this.softId);
-
       this.getData(this.softId);
+      this.getRecommend(this.filter);
       this.getUserData(this.softUserId);
-      this.getCommentData(this.filter);
+      this.getCommentData(this.systemPlatform);
 
 
       this.changeLimit();

@@ -44,7 +44,7 @@
       </Card>
 
 
-      <Card v-if="$store.state.userName !== null" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
+      <Card v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <p style="font-size: 20px;">
           <span style="line-height: 40px;">评论</span>
         </p>
@@ -263,6 +263,18 @@
         theme1: 'light',
       }
     },
+
+    computed:{
+      isLogin(){
+
+        if(window.localStorage.getItem("userName") !== null && window.localStorage.getItem("userName") !== ''){
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+
     methods: {
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
@@ -423,7 +435,7 @@
     },
     created() {
 
-      this.articleId = this.$route.params.articleId
+     this.articleId = this.$route.params.articleId
       this.filter.commentArticleId = this.$route.params.articleId
       this.articleUserId = this.$route.params.articleUserId
       this.updateReadNum(this.articleId);
@@ -434,6 +446,10 @@
 
 
       this.changeLimit();
+
+      // this.loginUserName = window.localStorage.getItem("userName");
+
+      console.log("create....$store.state.userName:")
 
     }
   }

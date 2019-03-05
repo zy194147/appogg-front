@@ -41,22 +41,23 @@
 
       <FormItem label="软件分类">
         <CheckboxGroup v-model="softMsg.softClassifyGroup" style="float: left">
-          <Checkbox label="实用工具"></Checkbox>
-          <Checkbox label="音乐软件"></Checkbox>
-          <Checkbox label="视频"></Checkbox>
-          <Checkbox label="破解"></Checkbox>
+          <!--<div v-for="classify in softClassifyList">-->
+            <Checkbox v-for="classify in softClassifyList" :label="classify.id">
+              <span>{{classify.classifyName}}</span>
+            </Checkbox>
+          <!--</div>-->
         </CheckboxGroup>
         <a style="position: absolute;right: 10px;" @click="addData">添加分类</a>
       </FormItem>
 
       <FormItem label="系统平台">
         <RadioGroup v-model="softMsg.softSystemPlatform" style="float: left">
-          <Radio label="0">安卓</Radio>
-          <Radio label="1">苹果</Radio>
-          <Radio label="2">windows</Radio>
-          <Radio label="3">mac</Radio>
-          <Radio label="4">linux</Radio>
-          <Radio label="5">其他</Radio>
+          <Radio label="安卓">安卓</Radio>
+          <Radio label="苹果">苹果</Radio>
+          <Radio label="windows">windows</Radio>
+          <Radio label="mac">mac</Radio>
+          <Radio label="linux">linux</Radio>
+          <Radio label="其他">其他</Radio>
         </RadioGroup>
       </FormItem>
 
@@ -68,9 +69,8 @@
           <!--<Input style="width: 100%;margin-bottom: 20px;" v-model="commentContentMsg" type="textarea"-->
           <!--:autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>-->
           <!--</div>-->
-          <FormItem :label-width="80" label="名称" prop="guidName"
-                    :rules="{ required: true, type: 'string', trigger: 'change', message: '参数名称不能为空'}">
-            <Input placeholder="请输入分类名称"></Input>
+          <FormItem :label-width="80" label="名称">
+            <Input v-model="classifyAddMsg.classifyName" placeholder="请输入分类名称"></Input>
           </FormItem>
 
           <Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>
@@ -122,6 +122,16 @@
     name: 'editor',
     data() {
       return {
+
+        softClassifyList:[],
+        listClassifyType:{
+          classifyType:"soft"
+        },
+        classifyAddMsg:{
+          classifyType:"soft",
+          classifyName:""
+        },
+
         removeModal: false,
         addModal: false,
 
@@ -170,27 +180,21 @@
       },
 
       confirm() {
-        // this.updatetDictType();
+        this.$http.post('/api/classify/add', this.classifyAddMsg)
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.info("添加分类成功")
+              this.addModal = false;
+              this.getClassifyData(this.listClassifyType)
 
-        // this.softCommentMsg.commentSoftId = this.softId
-        // this.softCommentMsg.commentContent = this.commentContentMsg
-        //
-        // this.$http.post('/api/soft/comment/add', this.softCommentMsg)
-        //   .then((response) => {
-        //     if (response.data.status === 200) {
-        //       this.$Message.info("评论成功")
-        //       this.getCommentData(this.filter);
-        //       this.addModal = false;
-        //
-        //     }
-        //
-        //     console.log("add...soft...comment:", response)
-        //   }).catch(function (error) {
-        //   this.$Message.info('评论失败，请稍后再试');
-        //   this.addModal = false;
-        //
-        //   console.log(error);
-        // })
+            }
+            console.log("add...soft...comment:", response)
+          }).catch(function (error) {
+          this.$Message.info('添加分类失败，请稍后再试');
+          this.addModal = false;
+
+          console.log(error);
+        })
 
 
         // this.addDictType();
@@ -277,10 +281,34 @@
           });
         }
         return check;
-      }
+      },
+
+
+
+      getClassifyData(params){
+
+        this.$http.get('/api/classify/list', {params})
+          .then((response) => {
+            if (response.data.status === 200) {
+
+              this.softClassifyList = response.data.data.rows
+            } else {
+              console.log("no")
+
+              this.listdata = []
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
 
     },
     mounted() {
+
+      this.getClassifyData(this.listClassifyType)
+
+
       this.editor = new E(this.$refs.editor)
 
       // 获取编辑器内容
