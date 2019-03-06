@@ -165,32 +165,7 @@
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">Ta的其他问题</p>
           <ul style="list-style:none;">
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iV 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-
+            <li v-for="trendingNeed in needTrendingList" style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>{{trendingNeed.needTitleName}}</a><Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingNeed.answerNum}}</Tag></li>
           </ul>
         </Card>
 
@@ -224,6 +199,13 @@
           answerContent: '',
           answerNeedId: ''
 
+        },
+
+        needTrendingList:[],
+        trendingSort: {
+          needUserId:'',
+          limit: 10,
+          page: 1
         },
 
         needAnswerList: [],
@@ -424,6 +406,27 @@
           })
       },
 
+      getTrendingData(params) {
+        console.log("开始")
+
+
+        this.$http.get('/api/need/trendingList', {params})
+          .then((response) => {
+            if (response.data.status === 200) {
+              console.log("yes")
+              this.needTrendingList = response.data.data.rows
+            } else {
+              console.log("no")
+
+              this.listdata = []
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        console.log("结束")
+      },
+
       getMoreAnswer() {
         this.filter.page = this.filter.page + 1;
         this.getAnswerData(this.filter);
@@ -431,9 +434,13 @@
     },
     created() {
 
-      this.needId = this.$route.params.needId
-      this.filter.answerNeedId = this.$route.params.needId
-      this.needUserId = this.$route.params.needUserId
+      this.needId = this.$route.query.needId
+      this.filter.answerNeedId = this.$route.query.needId
+      this.needUserId = this.$route.query.needUserId
+
+      this.getTrendingData(this.trendingSort);
+
+
       this.updateReadNum(this.needId);
 
       this.getData(this.needId);

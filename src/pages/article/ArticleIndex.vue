@@ -6,7 +6,7 @@
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
       <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" :src="article.articleTitleIcon">
+          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src="article.articleTitleIcon">
           <span>{{article.modifyUserName}}</span>
           <!--<span>{{$store.getters.username}}</span>-->
           <Tooltip content="钻石会员" placement="bottom">
@@ -65,34 +65,13 @@
           </RadioGroup>
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">最新发布</p>
+          <p slot="title">优质文章</p>
           <ul style="list-style:none;">
-            <li style="margin-bottom: 4px;">
+            <li v-for="trendingArticle in articleTrendingList" style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
+              <a>{{trendingArticle.articleTitleName}}</a>
+              <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingArticle.commentNum}}</Tag>
             </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iV 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-
           </ul>
         </Card>
 
@@ -123,6 +102,12 @@
         filter: {
           // 是否精选文章：0全部，1精选
           ifFine:'0',
+          limit: 10,
+          page: 1
+        },
+        articleTrendingList:[],
+
+        trendingSort: {
           limit: 10,
           page: 1
         },
@@ -206,7 +191,7 @@
       },
       articleDetails(article) {
         // 页面带参跳转
-        this.$router.push({name: 'ArticleDetails',params: {articleId:article.id,articleUserId:article.createUserId}})
+        this.$router.push({name: 'ArticleDetails',query: {articleId:article.id,articleUserId:article.createUserId}})
       },
       articlePush() {
         if(this.$store.state.userName !== null){
@@ -232,8 +217,35 @@
         this.getData(this.filter);
 
       },
+
+      getTrendingData(params) {
+        console.log("开始")
+
+
+        axios.get('/api/article/trendingList', {params})
+          .then((response) => {
+            console.log(1)
+            console.log(response.data.data, "hahahah.....xxxxxxxxxx........ahaha", response.data);
+
+
+            if (response.data.status === 200) {
+              console.log("yes")
+              this.articleTrendingList = response.data.data.rows
+
+            } else {
+              console.log("no")
+
+              this.listdata = []
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        console.log("结束")
+      },
     },
     created() {
+      this.getTrendingData(this.trendingSort);
 
       this.getData(this.filter);
       this.changeLimit();

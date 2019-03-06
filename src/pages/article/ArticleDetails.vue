@@ -168,32 +168,11 @@
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">ta的其他文章</p>
           <ul style="list-style:none;">
-            <li style="margin-bottom: 4px;">
+            <li v-for="trendingArticle in authorTrendingList" style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
+              <a>{{trendingArticle.articleTitleName}}</a>
+              <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingArticle.commentNum}}</Tag>
             </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iV 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开发者的一封信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-            <li style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a>写给 iView 开信</a>
-              <Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag>
-            </li>
-
           </ul>
         </Card>
 
@@ -220,6 +199,7 @@
         list: Array
       }
       return {
+        authorTrendingList:[],
 
         commentContentMsg: '',
 
@@ -235,6 +215,11 @@
         filter: {
           // 是否精选文章：0全部，1精选
           commentArticleId: '',
+          limit: 10,
+          page: 1
+        },
+        trendingSort: {
+          createUserId:'',
           limit: 10,
           page: 1
         },
@@ -431,15 +416,33 @@
       getMoreComment(){
         this.filter.page = this.filter.page + 1;
         this.getCommentData(this.filter);
+      },
+      getAuthorTrendingArticle(params){
+        this.$http.get('/api/article/authorTrending', {params})
+          .then((response) => {
+            if (response.data.status === 200) {
+              console.log("yes")
+              this.authorTrendingList = response.data.data.rows
+
+            } else {
+              console.log("no")
+
+              this.listdata = []
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
       }
     },
     created() {
 
-     this.articleId = this.$route.params.articleId
-      this.filter.commentArticleId = this.$route.params.articleId
-      this.articleUserId = this.$route.params.articleUserId
+      this.trendingSort.createUserId = this.$route.query.articleUserId
+      this.articleId = this.$route.query.articleId
+      this.filter.commentArticleId = this.$route.query.articleId
+      this.articleUserId = this.$route.query.articleUserId
       this.updateReadNum(this.articleId);
-
+      this.getAuthorTrendingArticle(this.trendingSort);
       this.getData(this.articleId);
       this.getUserData(this.articleUserId);
       this.getCommentData(this.filter);

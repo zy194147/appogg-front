@@ -194,7 +194,7 @@
             <li v-for="soft in softRecommendList" style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
               <!--<a :href="'/softDetails?id='+soft.id">链接</a>-->
-              <span @click="softDetails(soft)">{{soft.softTitleName}}</span>
+              <a @click="getOtherSoftDetails(soft)">{{soft.softTitleName}}</a>
               <Tag color="volcano" style="margin-left: 10px;">{{soft.createDateTime}}</Tag>
             </li>
 
@@ -501,28 +501,45 @@
           })
       },
       softDetails(soft){
-        this.$router.push({name: 'softDetails',params: {softId:soft.id,softUserId:soft.createUserId}})
+        this.$router.push({name: 'softDetails',query: {softId:soft.id,softUserId:soft.createUserId}})
 
       },
+
+
 
 
       getMoreComment() {
         this.filter.page = this.filter.page + 1;
         this.getCommentData(this.systemPlatform);
+      },
+
+      getOtherSoftDetails(soft){
+        let routeData = this.$router.push({name: 'softDetails',query: {softId:soft.id,softUserId:soft.createUserId}})
+        // window.open(routeData.href, '_blank');
+        this.softId = soft.id;
+        this.softUserId = soft.createUserId;
+        this.systemPlatform.commentSoftId = soft.id;
+        this.updateReadNum(this.softId);
+        this.getData(this.softId);
+        this.getUserData(this.softUserId);
+        this.getCommentData(this.systemPlatform);
+
+
       }
     },
     created() {
 
-      this.softId = this.$route.params.softId
-      this.systemPlatform.commentSoftId = this.$route.params.softId
-      this.softUserId = this.$route.params.softUserId
+      this.softId = this.$route.query.softId
+      this.systemPlatform.commentSoftId = this.$route.query.softId
+      this.softUserId = this.$route.query.softUserId
       this.updateReadNum(this.softId);
       this.getData(this.softId);
-      this.getRecommend(this.filter);
       this.getUserData(this.softUserId);
       this.getCommentData(this.systemPlatform);
 
 
+
+      this.getRecommend(this.filter);
       this.changeLimit();
 
     }

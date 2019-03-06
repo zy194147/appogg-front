@@ -6,7 +6,7 @@
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
       <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
+          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" src="../../assets/article/avatar.jpg">
           <span>{{soft.createUserName}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
           <span>　{{soft.createDateTime}}　</span>
@@ -71,7 +71,7 @@
           <ul style="list-style:none;">
             <li v-for="trendingSoft in softTrendingList" style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
-              <a>{{trendingSoft.softTitleName}}</a>
+              <a @click="softDetails(trendingSoft)">{{trendingSoft.softTitleName}}</a>
               <Tag color="volcano" style="margin-left: 10px;">
 
                 <Icon type="ios-chatbubbles"/>
@@ -224,7 +224,7 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
       softDetails(soft) {
-        this.$router.push({name: 'softDetails', params: {softId: soft.id, softUserId: soft.createUserId}})
+        this.$router.push({name: 'softDetails', query: {softId: soft.id, softUserId: soft.createUserId}})
 
       },
       articlePush() {

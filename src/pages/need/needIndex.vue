@@ -3,7 +3,7 @@
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
       <Card v-for="need in needPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
         <div>
-          <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
+          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" src="../../assets/article/avatar.jpg">
           <span>{{need.createUserId}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
           <span>　{{need.createDateTime}}　</span>
@@ -21,25 +21,25 @@
       <div style="width: 100%;">
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">状态</p>
-          <RadioGroup v-model="needListType">
-            <Radio label="all">
+          <RadioGroup v-model="needListType" @on-change="needSolved">
+            <Radio label="">
               <span>全部</span>
             </Radio>
-            <Radio label="android">
+            <Radio label="1">
               <span>已解决</span>
             </Radio>
-            <Radio label="iphone">
+            <Radio label="0">
               <span>未解决</span>
             </Radio>
           </RadioGroup>
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">来源</p>
-          <RadioGroup v-model="needListType1">
-            <Radio label="all1">
+          <RadioGroup v-model="needListType1" @on-change="selfNeed">
+            <Radio label="">
               <span>全部</span>
             </Radio>
-            <Radio label="android1">
+            <Radio label="1">
               <span>仅自己发布</span>
             </Radio>
           </RadioGroup>
@@ -47,11 +47,7 @@
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">最新需求</p>
           <ul style="list-style:none;">
-            <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开发者的一封信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
-            <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开发者的一封信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
-            <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iV 开发者的一封信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
-            <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开发者的一封信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
-            <li style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>写给 iView 开信</a><Tag color="volcano" style="margin-left: 10px;">2018-07-21</Tag></li>
+            <li v-for="trendingNeed in needTrendingList" style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>{{trendingNeed.needTitleName}}</a><Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingNeed.answerNum}}</Tag></li>
           </ul>
         </Card>
         <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush"><Icon type="ios-create-outline"/> 发布需求</Button>
@@ -71,16 +67,23 @@
         needPublicList:[],
         needPublicTotal:"",
 
+        needTrendingList:[],
+        trendingSort: {
+          limit: 10,
+          page: 1
+        },
+
         filter: {
           // 全部系统：0全部，，，，
           isSolved:0,
+          createUserId:1,
           limit: 10,
           page: 1
         },
 
 
-        needListType:"all",
-        needListType1:"all1",
+        needListType:"",
+        needListType1:"",
         formInline: {
           user: '',
           password: ''
@@ -154,7 +157,7 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
       needdetails(need){
-        this.$router.push({name: 'needDetails',params: {needId:need.id,needUserId:need.createUserId}})
+        this.$router.push({name: 'needDetails',query: {needId:need.id,needUserId:need.createUserId}})
 
       },
       needPush(){
@@ -165,8 +168,43 @@
       go(){
         this.$router.push('/test')
       },
+
+      needSolved(type){
+        this.filter.isSolved = type
+        this.getData(this.filter);
+
+      },
+      selfNeed(type){
+        this.filter.createUserId = type
+        this.getData(this.filter);
+
+      },
+
+
+      getTrendingData(params) {
+        console.log("开始")
+
+
+        axios.get('/api/need/trendingList', {params})
+          .then((response) => {
+            if (response.data.status === 200) {
+              console.log("yes")
+              this.needTrendingList = response.data.data.rows
+            } else {
+              console.log("no")
+
+              this.listdata = []
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        console.log("结束")
+      },
     },
     created() {
+      this.getTrendingData(this.trendingSort);
+
       this.getData(this.filter);
       this.changeLimit();
     }
