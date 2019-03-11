@@ -5,9 +5,9 @@
   <Form style="background-color: #ffffff;" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
     <FormItem style="background-color: #ffffff;width: 40%;">
-      <Card style="width:100%;float: left;margin-top: 40px;" :bordered="true" :dis-hover="true">
+      <Card style="width:100%;float: left;margin-top: 40px;" :bordered="true" :dis-hover="true" >
         <p  style="font-size: 20px;">
-          注册
+          通过邮箱地址重置密码
         </p>
         <Divider />
         <!--<a href="#" slot="extra" @click.prevent="changeLimit">-->
@@ -15,20 +15,14 @@
         <!--Change-->
         <!--</a>-->
         <div>
-          <Input v-model="userSignUp.userEmail" prefix="ios-mail" placeholder="邮箱" style="width: 70%;margin:20px;" /><br/>
-          <Input v-model="userSignUp.userName" prefix="ios-contact" placeholder="用户名" style="width: 70%;margin:10px;" /><br/>
-          <Input v-model="userSignUp.userPassword" prefix="md-lock" placeholder="密码" style="width: 70%;margin:20px;" /><br/>
 
-          <Button type="success" style="width: 70%;margin:20px;" @click="userSignUpSubmit">注册</Button>
+          <Input prefix="ios-mail" placeholder="注册时填写的邮箱" style="width: 70%;margin:20px;" /><br/>
 
+          <Button type="success" style="width: 70%;margin:20px;">发送验证邮件</Button>
 
 
-          <p>注册即表示您同意我们的
-            <a href="/privacy">服务条款与隐私政策</a>
 
-          </p>
-          <p>
-            已经拥有账户？ <a href="/login">登录</a>
+          <p >我们会向您注册的邮箱发送一封验证邮件，请通过邮件中的链接完成剩余操作。
           </p>
         </div>
 
@@ -50,14 +44,6 @@
   export default {
     data () {
       return {
-
-
-        userSignUp:{
-          userEmail:"",
-          userName:"",
-          userPassword:""
-        },
-
         formInline: {
           user: '',
           password: ''
@@ -74,6 +60,59 @@
         http:Httpservice.getAxios,
         listdata:[],
         theme1: 'light',
+        movieList: [
+          {
+            name: 'The Shawshank Redemption',
+            url: 'https://movie.douban.com/subject/1292052/',
+            rate: 9.6
+          },
+          {
+            name: 'Leon:The Professional',
+            url: 'https://movie.douban.com/subject/1295644/',
+            rate: 9.4
+          },
+          {
+            name: 'Farewell to My Concubine',
+            url: 'https://movie.douban.com/subject/1291546/',
+            rate: 9.5
+          },
+          {
+            name: 'Forrest Gump',
+            url: 'https://movie.douban.com/subject/1292720/',
+            rate: 9.4
+          },
+          {
+            name: 'Life Is Beautiful',
+            url: 'https://movie.douban.com/subject/1292063/',
+            rate: 9.5
+          },
+          {
+            name: 'Spirited Away',
+            url: 'https://movie.douban.com/subject/1291561/',
+            rate: 9.2
+          },
+          {
+            name: 'Schindlers List',
+            url: 'https://movie.douban.com/subject/1295124/',
+            rate: 9.4
+          },
+          {
+            name: 'The Legend of 1900',
+            url: 'https://movie.douban.com/subject/1292001/',
+            rate: 9.2
+          },
+          {
+            name: 'WALL·E',
+            url: 'https://movie.douban.com/subject/2131459/',
+            rate: 9.3
+          },
+          {
+            name: 'Inception',
+            url: 'https://movie.douban.com/subject/3541415/',
+            rate: 9.2
+          }
+        ],
+        randomMovieList: [],
       }
     },
     methods: {
@@ -112,27 +151,6 @@
         console.log("结束")
       },
 
-
-      userSignUpSubmit(){
-        axios.post('/api/user/signUp', this.userSignUp)
-          .then((response) => {
-            if(response.data.status === 200){
-              if(response.data.data.status === 1){
-                alert("用户已存在")
-
-              } else {
-                this.$router.push("/signUpRemind")
-
-
-              }
-            }
-
-            console.log("user.....login:" , response)
-          })
-      },
-
-
-
       changeLimit () {
         function getArrayItems(arr, num) {
           const temp_array = [];
@@ -153,14 +171,18 @@
         }
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
+
       signup(){
         this.$router.push('/signup')
 
       },
-
       go(){
         this.$router.push('/test')
       }
+    },
+
+    signup(){
+      this.$router.push('/signup')
     },
     created() {
 

@@ -195,7 +195,7 @@
               <Icon type="ios-book-outline"/>
               <!--<a :href="'/softDetails?id='+soft.id">链接</a>-->
               <a @click="getOtherSoftDetails(soft)">{{soft.softTitleName}}</a>
-              <Tag color="volcano" style="margin-left: 10px;">{{soft.createDateTime}}</Tag>
+              <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{soft.commentNum}}</Tag>
             </li>
 
           </ul>

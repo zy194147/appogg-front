@@ -57,15 +57,15 @@
           </RadioGroup>
         </Card>
 
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
-          <p slot="title">分类</p>
-          <a slot="extra">换一批</a>
-          <CheckboxGroup>
-            <Checkbox v-for="classify in softClassifyList" :label="classify.id">
-              <span>{{classify.classifyName}}</span>
-            </Checkbox>
-          </CheckboxGroup>
-        </Card>
+        <!--<Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">-->
+          <!--<p slot="title">分类</p>-->
+          <!--<a slot="extra">换一批</a>-->
+          <!--<CheckboxGroup>-->
+            <!--<Checkbox v-for="classify in softClassifyList" :label="classify.id">-->
+              <!--<span>{{classify.classifyName}}</span>-->
+            <!--</Checkbox>-->
+          <!--</CheckboxGroup>-->
+        <!--</Card>-->
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">最热</p>
           <ul style="list-style:none;">

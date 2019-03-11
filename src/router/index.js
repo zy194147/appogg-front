@@ -106,6 +106,17 @@ const router = new Router({
       name: 'aboutPage',
       component: () => import('@/pages/about/aboutPage.vue'),
     },
+
+
+
+
+    // remind
+    {
+      path: '/signUpRemind',
+      name: 'SignUpRemind',
+      component: () => import('@/pages/remind/signUpRemind.vue'),
+    },
+
   ]
 });
 
