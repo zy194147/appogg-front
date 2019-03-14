@@ -28,7 +28,7 @@
 
           </p>
           <p>
-            尚未拥有账户？ <a  href="/signup" >注册</a>
+            尚未拥有账户？ <a  @click="signup" >注册</a>
           </p>
         </div>
 
@@ -121,10 +121,10 @@
           })
       },
 
-
-      signup(){
+      signup() {
+        this.$Loading.start()
         this.$router.push('/signup')
-
+        this.$Loading.finish()
       },
       go(){
         this.$router.push('/test')

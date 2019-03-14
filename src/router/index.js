@@ -124,7 +124,10 @@ const router = new Router({
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
 router.beforeEach((to, from, next) => {
-  if (to.path === '/articlePush' || to.path === '/user') {
+  if (to.path === '/articlePush'
+    || to.path === '/user'
+    || to.path === '/softPush'
+    || to.path === '/needPush') {
     let token = localStorage.getItem('token');
     if (token === null || token === '') {
       next('/login');

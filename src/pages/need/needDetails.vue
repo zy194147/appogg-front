@@ -46,15 +46,20 @@
 
       <Card v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;">回答</span>
+          <span style="line-height: 40px;margin: 20px;">回答</span>
         </p>
-        <Divider/>
-        <div style="width: 100%;">
-          <Input style="width: 90%;margin:10px;" v-model="answerContentMsg" type="textarea"
-                 :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入回答内容..."/>
-          <Button style="width: 90%;margin:10px;" type="primary" @click="answerPush">提交</Button>
+        <!--<Divider/>-->
+        <div style="width: 100%;margin-top: 30px;">
+
+          <div ref="editor" style="text-align:left"></div>
+
+          <Button style="width: 100%;margin-top: 20px;" type="primary" @click="answerPush">提交</Button>
         </div>
+
+
       </Card>
+
+
 
       <Card v-else style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <img style="width:180px;height:120px;" src="../../assets/article/not_login.jpg">
@@ -89,9 +94,9 @@
                 　{{answer.createDateTime}}　
               </p>
 
-              <p v-if="answer.backToUserId === 0">{{answer.answerContent}}</p>
+              <div v-if="answer.backToUserId === 0"><p v-html="answer.answerContent">{{answer.answerContent}}</p></div>
 
-              <p v-else>{{answer.createUserName}} @ {{answer.backToUserName}} : {{answer.answerContent}}</p>
+              <div v-else>{{answer.createUserName}} @ {{answer.backToUserName}} : <p v-html="answer.answerContent">{{answer.answerContent}}</p></div>
 
               <div v-if="answer.children" class="children-item">
                 <needAnswerList :list="answer.children"></needAnswerList>
@@ -183,9 +188,15 @@
 
 </template>
 <script>
+
+
+  import axios from 'axios'
   import Httpservice from '@/router/service'
+  import E from 'wangeditor'
 
   export default {
+    name: 'editor',
+
     data() {
 
       props: {
@@ -194,6 +205,7 @@
       return {
 
         answerContentMsg: '',
+        editor: {},
 
         needAnswerMsg: {
           answerContent: '',
@@ -390,6 +402,7 @@
           })
       },
       answerPush() {
+        alert("an:" + this.answerContentMsg);
         this.needAnswerMsg.answerNeedId = this.needId
         this.needAnswerMsg.answerContent = this.answerContentMsg
 
@@ -427,11 +440,60 @@
         console.log("结束")
       },
 
+      getEditorContent() {
+        this.editor.customConfig.onchange = html => {
+          this.answerContentMsg = html;
+        };
+      },
+
       getMoreAnswer() {
         this.filter.page = this.filter.page + 1;
         this.getAnswerData(this.filter);
       }
     },
+
+    mounted() {
+      this.editor = new E(this.$refs.editor)
+      // 获取编辑器内容
+      this.editor.customConfig.onchange = (html) => {
+        this.answerContentMsg = html
+      }
+
+
+      this.editor.customConfig.uploadImgMaxSize = 1 * 1024 * 512; // 一张图片最大0.1MB
+      this.editor.customConfig.uploadImgMaxLength = 1; // 限一次只能上传1张
+      this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
+      // 普通的自定义菜单
+      this.editor.customConfig.menus = [
+        // "head", // 标题
+        "bold", // 粗体
+        "fontSize", // 字号
+        // "fontName", // 字体
+        "italic", // 斜体
+        "underline", // 下划线
+        "strikeThrough", // 删除线
+        "foreColor", // 文字颜色
+        "backColor", // 背景颜色
+        "link", // 插入链接
+        // "list", // 列表
+        // "justify", // 对齐方式
+        // "quote", // 引用
+        // 'emoticon',  // 表情
+        "image", // 插入图片
+        // "table", // 表格
+        // 'video',  // 插入视频
+        'code',  // 插入代码
+        "undo", // 撤销
+        "redo" // 重复
+
+
+      ];
+      this.editor.create()
+      this.getEditorContent();
+    },
+
+
+
     created() {
 
       this.needId = this.$route.query.needId

@@ -6,24 +6,12 @@
 
     <FormItem style="background-color: #ffffff;width: 40%;">
       <Card style="width:100%;float: left;margin-top: 40px;" :bordered="true" :dis-hover="true" >
-        <p  style="font-size: 20px;">
-          通过邮箱地址重置密码
-        </p>
-        <Divider />
-        <!--<a href="#" slot="extra" @click.prevent="changeLimit">-->
-        <!--<Icon type="ios-loop-strong"></Icon>-->
-        <!--Change-->
-        <!--</a>-->
         <div>
 
-          <Input prefix="ios-mail" placeholder="注册时填写的邮箱" style="width: 70%;margin:20px;" /><br/>
+          <img style="width:231px;height: 300px;" src="../../assets/img/success.png">
+          <p style="font-size: 16px;">恭喜您注册成功，用户名为：<strong>{{signUpUserName}}</strong>，现在可以使用用户名和密码登录了。</p>
+          <Button type="success" style="width: 70%;margin:20px;" @click="login">去登录</Button>
 
-          <Button type="success" style="width: 70%;margin:20px;">发送验证邮件</Button>
-
-
-
-          <p >我们会向您注册的邮箱发送一封验证邮件，请通过邮件中的链接完成剩余操作。
-          </p>
         </div>
 
       </Card>
@@ -44,6 +32,7 @@
   export default {
     data () {
       return {
+        signUpUserName:'',
         formInline: {
           user: '',
           password: ''
@@ -60,59 +49,6 @@
         http:Httpservice.getAxios,
         listdata:[],
         theme1: 'light',
-        movieList: [
-          {
-            name: 'The Shawshank Redemption',
-            url: 'https://movie.douban.com/subject/1292052/',
-            rate: 9.6
-          },
-          {
-            name: 'Leon:The Professional',
-            url: 'https://movie.douban.com/subject/1295644/',
-            rate: 9.4
-          },
-          {
-            name: 'Farewell to My Concubine',
-            url: 'https://movie.douban.com/subject/1291546/',
-            rate: 9.5
-          },
-          {
-            name: 'Forrest Gump',
-            url: 'https://movie.douban.com/subject/1292720/',
-            rate: 9.4
-          },
-          {
-            name: 'Life Is Beautiful',
-            url: 'https://movie.douban.com/subject/1292063/',
-            rate: 9.5
-          },
-          {
-            name: 'Spirited Away',
-            url: 'https://movie.douban.com/subject/1291561/',
-            rate: 9.2
-          },
-          {
-            name: 'Schindlers List',
-            url: 'https://movie.douban.com/subject/1295124/',
-            rate: 9.4
-          },
-          {
-            name: 'The Legend of 1900',
-            url: 'https://movie.douban.com/subject/1292001/',
-            rate: 9.2
-          },
-          {
-            name: 'WALL·E',
-            url: 'https://movie.douban.com/subject/2131459/',
-            rate: 9.3
-          },
-          {
-            name: 'Inception',
-            url: 'https://movie.douban.com/subject/3541415/',
-            rate: 9.2
-          }
-        ],
-        randomMovieList: [],
       }
     },
     methods: {
@@ -124,6 +60,13 @@
             this.$Message.error('表单验证失败!')
           }
         })
+      },
+
+
+      login() {
+        this.$Loading.start()
+        this.$router.push('/login')
+        this.$Loading.finish()
       },
       getData() {
         console.log("开始")
@@ -185,6 +128,9 @@
       this.$router.push('/signup')
     },
     created() {
+
+      this.signUpUserName = this.$route.params.signUpUserName
+
 
       this.getData();
       this.changeLimit();

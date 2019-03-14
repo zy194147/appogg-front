@@ -245,10 +245,14 @@
       },
     },
     created() {
+
+      this.$Loading.start()
       this.getTrendingData(this.trendingSort);
 
       this.getData(this.filter);
       this.changeLimit();
+      this.$Loading.finish()
+
     }
   }
 </script>

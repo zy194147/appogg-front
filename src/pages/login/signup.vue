@@ -28,7 +28,7 @@
 
           </p>
           <p>
-            已经拥有账户？ <a href="/login">登录</a>
+            已经拥有账户？ <a @click="login">登录</a>
           </p>
         </div>
 
@@ -86,6 +86,12 @@
           }
         })
       },
+      login() {
+        this.$Loading.start()
+        this.$router.push('/login')
+
+        this.$Loading.finish()
+      },
       getData() {
         console.log("开始")
 
@@ -119,9 +125,11 @@
             if(response.data.status === 200){
               if(response.data.data.status === 1){
                 alert("用户已存在")
-
               } else {
-                this.$router.push("/signUpRemind")
+
+                this.$router.push({name: 'SignUpRemind', params: {signUpUserName: this.userSignUp.userName}})
+
+                // this.$router.push("/signUpRemind")
 
 
               }

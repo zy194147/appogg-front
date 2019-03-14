@@ -9,7 +9,10 @@
           <span>　{{need.createDateTime}}　</span>
         </div>
         <div style="width: 100%;">
-          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="needdetails(need)">{{need.needTitleName}}　<Tag color="warning">未解决</Tag></span>
+          <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="needdetails(need)">{{need.needTitleName}}　
+            <Tag v-if="need.isSolved === 1" color="green">已解决</Tag>
+
+            <Tag v-else color="orange">未解决</Tag></span>
         </div>
         <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
           <Icon type="ios-chatbubbles" />32
@@ -25,10 +28,10 @@
             <Radio label="">
               <span>全部</span>
             </Radio>
-            <Radio label="1">
+            <Radio label=1>
               <span>已解决</span>
             </Radio>
-            <Radio label="0">
+            <Radio label=0>
               <span>未解决</span>
             </Radio>
           </RadioGroup>
@@ -203,10 +206,14 @@
       },
     },
     created() {
+
+      this.$Loading.start()
       this.getTrendingData(this.trendingSort);
 
       this.getData(this.filter);
       this.changeLimit();
+      this.$Loading.finish()
+
     }
   }
 </script>

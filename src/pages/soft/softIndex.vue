@@ -267,6 +267,7 @@
       },
     },
     created() {
+      this.$Loading.start()
 
 
       if (window.localStorage.getItem("userName") === "zhangyj") {
@@ -279,6 +280,8 @@
       this.getData(this.filter);
       this.getTrendingData(this.trendingSort);
       this.changeLimit();
+      this.$Loading.finish()
+
     }
   }
 </script>
