@@ -1,0 +1,13 @@
+<svg width="512" height="177.846" xmlns="http://www.w3.org/2000/svg" style="vector-effect: non-scaling-stroke;" stroke="null">
+
+ <g stroke="null">
+  <title stroke="null">background</title>
+  <rect stroke="null" fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g stroke="null">
+  <title stroke="null">Layer 1</title>
+  <circle style="vector-effect: non-scaling-stroke;" stroke="null" id="svg_9" r="36.306" fill="#4E8EF7" cy="88.922" cx="90.024"/>
+  <path stroke="null" id="svg_10" fill="#4E8EF7" d="m164.115,27.317c0,-6.896 -5.592,-12.484 -12.486,-12.484c-3.129,0 -5.979,1.158 -8.171,3.06c-14.887,-11.228 -33.396,-17.893 -53.435,-17.893c-49.032,0 -88.922,39.891 -88.922,88.923c0,49.031 39.891,88.923 88.923,88.923s88.922,-39.892 88.922,-88.923c0,-20.039 -6.665,-38.548 -17.892,-53.436c1.902,-2.19 3.061,-5.042 3.061,-8.17zm-74.092,147.537c-47.382,0 -85.932,-38.55 -85.932,-85.932s38.55,-85.932 85.932,-85.932c19.266,0 37.069,6.374 51.417,17.123c-1.442,2.036 -2.297,4.518 -2.297,7.203c0,6.895 5.59,12.483 12.484,12.483c2.686,0 5.165,-0.855 7.202,-2.297c10.749,14.348 17.123,32.151 17.123,51.419c0.002,47.383 -38.546,85.933 -85.929,85.933z"/>
+  <text stroke="null" font-weight="normal" font-style="normal" transform="matrix(4.193069184467221,0,0,2.9970657855647542,-638.4056013931,-195.4273298281258) " xml:space="preserve" text-anchor="start" font-family="'Simonetta', serif" font-size="24" id="svg_12" y="96.743979" x="199.142695" stroke-opacity="null" stroke-width="0" fill="#4e8ef7">appogg</text>
+ </g>
+</svg>

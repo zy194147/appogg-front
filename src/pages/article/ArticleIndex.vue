@@ -7,13 +7,13 @@
       <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
           <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src="article.articleTitleIcon">
-          <span>{{article.modifyUserName}}</span>
+          <span>{{article.createUserName}}</span>
           <!--<span>{{$store.getters.username}}</span>-->
           <Tooltip content="钻石会员" placement="bottom">
             <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
 
           </Tooltip>
-          <span>　{{article.modifyDateTime}}　</span>
+          <span>　{{article.createDateTime}}　</span>
           <Tooltip content="文章评论数" placement="bottom">
             <Icon type="ios-chatbubbles"/>
             {{ article.commentNum }}
@@ -21,7 +21,7 @@
 
         </div>
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;cursor: pointer;" @click="articleDtails(article)">{{article.articleTitleName}}</span>
+          <span style="line-height: 40px;cursor: pointer;" @click="articleDetails(article)">{{article.articleTitleName}}</span>
         </p>
         <div style="position:absolute;width:50px;right: 15px;top:15px;">
           <Tag v-if="article.isSticky === 1" style="float: left;" color="green">置顶</Tag>
@@ -35,9 +35,9 @@
         <!--Change-->
         <!--</a>-->
         <div style="width: 100%;">
-          <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;"@click="articleDetails(article)">{{article.articleSummary}}</p>
-          <div>
-            <img style="position:absolute;right: 40px; top:80px; width:120px;height: 80px;" :src="article.articleTitleIcon">
+          <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;" @click="articleDetails(article)">{{article.articleSummary}}</p>
+          <div >
+            <img @click="articleDetails(article)" style="position:absolute;right: 40px; top:80px; width:120px;height: 80px;cursor:pointer;" :src="article.articleTitleIcon">
           </div>
         </div>
         <div style="width: 100%;float: left;margin:10px;">
@@ -69,7 +69,7 @@
           <ul style="list-style:none;">
             <li v-for="trendingArticle in articleTrendingList" style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
-              <a>{{trendingArticle.articleTitleName}}</a>
+              <a @click="articleDetails(trendingArticle)">{{trendingArticle.articleTitleName}}</a>
               <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingArticle.commentNum}}</Tag>
             </li>
           </ul>

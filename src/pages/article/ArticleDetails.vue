@@ -148,21 +148,27 @@
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;">
               <Icon type="ios-time"/>
-              发布时间: {{articleDetail.modifyDateTime}}
+              发布时间: {{articleDetail.createDateTime}}
             </li>
             <li style="margin-bottom: 4px;">
               <Icon type="ios-book"/>
               阅读量: {{articleDetail.readNum}}
             </li>
+            <li style="margin-bottom: 4px;">
+              <Icon type="md-pricetags" />
+              文章标签: <Tag v-for="articleTag in articleDetail.articleClassifyGroup" color="cyan">{{articleTag}}</Tag>
+            </li>
 
           </ul>
 
 
-          <Tag color="cyan">java</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
+
+
+          <!--<Tag color="cyan">java</Tag>-->
+          <!--<Tag color="cyan">c语言</Tag>-->
+          <!--<Tag color="cyan">python</Tag>-->
+          <!--<Tag color="cyan">spring</Tag>-->
+          <!--<Tag color="cyan">编程</Tag>-->
 
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
@@ -170,7 +176,7 @@
           <ul style="list-style:none;">
             <li v-for="trendingArticle in authorTrendingList" style="margin-bottom: 4px;">
               <Icon type="ios-book-outline"/>
-              <a>{{trendingArticle.articleTitleName}}</a>
+              <a @click="articleDetails(trendingArticle)">{{trendingArticle.articleTitleName}}</a>
               <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingArticle.commentNum}}</Tag>
             </li>
           </ul>
@@ -433,7 +439,14 @@
           .catch(function (error) {
             console.log(error);
           })
-      }
+      },
+
+      articleDetails(article) {
+        // 页面带参跳转
+        this.$router.push({name: 'ArticleDetails',query: {articleId:article.id,articleUserId:article.createUserId}})
+        this.$router.go();
+      },
+
     },
     created() {
 

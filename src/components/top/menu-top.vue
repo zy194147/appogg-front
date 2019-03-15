@@ -5,15 +5,15 @@
       <Menu @on-select="articleIndex" style="float: left;width: 100%;" mode="horizontal" :theme="theme1"
             active-name="1">
         <!--<FormItem>-->
-        <a href="/">
-          <img style="width: 60px;height:60px;left:0;position: absolute" src="../../assets/logo1.svg">
+        <a href="/" >
+          <img style="height:40px;width: 116px;left:0;top:10px;position: absolute;" src="../../assets/logo2.svg">
         </a>
         <!--</FormItem>-->
         <FormItem style="margin-top: 15px;position: relative;left:120px;">
           <Input style="width:100%;" search enter-button placeholder="搜索..."/>
         </FormItem>
 
-        <MenuItem style="position: relative;left:80px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
+        <MenuItem style="position: relative;left:130px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
           {{menu.menuName}}
         </MenuItem>
         <FormItem style="margin-top: 15px;position: relative;left: 200px;">

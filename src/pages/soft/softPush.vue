@@ -320,6 +320,19 @@
       this.editor.customConfig.uploadImgMaxSize = 1 * 1024 * 1024; // 一张图片最大1MB
       this.editor.customConfig.uploadImgMaxLength = 1; // 限一次只能上传1张
       this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
+      // 自定义颜色失败。。
+      this.editor.customConfig.colors = [
+        '#000000',
+        '#eeece0',
+        '#1c487f',
+        '#4d80bf',
+        '#c24f4a',
+        '#8baa4a',
+        '#7b5ba1',
+        '#46acc8',
+        '#f9963b',
+        '#ffffff',
+      ];
       // 普通的自定义菜单
       this.editor.customConfig.menus = [
         "head", // 标题
@@ -345,6 +358,7 @@
 
 
       ];
+
       this.editor.create()
       this.getEditorContent();
     }

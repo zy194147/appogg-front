@@ -44,12 +44,13 @@
       </Card>
 
 
-      <Card v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
-        <p style="font-size: 20px;">
-          <span style="line-height: 40px;margin: 20px;">回答</span>
+
+      <div v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;margin-top: 20px;" :dis-hover="true">
+        <p style="font-size: 18px;">
+          <span style="line-height: 40px;color: darkgray">我也要回答</span>
         </p>
         <!--<Divider/>-->
-        <div style="width: 100%;margin-top: 30px;">
+        <div style="width: 100%;margin-top: 10px;">
 
           <div ref="editor" style="text-align:left"></div>
 
@@ -57,7 +58,7 @@
         </div>
 
 
-      </Card>
+      </div>
 
 
 
@@ -150,7 +151,7 @@
           <ul style="list-style:none;">
             <li style="margin-bottom: 4px;">
               <Icon type="ios-time"/>
-              发布时间: {{needDetail.modifyDateTime}}
+              发布时间: {{needDetail.createDateTime}}
             </li>
             <li style="margin-bottom: 4px;">
               <Icon type="ios-book"/>
@@ -159,12 +160,8 @@
 
           </ul>
 
+          <Tag v-for="needTag in needDetail.needClassifyGroup" color="cyan">{{needTag}}</Tag>
 
-          <Tag color="cyan">java</Tag>
-          <Tag color="cyan">c语言</Tag>
-          <Tag color="cyan">python</Tag>
-          <Tag color="cyan">spring</Tag>
-          <Tag color="cyan">编程</Tag>
 
         </Card>
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
