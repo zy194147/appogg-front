@@ -64,6 +64,7 @@ const router = new Router({
     },
 
 
+
     //soft
     {
       path: '/soft',

@@ -355,8 +355,6 @@
         // 'code',  // 插入代码
         "undo", // 撤销
         "redo" // 重复
-
-
       ];
 
       this.editor.create()

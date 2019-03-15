@@ -11,10 +11,10 @@
 
         <div style="width: 100%;">
 
-          <img style="width:100%;height:200px;"
-               src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar">
-          <img style="position:absolute;width:160px;height:160px;top:140px;left:30px;"
-               src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar">
+          <img style="width:100%;height:200px;object-fit: cover;"
+               :src=userDetail.userPageIcon>
+          <img style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+               :src=userDetail.userHeadIcon>
 
           <div style="text-align: left;width:70%;margin-left: 240px;">
             <p>
@@ -23,7 +23,7 @@
 
               {{userDetail.memberLevelName}}
 
-              <Button style="margin-left: 30px;" type="dashed">编辑我的信息</Button>
+              <Button v-if="articleUserName == loginUserName" style="margin-left: 30px;" type="dashed" @click="editMsg">编辑我的信息</Button>
             </p>
             <p>
               <Icon type="ios-pin"/>
@@ -61,11 +61,11 @@
 
       <Card :bordered="true">
         <Tabs :animated="false">
-          <TabPane label="文章 22">
+          <TabPane label="发布 22">
 
             <div>
               <p style="font-size: 20px;">
-                <span style="line-height: 40px; cursor: pointer">写给 iView 开发者的一封信</span>
+                <span style="line-height: 40px; cursor: pointer"><Tag color="green">文</Tag>写给 iView 开发者的一封信</span>
               </p>
               <div style="width: 100%;">
                 <p style="width: 76%;float: left;margin-right: 30px;">
@@ -82,7 +82,7 @@
             </div>
             <div>
               <p style="font-size: 20px;">
-                <span style="line-height: 40px;">写给 iView 开发者的一封信</span>
+                <span style="line-height: 40px;"><Tag color="green">软</Tag>写给 iView 开发者的一封信</span>
               </p>
               <div style="width: 100%;">
                 <p style="width: 76%;float: left;margin-right: 30px;">
@@ -231,6 +231,11 @@
       return {
         userId:'',
         userDetail:'',
+        articleUser:{},
+
+        loginUserName:'',
+
+        articleUserName:'',
 
         articleListType: "all",
         formInline: {
@@ -282,6 +287,27 @@
             console.log(error);
           })
       },
+      getArticleUser(userId) {
+        console.log("开始")
+
+        this.$http.get('/api/user/detail',{
+          params : {
+            'userId' : userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.articleUser = response.data.data
+              // console.log("111*******////***11111",this.userDetail,)
+            } else {
+              // console.log("no")
+
+              // this.userDetail = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
 
       changeLimit() {
         function getArrayItems(arr, num) {
@@ -304,12 +330,19 @@
 
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
+
       go() {
         this.$router.push('/test')
       }
     },
     created() {
-      this.userId = this.$route.params.articleUserId
+      this.userId = this.$route.query.articleUserId
+      this.getArticleUser(this.userId);
+
+      this.articleUserName = this.$route.query.articleUserName
+      this.loginUserName = window.localStorage.getItem("userName");
+
+      alert(this.articleUserName+":" + this.loginUserName)
 
       this.getData(this.userId);
       this.changeLimit();
