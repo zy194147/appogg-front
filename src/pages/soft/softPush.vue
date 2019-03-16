@@ -28,7 +28,7 @@
           </Upload>
         </div>
         <div>
-          <img :src="softTitleImage">
+          <img style="max-height: 300px;" :src="softTitleImage">
         </div>
 
 
@@ -42,7 +42,7 @@
       <FormItem label="软件分类">
         <CheckboxGroup v-model="softMsg.softClassifyGroup" style="float: left">
           <!--<div v-for="classify in softClassifyList">-->
-            <Checkbox v-for="classify in softClassifyList" :label="classify.id">
+            <Checkbox v-for="classify in softClassifyList" :label="classify.classifyName">
               <span>{{classify.classifyName}}</span>
             </Checkbox>
           <!--</div>-->
