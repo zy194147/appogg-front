@@ -180,7 +180,9 @@
       },
 
       userDetails() {
-        this.$router.push('/user')
+        var loginUserId = window.localStorage.getItem("userId");
+        this.$router.push({name: 'UserPage', query: {userId: loginUserId}})
+
 
       },
       // cancel(){

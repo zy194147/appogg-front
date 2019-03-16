@@ -121,7 +121,7 @@
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">关于提问者</p>
           <div>
-            <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
+            <img style="width:40px;height:40px;margin-right: 10px;" :src=needUserDetail.userHeadIcon>
             <span style="">{{needUserDetail.userName}}</span>
             <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
             <Divider/>
@@ -129,14 +129,14 @@
               <Row style="text-align: center">
                 <Col span="11">
                   <Card dis-hover :bordered="false">
-                    <p>问题</p>
-                    <p><Strong>{{needUserDetail.needNum}}</Strong></p>
+                    <p>总发布量</p>
+                    <p><Strong>{{needUserDetail.articleNum}}</Strong></p>
                   </Card>
                 </Col>
                 <Col span="11" offset="2">
                   <Card dis-hover :bordered="false">
                     <p>总阅读量</p>
-                    <p><Strong>{{needUserDetail.needReadNum}}</Strong></p>
+                    <p><Strong>{{needUserDetail.articleReadNum}}</Strong></p>
                   </Card>
                 </Col>
               </Row>
@@ -367,7 +367,7 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
       userPage() {
-        this.$router.push({name: 'UserPage', params: {needUserId: this.needUserId}})
+        this.$router.push({name: 'UserPage', query: {userId: this.needUserId}})
       },
       go() {
         this.$router.push('/test')

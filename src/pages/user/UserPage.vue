@@ -23,7 +23,9 @@
 
               {{userDetail.memberLevelName}}
 
-              <Button v-if="articleUserName == loginUserName" style="margin-left: 30px;" type="dashed" @click="editMsg">编辑我的信息</Button>
+              <Button v-if="articleUser.userName == loginUserName" style="margin-left: 30px;" type="dashed" @click="editMsg">编辑我的信息</Button>
+              <Button v-if="followStatus == '0' && articleUser.userName != loginUserName" style="margin-left: 30px;" type="success" @click="followUser">关注Ta</Button>
+              <Button v-if="followStatus == '1' " style="margin-left: 30px;" type="success" ><Icon type="md-checkmark" />已关注</Button>
             </p>
             <p>
               <Icon type="ios-pin"/>
@@ -59,137 +61,90 @@
 
     <FormItem style="width:74%;margin-top: -10px;">
 
-      <Card :bordered="true">
+      <Card :bordered="true" dis-hover="false">
         <Tabs :animated="false">
-          <TabPane label="发布 22">
-
-            <div>
-              <p style="font-size: 20px;">
-                <span style="line-height: 40px; cursor: pointer"><Tag color="green">文</Tag>写给 iView 开发者的一封信</span>
+          <TabPane :label=articleNum>
+            <Card v-if="articles.length == 0" style="text-align: center" dis-hover="false">
+              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无文章</p>
+            </Card>
+            <div v-for="article in articles">
+              <p style="font-size: 20px;"><Tag color="green">文</Tag>
+                <span style="line-height: 40px; cursor: pointer" @click="articleDetails(article)">{{article.articleTitleName}}</span>
               </p>
               <div style="width: 100%;">
-                <p style="width: 76%;float: left;margin-right: 30px;">
-                  你好，亲爱的 iView 开发者（准开发者），很高兴你能使用到我们新上线的 iView 开发者社区。
-                  iView 从立项到现在已经经历了两年的时间，7 月 28 日是它两周岁的生日，在这一天，
-                  我们荣幸的召开了新品发布会并发布了 iView 3.0。对于初入社区的你，
-                  这篇文章将是一个很好的导引，下面就带你玩转 iView Developer。
+                <p style="width: 76%;float: left;margin-right: 30px;" @click="articleDetails(article)">
+                  {{article.articleSummary}}
                 </p>
                 <div>
-                  <img style="position:absolute;right: 40px; width:120px;height: 80px;" src="../../assets/logo.png">
+                  <img @click="articleDetails(article)" style="position:relative;right: -10px;top:-40px; width:120px;height: 80px;" :src=article.articleTitleIcon>
                 </div>
                 <Divider/>
               </div>
             </div>
-            <div>
-              <p style="font-size: 20px;">
-                <span style="line-height: 40px;"><Tag color="green">软</Tag>写给 iView 开发者的一封信</span>
-              </p>
-              <div style="width: 100%;">
-                <p style="width: 76%;float: left;margin-right: 30px;">
-                  你好，亲爱的 iView 开发者（准开发者），很高兴你能使用到我们新上线的 iView 开发者社区。
-                  iView 从立项到现在已经经历了两年的时间，7 月 28 日是它两周岁的生日，在这一天，
-                  我们荣幸的召开了新品发布会并发布了 iView 3.0。对于初入社区的你，
-                  这篇文章将是一个很好的导引，下面就带你玩转 iView Developer。
-                </p>
-                <div>
-                  <img style="position:absolute;right: 40px; width:120px;height: 80px;" src="../../assets/logo.png">
-                </div>
-                <Divider/>
-              </div>
-            </div>
-            <div>
-              <p style="font-size: 20px;">
-                <span style="line-height: 40px;">写给 iView 开发者的一封信</span>
-              </p>
-              <div style="width: 100%;">
-                <p style="width: 76%;float: left;margin-right: 30px;">
-                  你好，亲爱的 iView 开发者（准开发者），很高兴你能使用到我们新上线的 iView 开发者社区。
-                  iView 从立项到现在已经经历了两年的时间，7 月 28 日是它两周岁的生日，在这一天，
-                  我们荣幸的召开了新品发布会并发布了 iView 3.0。对于初入社区的你，
-                  这篇文章将是一个很好的导引，下面就带你玩转 iView Developer。
-                </p>
-                <div>
-                  <img style="position:absolute;right: 40px; width:120px;height: 80px;" src="../../assets/logo.png">
-                </div>
-                <Divider/>
-              </div>
-            </div>
-            <div>
-              <p style="font-size: 20px;">
-                <span style="line-height: 40px;">写给 iView 开发者的一封信</span>
-              </p>
-              <div style="width: 100%;">
-                <p style="width: 76%;float: left;margin-right: 30px;">
-                  你好，亲爱的 iView 开发者（准开发者），很高兴你能使用到我们新上线的 iView 开发者社区。
-                  iView 从立项到现在已经经历了两年的时间，7 月 28 日是它两周岁的生日，在这一天，
-                  我们荣幸的召开了新品发布会并发布了 iView 3.0。对于初入社区的你，
-                  这篇文章将是一个很好的导引，下面就带你玩转 iView Developer。
-                </p>
-                <div>
-                  <img style="position:absolute;right: 40px; width:120px;height: 80px;" src="../../assets/logo.png">
-                </div>
-                <Divider/>
-              </div>
-            </div>
-
-            <Page style="text-align: center" :total="29" show-total show-elevator />
+            <Page v-if="articles.length != 0" style="text-align: center" :total=articles.length show-total show-elevator />
 
 
           </TabPane>
-
-          <TabPane label="关注的人 43">
-
-            <div>
-              <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-              <span style="font-size: 16px;"><strong>张永福</strong></span>
-
-              <Divider/>
-
-            </div>
-            <div>
-              <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-              <span style="font-size: 16px;"><strong>张勇赴</strong></span>
-
-              <Divider/>
-
-            </div>
-            <div>
-              <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-              <span style="font-size: 16px;"><strong>张永富</strong></span>
-
-              <Divider/>
-
+          <TabPane :label=softNum>
+            <Card v-if="softs.length == 0" style="text-align: center" dis-hover="false">
+              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无软件</p>
+            </Card>
+            <div v-for="soft in softs">
+              <p style="font-size: 20px;"><Tag color="green">软</Tag>
+                <span @click="softDetails(soft)" style="line-height: 40px; cursor: pointer">{{soft.softTitleName}}</span>
+              </p>
+                <Divider/>
             </div>
 
-            <Page style="text-align: center" :total="29" show-total show-elevator />
+            <Page  v-if="softs.length != 0" style="text-align: center" :total=softs.length show-total show-elevator />
 
           </TabPane>
-          <TabPane label="关注者 288">
-
-
-            <div>
-              <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-              <span style="font-size: 16px;"><strong>Aresn</strong></span>
-
-              <Divider/>
-
-            </div>
-            <div>
-              <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-              <span style="font-size: 16px;"><strong>Aresn</strong></span>
-
-              <Divider/>
-
-            </div>
-            <div>
-              <img style="width:40px;height:40px;margin-right: 10px;" src="../../assets/article/avatar.jpg">
-              <span style="font-size: 16px;"><strong>Aresn</strong></span>
-
-              <Divider/>
-
+          <TabPane :label=needNum>
+            <Card v-if="softs.length == 0" style="text-align: center" dis-hover="false">
+              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无提问</p>
+            </Card>
+            <div v-for="need in needs">
+              <p style="font-size: 20px;"><Tag color="green">问</Tag>
+                <span @click="needdetails(need)" style="line-height: 40px; cursor: pointer">{{need.needTitleName}}</span>
+              </p>
+                <Divider/>
             </div>
 
-            <Page style="text-align: center" :total="29" show-total show-elevator />
+            <Page v-if="softs.length != 0" style="text-align: center" :total=needs.length show-total show-elevator />
+
+          </TabPane>
+
+
+          <TabPane :label=followToNum>
+            <Card v-if="followToUsers.length == 0" style="text-align: center" dis-hover="false">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无关注</p>
+            </Card>
+
+            <div v-for="followToUser in followToUsers">
+              <img style="width:40px;height:40px;margin-right: 10px;" :src=followToUser.userHeadIcon>
+              <span style="font-size: 16px;"><strong>{{followToUser.userName}}</strong></span>
+              <Divider/>
+            </div>
+
+            <Page v-if="followToUsers.length != 0" style="text-align: center" :total=followToUsers.length show-total show-elevator />
+
+          </TabPane>
+          <TabPane :label=followNum>
+
+            <Card v-if="followers.length == 0" style="text-align: center" dis-hover="false">
+              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无关注者</p>
+            </Card>
+            <div v-for="follower in followers">
+              <img style="width:40px;height:40px;margin-right: 10px;" :src=follower.userHeadIcon>
+              <span style="font-size: 16px;"><strong>{{follower.userName}}</strong></span>
+              <Divider/>
+            </div>
+            <Page v-if="followers.length != 0"  style="text-align: center" :total=followers.length show-total show-elevator />
 
 
           </TabPane>
@@ -200,16 +155,16 @@
 
     <FormItem style="width:23%;margin-top: -10px;">
 
-      <Card :bordered="true" style="text-align: left;margin-bottom: 10px;">
-        <p slot="title">分类标签</p>
-        <a slot="extra">编辑</a>
-        <Tag color="cyan">java</Tag>
-        <Tag color="cyan">c语言</Tag>
-        <Tag color="cyan">python</Tag>
-        <Tag color="cyan">spring</Tag>
-        <Tag color="cyan">编程</Tag>
-      </Card>
-      <Card :bordered="true" style="text-align: center;margin-bottom: 10px;">
+      <!--<Card :bordered="true" style="text-align: left;margin-bottom: 10px;">-->
+        <!--<p slot="title">分类标签</p>-->
+        <!--<a slot="extra">编辑</a>-->
+        <!--<Tag color="cyan">java</Tag>-->
+        <!--<Tag color="cyan">c语言</Tag>-->
+        <!--<Tag color="cyan">python</Tag>-->
+        <!--<Tag color="cyan">spring</Tag>-->
+        <!--<Tag color="cyan">编程</Tag>-->
+      <!--</Card>-->
+      <Card :bordered="true" style="text-align: center;margin-bottom: 10px;" dis-hover="false">
         <Icon type="md-paw"/>
         <p>{{userDetail.createDateTime}}加入appogg</p>
       </Card>
@@ -229,9 +184,24 @@
   export default {
     data() {
       return {
+
+        followStatus:'0',
+
+        articles:[],
+        articleNum:'',
+        softs:[],
+        softNum:'',
+        needs:[],
+        needNum:'',
+
+        followers:[],
+        followNum:'',
+        followToUsers:[],
+        followToNum:'',
+
         userId:'',
         userDetail:'',
-        articleUser:{},
+        articleUser:'',
 
         loginUserName:'',
 
@@ -287,6 +257,141 @@
             console.log(error);
           })
       },
+      getFollowStatus(userId) {
+        console.log("开始")
+
+        this.$http.get('/api/follow/status',{
+          params : {
+            'userId' : userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.followStatus = response.data.data
+              console.log("111*******////***11111",this.userDetail,)
+            } else {
+              console.log("no")
+
+              this.followStatus = '0'
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+      getFollowers(userId) {
+        console.log("开始")
+
+        this.$http.get('/api/follow/listFollow',{
+          params : {
+            'userId' : userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.followers = response.data.data.rows
+              this.followNum = "关注者 " + response.data.data.rows.length
+              console.log("111*******////***11111",this.userDetail,)
+            } else {
+              console.log("no")
+
+              this.followers = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+      getFollowToUsers(userId) {
+        console.log("开始")
+
+        this.$http.get('/api/follow/listFollowTo',{
+          params : {
+            'userId' : userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.followToUsers = response.data.data.rows
+              this.followToNum = "关注的人 " + response.data.data.rows.length
+
+              console.log("111*******////***11111",this.userDetail,)
+            } else {
+              console.log("no")
+
+              this.followToUsers = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+      getArticles(userId) {
+        console.log("开始")
+
+        this.$http.get('/api/user/listArticle',{
+          params : {
+            'userId' : userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.articles = response.data.data.rows
+              this.articleNum = "文章 " + response.data.data.rows.length
+
+              console.log("111*******////***11111",this.userDetail,)
+            } else {
+              console.log("no")
+
+              this.articles = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+      getSofts(userId) {
+        console.log("开始")
+
+        this.$http.get('/api/user/listSoft',{
+          params : {
+            'userId' : userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.softs = response.data.data.rows
+              this.softNum = "软件 " + response.data.data.rows.length
+
+              console.log("111*******////***11111",this.userDetail,)
+            } else {
+              console.log("no")
+
+              this.softs = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+      getNeeds(userId) {
+        console.log("开始")
+
+        this.$http.get('/api/user/listNeed',{
+          params : {
+            'userId' : userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.needs = response.data.data.rows
+              this.needNum = "需求 " + response.data.data.rows.length
+
+              console.log("111*******////***11111",this.userDetail,)
+            } else {
+              console.log("no")
+
+              this.needs = ''
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
       getArticleUser(userId) {
         console.log("开始")
 
@@ -331,20 +436,54 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
 
+      articleDetails(article) {
+        // 页面带参跳转
+        this.$router.push({name: 'ArticleDetails',query: {articleId:article.id,articleUserId:article.createUserId}})
+      },
+      softDetails(soft) {
+        this.$router.push({name: 'softDetails', query: {softId: soft.id, softUserId: soft.createUserId}})
+
+      },
+      needdetails(need){
+        this.$router.push({name: 'needDetails',query: {needId:need.id,needUserId:need.createUserId}})
+
+      },
+
+      followUser(){
+        this.$http.get('/api/follow/followUser', {
+          params : {
+            'userId' : this.userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.followStatus = response.data.data
+            }
+            console.log("user.....login:" , response)
+          })
+      },
+
       go() {
         this.$router.push('/test')
       }
     },
     created() {
-      this.userId = this.$route.query.articleUserId
+      this.userId = this.$route.query.userId
       this.getArticleUser(this.userId);
 
       this.articleUserName = this.$route.query.articleUserName
       this.loginUserName = window.localStorage.getItem("userName");
 
-      alert(this.articleUserName+":" + this.loginUserName)
 
       this.getData(this.userId);
+      this.getFollowStatus(this.userId);
+
+      this.getFollowers(this.userId);
+      this.getFollowToUsers(this.userId);
+      this.getArticles(this.userId);
+      this.getSofts(this.userId);
+      this.getNeeds(this.userId);
+
+
       this.changeLimit();
     }
   }

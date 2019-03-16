@@ -1,10 +1,15 @@
 <template>
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
+      <Card v-if="needPublicList.length == 0" style="text-align: center" dis-hover="false">
+        <img src="../../assets/article/not_login.jpg">
+        <p>暂无数据</p>
+      </Card>
+
       <Card v-for="need in needPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
         <div>
-          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" src="../../assets/article/avatar.jpg">
-          <span>{{need.createUserId}}</span>
+          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=need.userHeadIcon>
+          <span>{{need.createUserName}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
           <span>　{{need.createDateTime}}　</span>
         </div>
@@ -18,7 +23,7 @@
           <Icon type="ios-chatbubbles" />32
         </div>
       </Card>
-      <Page style="text-align: center" :total="needPublicTotal" show-total show-elevator />
+      <Page v-if="needPublicList.length != 0" style="text-align: center" :total="needPublicTotal" show-total show-elevator />
     </FormItem>
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
@@ -42,7 +47,7 @@
             <Radio label="">
               <span>全部</span>
             </Radio>
-            <Radio label="1">
+            <Radio :label=loginUserId>
               <span>仅自己发布</span>
             </Radio>
           </RadioGroup>
@@ -76,10 +81,12 @@
           page: 1
         },
 
+        loginUserId:'',
+
         filter: {
           // 全部系统：0全部，，，，
           isSolved:0,
-          createUserId:1,
+          createUserId:'',
           limit: 10,
           page: 1
         },
@@ -208,6 +215,8 @@
     created() {
 
       this.$Loading.start()
+      this.loginUserId = window.localStorage.getItem("userId");
+
       this.getTrendingData(this.trendingSort);
 
       this.getData(this.filter);

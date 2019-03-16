@@ -6,7 +6,7 @@
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
       <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
-          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src="article.articleTitleIcon">
+          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src="article.userHeadIcon">
           <span>{{article.createUserName}}</span>
           <!--<span>{{$store.getters.username}}</span>-->
           <Tooltip content="钻石会员" placement="bottom">
@@ -37,7 +37,7 @@
         <div style="width: 100%;">
           <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;" @click="articleDetails(article)">{{article.articleSummary}}</p>
           <div >
-            <img @click="articleDetails(article)" style="position:absolute;right: 40px; top:80px; width:120px;height: 80px;cursor:pointer;" :src="article.articleTitleIcon">
+            <img @click="articleDetails(article)" style="object-fit: cover;position:absolute;right: 40px; top:80px; width:120px;height: 80px;cursor:pointer;" :src="article.articleTitleIcon">
           </div>
         </div>
         <div style="width: 100%;float: left;margin:10px;">

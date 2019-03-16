@@ -453,7 +453,7 @@
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
       userPage() {
-        this.$router.push({name: 'UserPage', params: {softUserId: this.softUserId}})
+        this.$router.push({name: 'UserPage', query: {softUserId: this.softUserId}})
       },
       go() {
         this.$router.push('/test')

@@ -6,7 +6,7 @@
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
       <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
-          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" src="../../assets/article/avatar.jpg">
+          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=soft.userHeadIcon>
           <span>{{soft.createUserName}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
           <span>　{{soft.createDateTime}}　</span>
@@ -18,7 +18,7 @@
           <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="softDetails(soft)">{{soft.softTitleName}}</span>
         </div>
         <div>
-          <img style="position:absolute;right: 40px;top:40px; width:120px;height: 80px;" :src=soft.softTitleIcon>
+          <img style="object-fit: cover;position:absolute;right: 40px;top:40px; width:120px;height: 80px;" :src=soft.softTitleIcon>
         </div>
         <div v-for="softTag in soft.softClassifyGroup" style="width: 100%;margin:10px;">
           <Tag style="float: left" color="cyan">{{softTag}}</Tag>
