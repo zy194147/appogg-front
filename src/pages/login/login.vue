@@ -95,6 +95,9 @@
       },
 
       userLoginSubmit(){
+
+        this.userLogin.userPassword = this.$md5(this.userLogin.userPassword)
+
         axios.post('/api/user/login', this.userLogin)
           .then((response) => {
             let data  = response.data;

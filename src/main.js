@@ -6,6 +6,9 @@ import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'    // 使用 CSS
 import axios from './httpConfig/http'
+
+import md5 from './utils/md5'
+
 Vue.prototype.$http = axios
 
 import store from './store/index'
@@ -13,6 +16,8 @@ import store from './store/index'
 Vue.config.productionTip = false
 
 Vue.use(iView)
+
+Vue.use(md5)
 
 
 /* eslint-disable no-new */

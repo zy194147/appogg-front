@@ -25,7 +25,15 @@
 
               <Button v-if="articleUser.userName == loginUserName" style="margin-left: 30px;" type="dashed" @click="editMsg">编辑我的信息</Button>
               <Button v-if="followStatus == '0' && articleUser.userName != loginUserName" style="margin-left: 30px;" type="success" @click="followUser">关注Ta</Button>
-              <Button v-if="followStatus == '1' " style="margin-left: 30px;" type="success" ><Icon type="md-checkmark" />已关注</Button>
+
+              <Poptip
+                confirm
+                title="确定取消关注?"
+                @on-ok="ok"
+                @on-cancel="cancel">
+                <Button v-if="followStatus == '1' " style="margin-left: 30px;" type="success" ><Icon type="md-checkmark" />已关注</Button>
+              </Poptip>
+
             </p>
             <p>
               <Icon type="ios-pin"/>
@@ -457,10 +465,27 @@
           .then((response) => {
             if(response.data.status === 200){
               this.followStatus = response.data.data
+              this.$Message.success('关注成功');
             }
             console.log("user.....login:" , response)
           })
       },
+      ok () {
+        this.$http.get('/api/follow/unfollowUser', {
+          params : {
+            'userId' : this.userId
+          }})
+          .then((response) => {
+            if(response.data.status === 200){
+              this.followStatus = response.data.data
+              this.$Message.success('取消关注成功');
+            }
+            console.log("user.....login:" , response)
+          })
+      },
+      cancel () {
+      },
+
 
       go() {
         this.$router.push('/test')
