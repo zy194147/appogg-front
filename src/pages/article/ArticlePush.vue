@@ -20,7 +20,7 @@
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
             type="drag"
-            action="/api/article/uploadTitleImage">
+            action="/api/image/upload">
             <div>
               <Icon type="ios-cloud-upload" size="32" style="color: #3399ff"></Icon>
               <p>点我上传文章标题图片</p>
@@ -28,7 +28,7 @@
           </Upload>
         </div>
         <div>
-          <img :src="articleTitleImage">
+          <img style="max-height: 300px" :src="articleTitleImage">
         </div>
 
 
@@ -218,9 +218,52 @@
       }
 
 
-      this.editor.customConfig.uploadImgMaxSize = 1 * 1024 * 1024; // 一张图片最大1MB
+
+      this.editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024; // 一张图片最大0.5MB
       this.editor.customConfig.uploadImgMaxLength = 1; // 限一次只能上传1张
-      this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
+      this.editor.customConfig.uploadImgServer = '/api/image/upload'
+      this.editor.customConfig.uploadFileName = 'file'
+      this.editor.customConfig.uploadImgHooks = {
+        before: function (xhr, editor, files) {
+          // 图片上传之前触发
+          // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
+
+          // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+          // return {
+          //     prevent: true,
+          //     msg: '放弃上传'
+          // }
+        },
+        success: function (xhr, editor, result) {
+          // console.log(result);
+          // editor.insert(result)
+          // 图片上传并返回结果，图片插入成功之后触发
+          // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+        },
+        fail: function (xhr, editor, result) {
+          // 图片上传并返回结果，但图片插入错误时触发
+          // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+        },
+        error: function (xhr, editor) {
+          // 图片上传出错时触发
+          // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+        },
+        timeout: function (xhr, editor) {
+          // 图片上传超时时触发
+          // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+        },
+
+        customInsert: function (insertImg, result, editor) {
+          // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+          // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+          // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+          insertImg(result.data)
+
+          // result 必须是一个 JSON 格式字符串！！！否则报错
+        }
+      }
+      // this.editor.customConfig.uploadImgShowBase64 = true; // 使用 base64 保存图片
       // 普通的自定义菜单
       this.editor.customConfig.menus = [
         "head", // 标题

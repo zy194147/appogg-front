@@ -493,7 +493,7 @@
             if (response.data.status === 200) {
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/softIndex')
+              this.$router.push('/soft')
               // this.getData(this.softId);
             }
 

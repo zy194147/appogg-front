@@ -117,7 +117,7 @@
 
               console.log("loginUser:",window.localStorage.getItem("loginUser"))
               this.$router.go("/")
-              this.$router.push("/soft")
+              this.$router.push("/")
             }
 
             console.log("user.....login:" , response)

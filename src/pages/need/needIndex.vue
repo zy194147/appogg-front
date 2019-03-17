@@ -23,7 +23,7 @@
           <Icon type="ios-chatbubbles" />32
         </div>
       </Card>
-      <Page v-if="needPublicList.length != 0" style="text-align: center" :total="needPublicTotal" show-total show-elevator />
+      <Page v-if="needPublicList.length != 0" style="text-align: center" :total="needPublicTotal" show-total show-elevator  @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </FormItem>
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
@@ -188,6 +188,15 @@
         this.filter.createUserId = type
         this.getData(this.filter);
 
+      },
+
+      pageChange(page) {
+        this.filter.page = page;
+        this.getData(this.filter);
+      },
+      pageSizeChange(limit){
+        this.filter.limit = limit;
+        this.getData(this.filter);
       },
 
 

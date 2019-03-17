@@ -120,6 +120,8 @@
 
 
       userSignUpSubmit(){
+        this.userSignUp.userPassword = this.$md5(this.userSignUp.userPassword)
+
         axios.post('/api/user/signUp', this.userSignUp)
           .then((response) => {
             if(response.data.status === 200){

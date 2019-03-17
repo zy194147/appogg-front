@@ -24,7 +24,7 @@
           <Tag style="float: left" color="cyan">{{softTag}}</Tag>
         </div>
       </Card>
-      <Page style="text-align: center" :total="softPublicTotal" show-total show-elevator/>
+      <Page style="text-align: center" :total="softPublicTotal" show-total show-elevator  @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </FormItem>
 
     <FormItem style="position: relative;left: 10px;width:24%;">
@@ -245,6 +245,15 @@
           title: '通知',
           desc: nodesc ? '' : '多读书，多看报，少吃零食多睡觉！'
         });
+      },
+
+      pageChange(page) {
+        this.filter.page = page;
+        this.getData(this.filter);
+      },
+      pageSizeChange(limit){
+        this.filter.limit = limit;
+        this.getData(this.filter);
       },
 
 
