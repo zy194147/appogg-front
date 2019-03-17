@@ -10,7 +10,7 @@
         </a>
         <!--</FormItem>-->
         <FormItem style="margin-top: 15px;position: relative;left:120px;">
-          <Input style="width:100%;" search enter-button placeholder="搜索..."/>
+          <Input v-model.trim="searchText" style="width:100%;" search icon placeholder="搜索..." @on-search="goSearch(searchText)"/>
         </FormItem>
 
         <MenuItem style="position: relative;left:130px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
@@ -21,9 +21,34 @@
             <span>欢迎你，　</span>
 
             <!--<Badge :count="5" type="error">-->
-              <a @click="userDetails">{{loginUserName}}　</a>
+            <Poptip placement="bottom" width="80">
+              <a>{{loginUserName}}</a>
+              <div class="api" slot="content">
+                <a @click="userDetails">个人中心</a><Divider/>
+                <a @click="softPush">发布软件</a><Divider/>
+                <a @click="articlePush">发布文章</a><Divider/>
+                <a @click="needPush">发布需求</a><Divider/>
+                <a @click="modal1 = true">退出登录</a>
+              </div>
+            </Poptip>
+
+            <!--<a @click="value1 = true" type="primary">{{loginUserName}}</a>-->
+            <!--<Drawer :title=loginUserName :closable="false" v-model="value1" >-->
+              <!--<a @click="userDetails">个人中心</a><Divider/>-->
+              <!--<a @click="softPush">发布软件</a><Divider/>-->
+              <!--<a @click="articlePush">发布文章</a><Divider/>-->
+              <!--<a @click="needPush">发布需求</a><Divider/>-->
+              <!--<a @click="modal1 = true">退出登录</a><Divider/>-->
+
+            <!--</Drawer>-->
+
+            <!--<Poptip title="Title" content="content" placement="bottom">-->
+              <!--<Button>{{loginUserName}}</Button>-->
+            <!--</Poptip>-->
+
+              <!--<a @click="userDetails">{{loginUserName}}　</a>-->
             <!--</Badge>-->
-            <Button @click="modal1 = true">退出登录</Button>
+            <!--<Button @click="modal1 = true">退出登录</Button>-->
 
             <Modal
               v-model="modal1"
@@ -49,7 +74,7 @@
   export default {
     data() {
       return {
-
+        value1: false,
         modal1: false,
 
         loginUserName: '',
@@ -178,11 +203,34 @@
         //   this.$router.push('/')
         // }
       },
+      softPush() {
+        this.$router.push('/softPush')
+        this.value1 = false
+
+      },
+
+      articlePush() {
+        if(this.$store.state.userName !== null){
+          this.$router.push('/articlePush')
+        } else {
+          this.$router.push('/login')
+        }
+        this.value1 = false
+
+      },
+      needPush(){
+        this.$Loading.start()
+        this.$router.push('/needPush')
+        this.$Loading.finish()
+        this.value1 = false
+
+      },
+
 
       userDetails() {
         var loginUserId = window.localStorage.getItem("userId");
         this.$router.push({name: 'UserPage', query: {userId: loginUserId}})
-
+        this.value1 = false
 
       },
       // cancel(){
@@ -199,6 +247,9 @@
         this.$Loading.start()
         this.$router.push('/signup')
         this.$Loading.finish()
+      },
+      goSearch(searchText){
+        this.$Message.warning("暂不能搜索")
       },
 
       go() {

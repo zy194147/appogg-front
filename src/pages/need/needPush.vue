@@ -2,16 +2,16 @@
 
   <div style="width: 80%;margin-left: 10%;">
 
-    <Form :model="formItem" :label-width="80">
+    <Form ref="needMsg" :model="needMsg" :label-width="80" :rules="ruleValidate">
 
       <h2 style="margin-bottom: 30px;">发布需求</h2>
 
-      <FormItem label="需求标题">
-        <Input v-model="needMsg.needTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
+      <FormItem label="需求标题" prop="needTitleName">
+        <Input v-model.trim="needMsg.needTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
-      <FormItem label="需求分类">
-        <CheckboxGroup v-model="needMsg.needClassifyGroup" style="float: left">
+      <FormItem label="需求分类" prop="needClassifyGroup">
+        <CheckboxGroup v-model.trim="needMsg.needClassifyGroup" style="float: left">
           <Checkbox label="java资料"></Checkbox>
           <Checkbox label="求软件"></Checkbox>
           <Checkbox label="破解技能"></Checkbox>
@@ -21,7 +21,7 @@
       </FormItem>
 
 
-      <FormItem label="需求简介">
+      <FormItem label="需求简介" prop="needContent">
 
         <div>
           <div ref="editor" style="text-align:left"></div>
@@ -32,7 +32,7 @@
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitNeedMsg">发布</Button>
+        <Button type="primary" @click="submitNeedMsg('needMsg')">发布</Button>
 
       </FormItem>
 
@@ -56,7 +56,20 @@
     name: 'editor',
     data() {
       return {
-        spinShow:false,
+
+        ruleValidate: {
+          needTitleName: [
+            {required: true, message: '请输入标题', trigger: 'blur'}
+          ],
+          needClassifyGroup: [
+            {required: true, type: 'array', min: 1, message: '请选择软件分类', trigger: 'change'},
+          ],
+          needContent: [
+            {required: true, message: '请输入内容', trigger: 'blur'}
+          ],
+        },
+
+        spinShow: false,
         editor: {},
 
         needMsg: {
@@ -85,39 +98,49 @@
       getContent: function () {
         alert(this.editorContent)
       },
-      handleSpinCustom () {
-        this.$Spin.show({
-          render: (h) => {
-            return h('div',   [
-              h('Icon', {
-                'class': 'demo-spin-icon-load',
-                props: {
-                  type: 'ios-loading',
-                  size: 18
-                }
-              }),
-              h('div', '文章发布中')
-            ])
-          }
-        });
+      handleSpinCustom() {
+        this.$Spin.show();
+        // this.$Spin.show({
+        //   render: (h) => {
+        //     return h('div',   [
+        //       h('Icon', {
+        //         'class': 'demo-spin-icon-load',
+        //         props: {
+        //           type: 'ios-loading',
+        //           size: 18
+        //         }
+        //       }),
+        //       h('div', '文章发布中')
+        //     ])
+        //   }
+        // });
         // setTimeout(() => {
         //   this.$Spin.hide();
         // }, 3000);
       },
 
-      submitNeedMsg(){
-        this.handleSpinCustom()
-        // this.spinShow = true
-        axios.post('/api/need/add', this.needMsg)
-          .then((response) => {
-            if(response.data.status === 200){
-              // this.spinShow = false
-              this.$Spin.hide();
-              this.$router.push('/needIndex')
-            }
+      submitNeedMsg(needMsg) {
 
-            console.log("add...need:" , response)
-          })
+        this.$refs[needMsg].validate((valid) => {
+          if (valid) {
+            // this.$Message.success('Success!');
+
+            this.handleSpinCustom()
+            // this.spinShow = true
+            axios.post('/api/need/add', this.needMsg)
+              .then((response) => {
+                if (response.data.status === 200) {
+                  // this.spinShow = false
+                  this.$Spin.hide();
+                  this.$router.push('/need')
+                }
+
+                console.log("add...need:", response)
+              })
+          } else {
+            this.$Message.error('请填写完整');
+          }
+        })
       },
     },
     mounted() {
@@ -127,7 +150,6 @@
       this.editor.customConfig.onchange = (html) => {
         this.needMsg.needContent = html
       }
-
 
 
       this.editor.customConfig.uploadImgMaxSize = 0.5 * 1024 * 1024; // 一张图片最大0.5MB

@@ -49,11 +49,18 @@
           <span style="line-height: 40px;">评论</span>
         </p>
         <Divider/>
-        <div style="width: 100%;">
-          <Input style="width: 90%;margin:10px;" v-model="commentContentMsg" type="textarea"
-                 :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..."/>
-          <Button style="width: 90%;margin:10px;" type="primary" @click="commentPush">提交</Button>
-        </div>
+
+        <Form ref="articleCommentMsg" :model="articleCommentMsg" :rules="ruleValidate">
+
+          <FormItem style="width: 100%;"  prop="commentContent">
+            <Input style="width: 100%;margin-bottom: 20px;" v-model="articleCommentMsg.commentContent" type="textarea"
+                   :autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>
+          </FormItem>
+          <Button style="width: 90%;margin:25px;" type="primary" @click="commentPush('articleCommentMsg')">提交</Button>
+
+
+        </Form>
+
       </Card>
 
       <Card v-else style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
@@ -182,7 +189,7 @@
           </ul>
         </Card>
 
-        <Button style="width:100%;margin-bottom: 10px;" type="primary">
+        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">
           <Icon type="ios-create-outline"/>
           写文章
         </Button>
@@ -205,6 +212,14 @@
         list: Array
       }
       return {
+        ruleValidate: {
+          commentContent: [
+            { required: true, message: '评论内容不能为空', trigger: 'blur' }
+          ],
+
+        },
+
+
         authorTrendingList:[],
 
         commentContentMsg: '',
@@ -239,15 +254,6 @@
         formInline: {
           user: '',
           password: ''
-        },
-        ruleInline: {
-          user: [
-            {required: true, message: '请填写用户名', trigger: 'blur'}
-          ],
-          password: [
-            {required: true, message: '请填写密码', trigger: 'blur'},
-            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
-          ]
         },
         http: Httpservice.getAxios,
         listdata: [],
@@ -380,6 +386,14 @@
         this.$router.push('/login')
       },
 
+      articlePush() {
+        if(this.$store.state.userName !== null){
+          this.$router.push('/articlePush')
+        } else {
+          this.$router.push('/login')
+        }
+      },
+
       updateReadNum(articleId) {
 
         this.$http.get('/api/article/updateReadNum', {
@@ -402,25 +416,35 @@
             console.log(error);
           })
       },
-      commentPush() {
+      commentPush(articleCommentMsg) {
         this.articleCommentMsg.commentArticleId = this.articleId
-        this.articleCommentMsg.commentContent = this.commentContentMsg
+        // this.articleCommentMsg.commentContent = this.commentContentMsg
 
-        this.$http.post('/api/article/comment/add', this.articleCommentMsg)
-          .then((response) => {
-            if (response.data.status === 200) {
-              // this.spinShow = false
-              this.$Spin.hide();
-              this.$router.push('/article')
-              // this.getData(this.articleId);
-            }
+        this.$refs[articleCommentMsg].validate((valid) => {
+          if (valid) {
+            // this.$Message.success('Success!');
 
-            console.log("add...article...comment:", response)
-          })
+            this.$http.post('/api/article/comment/add', this.articleCommentMsg)
+              .then((response) => {
+                if (response.data.status === 200) {
+                  // this.spinShow = false
+                  this.$Spin.hide();
+                  this.$router.push('/article')
+                  // this.getData(this.articleId);
+                }
+
+                console.log("add...article...comment:", response)
+              })
+
+          } else {
+            this.$Message.error('Fail!');
+          }
+        })
+
       },
 
       getMoreComment(){
-        this.filter.page = this.filter.page + 1;
+        this.filter.limit = this.filter.limit + 10;
         this.getCommentData(this.filter);
       },
       getAuthorTrendingArticle(params){

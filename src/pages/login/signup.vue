@@ -1,28 +1,29 @@
 <template>
 
 
-
-  <Form style="background-color: #ffffff;" ref="formInline" :model="formInline" :rules="ruleInline" inline>
+  <Form style="background-color: #ffffff;" ref="userSignUp" :model="userSignUp" :rules="ruleValidate" inline>
 
     <FormItem style="background-color: #ffffff;width: 40%;">
       <Card style="width:100%;float: left;margin-top: 40px;" :bordered="true" :dis-hover="true">
-        <p  style="font-size: 20px;">
+        <p style="font-size: 20px;">
           注册
         </p>
-        <Divider />
+        <Divider/>
         <!--<a href="#" slot="extra" @click.prevent="changeLimit">-->
         <!--<Icon type="ios-loop-strong"></Icon>-->
         <!--Change-->
         <!--</a>-->
         <div>
-          <Input v-model="userSignUp.userEmail" prefix="ios-mail" placeholder="邮箱" style="width: 70%;margin:20px;" /><br/>
-          <Input v-model="userSignUp.userName" prefix="ios-contact" placeholder="用户名" style="width: 70%;margin:10px;" /><br/>
-          <Input v-model="userSignUp.userPassword" prefix="md-lock" placeholder="密码" style="width: 70%;margin:20px;" /><br/>
-
-          <Button type="success" style="width: 70%;margin:20px;" @click="userSignUpSubmit">注册</Button>
-
-
-
+          <FormItem style="width: 70%;margin:20px;" prop="userEmail">
+            <Input v-model.trim="userSignUp.userEmail" prefix="ios-mail" placeholder="邮箱" style="width: 100%;"/>
+          </FormItem>
+          <FormItem style="width: 70%;margin:20px;" prop="userName">
+            <Input v-model.trim="userSignUp.userName" prefix="ios-contact" placeholder="用户名" style="width: 100%;"/>
+          </FormItem>
+          <FormItem style="width: 70%;margin:20px;" prop="userPassword">
+            <Input v-model.trim="userSignUp.userPassword" prefix="md-lock" type="password"  placeholder="密码" style="width: 100%;"/>
+          </FormItem>
+          <Button type="success" style="width: 70%;margin:20px;" @click="userSignUpSubmit('userSignUp')">注册</Button>
           <p>注册即表示您同意我们的
             <a href="/privacy">服务条款与隐私政策</a>
 
@@ -39,8 +40,6 @@
   </Form>
 
 
-
-
 </template>
 <script>
 
@@ -48,36 +47,41 @@
   import Httpservice from '@/router/service'
 
   export default {
-    data () {
+    data() {
       return {
+        ruleValidate: {
+          userEmail: [
+            { required: true, message: '邮箱不能为空', trigger: 'blur' },
+            { type: 'email', message: '非法的邮箱格式', trigger: 'blur' }
+          ],
+          userName: [
+            { required: true, message: '用户名不能为空', trigger: 'blur' }
+          ],
+          userPassword: [
+            { required: true, message: '密码不能为空', trigger: 'blur' },
+            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
 
+          ],
 
-        userSignUp:{
-          userEmail:"",
-          userName:"",
-          userPassword:""
+        },
+
+        userSignUp: {
+          userEmail: "",
+          userName: "",
+          userPassword: ""
         },
 
         formInline: {
           user: '',
           password: ''
         },
-        ruleInline: {
-          user: [
-            { required: true, message: '请填写用户名', trigger: 'blur' }
-          ],
-          password: [
-            { required: true, message: '请填写密码', trigger: 'blur' },
-            { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
-          ]
-        },
-        http:Httpservice.getAxios,
-        listdata:[],
+        http: Httpservice.getAxios,
+        listdata: [],
         theme1: 'light',
       }
     },
     methods: {
-      handleSubmit (name) {
+      handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.$Message.success('提交成功!')
@@ -99,13 +103,13 @@
         axios.get('/api/hello/say')
           .then((response) => {
             console.log(1)
-            console.log(response.data.data,"hahahahahaha",response.data.status);
+            console.log(response.data.data, "hahahahahaha", response.data.status);
 
 
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               console.log("yes")
               this.listdata = response.data.data
-              console.log(this.listdata,"1111111111111")
+              console.log(this.listdata, "1111111111111")
             } else {
               console.log("no")
 
@@ -119,40 +123,51 @@
       },
 
 
-      userSignUpSubmit(){
-        this.userSignUp.userPassword = this.$md5(this.userSignUp.userPassword)
+      userSignUpSubmit(userSignUp) {
 
-        axios.post('/api/user/signUp', this.userSignUp)
-          .then((response) => {
-            if(response.data.status === 200){
-              if(response.data.data.status === 1){
-                alert("用户已存在")
-              } else {
+        this.$refs[userSignUp].validate((valid) => {
+          if (valid) {
+            // this.$Message.success('Success!');
 
-                this.$router.push({name: 'SignUpRemind', params: {signUpUserName: this.userSignUp.userName}})
+            this.userSignUp.userPassword = this.$md5(this.userSignUp.userPassword)
 
-                // this.$router.push("/signUpRemind")
+            axios.post('/api/user/signUp', this.userSignUp)
+              .then((response) => {
+                if (response.data.status === 200) {
+                  if (response.data.data.status === 1) {
+                    alert("用户已存在")
+                  } else {
+
+                    this.$router.push({name: 'SignUpRemind', params: {signUpUserName: this.userSignUp.userName}})
+
+                    // this.$router.push("/signUpRemind")
 
 
-              }
-            }
+                  }
+                }
 
-            console.log("user.....login:" , response)
-          })
+                console.log("user.....login:", response)
+              })
+          } else {
+            this.$Message.error('注册失败');
+          }
+        })
+
+
+
       },
 
 
-
-      changeLimit () {
+      changeLimit() {
         function getArrayItems(arr, num) {
           const temp_array = [];
           for (let index in arr) {
             temp_array.push(arr[index]);
           }
           const return_array = [];
-          for (let i = 0; i<num; i++) {
-            if (temp_array.length>0) {
-              const arrIndex = Math.floor(Math.random()*temp_array.length);
+          for (let i = 0; i < num; i++) {
+            if (temp_array.length > 0) {
+              const arrIndex = Math.floor(Math.random() * temp_array.length);
               return_array[i] = temp_array[arrIndex];
               temp_array.splice(arrIndex, 1);
             } else {
@@ -161,14 +176,15 @@
           }
           return return_array;
         }
+
         this.randomMovieList = getArrayItems(this.movieList, 5);
       },
-      signup(){
+      signup() {
         this.$router.push('/signup')
 
       },
 
-      go(){
+      go() {
         this.$router.push('/test')
       }
     },

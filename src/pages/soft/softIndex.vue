@@ -81,10 +81,10 @@
           </ul>
         </Card>
 
-        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">
-          <Icon type="ios-create-outline"/>
-          发布软件
-        </Button>
+        <!--<Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">-->
+          <!--<Icon type="ios-create-outline"/>-->
+          <!--发布软件-->
+        <!--</Button>-->
       </div>
 
     </FormItem>
@@ -154,7 +154,7 @@
       },
       getData(params) {
         console.log("开始")
-
+        this.$Spin.show();
 
         axios.get('/api/soft/list', {params})
           .then((response) => {
@@ -175,6 +175,7 @@
           .catch(function (error) {
             console.log(error);
           })
+        this.$Spin.hide();
         console.log("结束")
       },
       getTrendingData(params) {
@@ -227,9 +228,9 @@
         this.$router.push({name: 'softDetails', query: {softId: soft.id, softUserId: soft.createUserId}})
 
       },
-      articlePush() {
-        this.$router.push('/softPush')
-      },
+      // articlePush() {
+      //   this.$router.push('/softPush')
+      // },
       go() {
         this.$router.push('/test')
       },

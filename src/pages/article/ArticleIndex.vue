@@ -75,10 +75,10 @@
           </ul>
         </Card>
 
-        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">
-          <Icon type="ios-create-outline"/>
-          写文章
-        </Button>
+        <!--<Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">-->
+          <!--<Icon type="ios-create-outline"/>-->
+          <!--写文章-->
+        <!--</Button>-->
       </div>
 
     </FormItem>
@@ -193,13 +193,13 @@
         // 页面带参跳转
         this.$router.push({name: 'ArticleDetails',query: {articleId:article.id,articleUserId:article.createUserId}})
       },
-      articlePush() {
-        if(this.$store.state.userName !== null){
-          this.$router.push('/articlePush')
-        } else {
-          this.$router.push('/login')
-        }
-      },
+      // articlePush() {
+      //   if(this.$store.state.userName !== null){
+      //     this.$router.push('/articlePush')
+      //   } else {
+      //     this.$router.push('/login')
+      //   }
+      // },
       go() {
         this.$router.push('/test')
       },

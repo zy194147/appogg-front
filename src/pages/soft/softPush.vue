@@ -2,11 +2,11 @@
 
   <div style="width: 80%;margin-left: 10%;">
 
-    <Form :model="formItem" :label-width="80">
+    <Form ref="softMsg" :model="softMsg" :label-width="80"  :rules="ruleValidate">
 
       <h2 style="margin-bottom: 30px;">发布软件</h2>
 
-      <FormItem label="标题图片">
+      <FormItem label="标题图片" prop="softTitleIcon">
 
 
         <div style="text-align: center; margin: 2px 0 20px 0">
@@ -36,12 +36,12 @@
       </FormItem>
 
 
-      <FormItem label="文章标题">
-        <Input v-model="softMsg.softTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
+      <FormItem label="文章标题" prop="softTitleName">
+        <Input v-model.trim="softMsg.softTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
-      <FormItem label="软件分类">
-        <CheckboxGroup v-model="softMsg.softClassifyGroup" style="float: left">
+      <FormItem label="软件分类" prop="softClassifyGroup">
+        <CheckboxGroup v-model.trim="softMsg.softClassifyGroup" style="float: left">
           <!--<div v-for="classify in softClassifyList">-->
             <Checkbox v-for="classify in softClassifyList" :label="classify.classifyName">
               <span>{{classify.classifyName}}</span>
@@ -51,8 +51,8 @@
         <a style="position: absolute;right: 10px;" @click="addData">添加分类</a>
       </FormItem>
 
-      <FormItem label="系统平台">
-        <RadioGroup v-model="softMsg.softSystemPlatform" style="float: left">
+      <FormItem label="系统平台" prop="softSystemPlatform">
+        <RadioGroup v-model.trim="softMsg.softSystemPlatform" style="float: left">
           <Radio label="安卓">安卓</Radio>
           <Radio label="苹果">苹果</Radio>
           <Radio label="windows">windows</Radio>
@@ -63,7 +63,7 @@
       </FormItem>
 
 
-      <Modal v-model="addModal" title="添加分类" @on-cancel="cancel" >
+      <Modal v-model.trim="addModal" title="添加分类" @on-cancel="cancel" >
         <Form>
 
           <!--<div style="width: 100%;">-->
@@ -71,7 +71,7 @@
           <!--:autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>-->
           <!--</div>-->
           <FormItem :label-width="80" label="名称">
-            <Input v-model="classifyAddMsg.classifyName" placeholder="请输入分类名称"></Input>
+            <Input v-model.trim="classifyAddMsg.classifyName" placeholder="请输入分类名称"></Input>
           </FormItem>
 
           <Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>
@@ -83,7 +83,7 @@
       </Modal>
 
 
-      <FormItem label="文章内容">
+      <FormItem label="文章内容" prop="softContent">
 
         <div>
           <div ref="editor" style="text-align:left"></div>
@@ -91,15 +91,15 @@
         </div>
       </FormItem>
 
-      <FormItem label="下载地址">
+      <FormItem label="下载地址"  prop="softDownloadAddr">
 
-        <Input v-model="softMsg.softDownloadAddr" placeholder="http://...(多个地址使用英文分号隔开)"/>
+        <Input v-model.trim="softMsg.softDownloadAddr" placeholder="http://...(多个地址使用英文分号隔开)"/>
       </FormItem>
 
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitsoftMsg">发布</Button>
+        <Button type="primary" @click="submitsoftMsg('softMsg')">发布</Button>
 
       </FormItem>
 
@@ -123,6 +123,26 @@
     name: 'editor',
     data() {
       return {
+        ruleValidate: {
+          softTitleIcon: [
+            { required: true, message: '请选择标题图片', trigger: 'blur' }
+          ],
+          softTitleName: [
+            { required: true, message: '请输入标题', trigger: 'blur' }
+          ],
+          softClassifyGroup: [
+            { required: true, type: 'array', min: 1, message: '请选择软件分类', trigger: 'change' },
+          ],
+          softSystemPlatform: [
+            { required: true, message: '请选择适配系统', trigger: 'change' }
+          ],
+          softContent: [
+            { required: true, message: '请输入内容', trigger: 'blur' }
+          ],
+          softDownloadAddr: [
+            { required: true, message: '请输入下载地址', trigger: 'blur' }
+          ],
+        },
 
         softClassifyList:[],
         listClassifyType:{
@@ -181,6 +201,9 @@
       },
 
       confirm() {
+
+
+
         this.$http.post('/api/classify/add', this.classifyAddMsg)
           .then((response) => {
             if (response.data.status === 200) {
@@ -210,39 +233,54 @@
         alert(this.editorContent)
       },
       handleSpinCustom() {
-        this.$Spin.show({
-          render: (h) => {
-            return h('div', [
-              h('Icon', {
-                'class': 'demo-spin-icon-load',
-                props: {
-                  type: 'ios-loading',
-                  size: 18
-                }
-              }),
-              h('div', '文章发布中')
-            ])
-          }
-        });
+        this.$Spin.show();
+        // this.$Spin.show({
+        //   render: (h) => {
+        //     return h('div', [
+        //       h('Icon', {
+        //         'class': 'demo-spin-icon-load',
+        //         props: {
+        //           type: 'ios-loading',
+        //           size: 18
+        //         }
+        //       }),
+        //       h('div', '文章发布中')
+        //     ])
+        //   }
+        // });
         // setTimeout(() => {
         //   this.$Spin.hide();
         // }, 3000);
       },
 
-      submitsoftMsg() {
-        this.handleSpinCustom()
-        // this.spinShow = true
+      submitsoftMsg(softMsg) {
         this.softMsg.softTitleIcon = this.softTitleImage
-        axios.post('/api/soft/add', this.softMsg)
-          .then((response) => {
-            if (response.data.status === 200) {
-              // this.spinShow = false
-              this.$Spin.hide();
-              this.$router.push('/soft')
-            }
 
-            console.log("add...soft:", response)
-          })
+
+        this.$refs[softMsg].validate((valid) => {
+          if (valid) {
+            // this.$Message.success('Success!');
+
+            this.handleSpinCustom()
+            // this.spinShow = true
+            axios.post('/api/soft/add', this.softMsg)
+              .then((response) => {
+                if (response.data.status === 200) {
+                  // this.spinShow = false
+                  this.$Spin.hide();
+                  this.$router.push('/soft')
+                }
+
+                console.log("add...soft:", response)
+              })
+          } else {
+
+            this.$Message.error('填写不完整');
+          }
+        })
+
+
+
       },
 
 

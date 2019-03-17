@@ -58,7 +58,7 @@
             <li v-for="trendingNeed in needTrendingList" style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>{{trendingNeed.needTitleName}}</a><Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingNeed.answerNum}}</Tag></li>
           </ul>
         </Card>
-        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush"><Icon type="ios-create-outline"/> 发布需求</Button>
+        <!--<Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush"><Icon type="ios-create-outline"/> 发布需求</Button>-->
       </div>
     </FormItem>
   </Form>
@@ -170,11 +170,11 @@
         this.$router.push({name: 'needDetails',query: {needId:need.id,needUserId:need.createUserId}})
 
       },
-      needPush(){
-        this.$Loading.start()
-        this.$router.push('/needPush')
-        this.$Loading.finish()
-      },
+      // needPush(){
+      //   this.$Loading.start()
+      //   this.$router.push('/needPush')
+      //   this.$Loading.finish()
+      // },
       go(){
         this.$router.push('/test')
       },

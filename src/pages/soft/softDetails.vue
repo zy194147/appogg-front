@@ -48,11 +48,20 @@
           <span style="line-height: 40px;">评论</span>
         </p>
         <Divider/>
-        <div style="width: 100%;">
-          <Input style="width: 90%;margin:10px;" v-model="commentContentMsg" type="textarea"
-                 :autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..."/>
-          <Button style="width: 90%;margin:10px;" type="primary" @click="confirm">提交</Button>
-        </div>
+
+        <Form ref="softCommentMsg" :model="softCommentMsg" :rules="ruleValidate">
+
+          <FormItem style="width: 100%;"  prop="commentContent">
+            <Input style="width: 100%;margin-bottom: 20px;" v-model="softCommentMsg.commentContent" type="textarea"
+                   :autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>
+          </FormItem>
+          <Button style="width: 90%;margin:25px;" type="primary" @click="confirm('softCommentMsg')">提交</Button>
+
+        </Form>
+        <!--<div style="width: 100%;">-->
+          <!--<Input style="width: 90%;margin:10px;" v-model="commentContentMsg" type="textarea"-->
+                 <!--:autosize="{minRows: 3,maxRows: 5}" :rows="4" placeholder="输入评论内容..."/>-->
+        <!--</div>-->
       </Card>
 
       <Card v-else style="text-align:center;width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
@@ -108,30 +117,20 @@
 
 
 
-      <Modal v-model="addModal" title="评论" @on-cancel="cancel">
-        <Form>
+      <!--<Modal v-model="addModal" title="评论" @on-cancel="cancel">-->
+        <!--<Form ref="softCommentMsg" :model="softCommentMsg" :rules="ruleValidate">-->
 
-          <div style="width: 100%;">
-            <Input style="width: 100%;margin-bottom: 20px;" v-model="commentContentMsg" type="textarea"
-                   :autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>
-          </div>
-          <!--<FormItem :label-width="80" label="参数名称" prop="guidName" :rules="{ required: true, type: 'string', trigger: 'change', message: '参数名称不能为空'}">-->
-          <!--<Input placeholder="请输入参数名称"></Input>-->
-          <!--</FormItem>-->
-          <!--<FormItem :label-width="80" label="参数标识" prop="guidType" :rules="{ required: true, type: 'string', trigger: 'change', message: '参数标识不能为空'}">-->
-          <!--<Input  placeholder="请输入账号"></Input>-->
-          <!--</FormItem>-->
-          <!--<FormItem :label-width="80" label="备注" prop="remark" :rules="{ required: false, type: 'string', trigger: 'change', message: '手机号不能为空'}">-->
-          <!--<Input type="textarea" placeholder="请填写备注" />-->
+          <!--<FormItem style="width: 100%;"  prop="commentContent">-->
+            <!--<Input style="width: 100%;margin-bottom: 20px;" v-model="softCommentMsg.commentContent" type="textarea"-->
+                   <!--:autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>-->
           <!--</FormItem>-->
 
-          <!--<Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>-->
-        </Form>
-        <div slot="footer">
-          <Button @click="cancel">取消</Button>
-          <Button @click="confirm" type="primary">保存</Button>
-        </div>
-      </Modal>
+        <!--</Form>-->
+        <!--<div slot="footer">-->
+          <!--<Button @click="cancel">取消</Button>-->
+          <!--<Button @click="confirm('softCommentMsg')" type="primary">保存</Button>-->
+        <!--</div>-->
+      <!--</Modal>-->
 
     </FormItem>
 
@@ -201,7 +200,7 @@
           </ul>
         </Card>
 
-        <Button style="width:100%;margin-bottom: 10px;" type="primary">
+        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">
           <Icon type="ios-create-outline"/>
           我也要发布软件
         </Button>
@@ -225,7 +224,12 @@
         list: Array
       }
       return {
+        ruleValidate: {
+          commentContent: [
+            { required: true, message: '评论内容不能为空', trigger: 'blur' }
+          ],
 
+        },
 
         softRecommendList:[],
 
@@ -269,15 +273,6 @@
           user: '',
           password: ''
         },
-        ruleInline: {
-          user: [
-            {required: true, message: '请填写用户名', trigger: 'blur'}
-          ],
-          password: [
-            {required: true, message: '请填写密码', trigger: 'blur'},
-            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
-          ]
-        },
         http: Httpservice.getAxios,
         listdata: [],
         theme1: 'light',
@@ -302,34 +297,48 @@
         this.addModal = false;
       },
 
-      confirm() {
+      confirm(softCommentMsg) {
         // this.updatetDictType();
 
         this.softCommentMsg.commentSoftId = this.softId
-        this.softCommentMsg.commentContent = this.commentContentMsg
+        // this.softCommentMsg.commentContent = this.commentContentMsg
 
-        this.$http.post('/api/soft/comment/add', this.softCommentMsg)
-          .then((response) => {
-            if (response.data.status === 200) {
-              this.$Message.info("评论成功")
-              this.commentContentMsg = ''
-              this.getCommentData(this.systemPlatform);
+        this.$refs[softCommentMsg].validate((valid) => {
+          if (valid) {
+            // this.$Message.success('Success!');
+
+            this.$http.post('/api/soft/comment/add', this.softCommentMsg)
+              .then((response) => {
+                if (response.data.status === 200) {
+                  this.$Message.info("评论成功")
+                  this.softCommentMsg.commentContent = ''
+                  this.getCommentData(this.systemPlatform);
+                  this.addModal = false;
+
+                }
+
+                console.log("add...soft...comment:", response)
+              }).catch(function (error) {
+              this.$Message.info('评论失败，请稍后再试');
               this.addModal = false;
 
-            }
-
-            console.log("add...soft...comment:", response)
-          }).catch(function (error) {
-          this.$Message.info('评论失败，请稍后再试');
-          this.addModal = false;
-
-          console.log(error);
+              console.log(error);
+            })
+          } else {
+            this.$Message.error('Fail!');
+          }
         })
+
+
+
 
 
         // this.addDictType();
       },
 
+      articlePush() {
+        this.$router.push('/softPush')
+      },
 
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
@@ -509,7 +518,7 @@
 
 
       getMoreComment() {
-        this.filter.page = this.filter.page + 1;
+        this.systemPlatform.limit = this.systemPlatform.limit + 10;
         this.getCommentData(this.systemPlatform);
       },
 

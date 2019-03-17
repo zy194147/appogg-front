@@ -2,11 +2,11 @@
 
   <div style="width: 80%;margin-left: 10%;">
 
-    <Form :model="formItem" :label-width="80">
+    <Form ref="articleMsg" :model="articleMsg" :label-width="80" :rules="ruleValidate">
 
       <h2 style="margin-bottom: 30px;">发布文章</h2>
 
-      <FormItem label="标题图片">
+      <FormItem label="标题图片" prop="articleTitleIcon">
 
         <div style="text-align: center; margin: 2px 0 20px 0">
 
@@ -37,19 +37,19 @@
 
 
 
-      <FormItem label="文章标题">
-        <Input v-model="articleMsg.articleTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
+      <FormItem label="文章标题" prop="articleTitleName">
+        <Input v-model.trim="articleMsg.articleTitleName" placeholder="输入文章标题(最多50个汉字)..." :maxlength="50"></Input>
       </FormItem>
 
-      <FormItem label="文章权限">
-        <RadioGroup v-model="articleMsg.articleAuthId" style="float: left">
+      <FormItem label="文章权限" prop="articleAuthId">
+        <RadioGroup v-model.trim="articleMsg.articleAuthId" style="float: left">
           <Radio label="0">公共</Radio>
           <Radio label="1">仅自己可见</Radio>
         </RadioGroup>
         <a style="position: absolute;right: 10px;">设置好友可见</a>
       </FormItem>
-      <FormItem label="文章分类">
-        <CheckboxGroup v-model="articleMsg.articleClassifyGroup" style="float: left">
+      <FormItem label="文章分类" prop="articleClassifyGroup">
+        <CheckboxGroup v-model.trim="articleMsg.articleClassifyGroup" style="float: left">
           <Checkbox label="java"></Checkbox>
           <Checkbox label="编程"></Checkbox>
           <Checkbox label="生活"></Checkbox>
@@ -57,13 +57,13 @@
         </CheckboxGroup>
         <a style="position: absolute;right: 10px;">添加分类</a>
       </FormItem>
-      <FormItem label="文章概述">
-        <Input v-model="articleMsg.articleSummary" type="textarea" :maxlength="200" :autosize="{minRows: 2,maxRows: 5}"
+      <FormItem label="文章概述" prop="articleSummary">
+        <Input v-model.trim="articleMsg.articleSummary" type="textarea" :maxlength="200" :autosize="{minRows: 2,maxRows: 5}"
                placeholder="输入文章概述(最多200个汉字)..."></Input>
       </FormItem>
 
 
-      <FormItem label="文章内容">
+      <FormItem label="文章内容" prop="articleContent">
 
         <div>
           <div ref="editor" style="text-align:left"></div>
@@ -74,7 +74,7 @@
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitArticleMsg">发布</Button>
+        <Button type="primary" @click="submitArticleMsg('articleMsg')">发布</Button>
 
       </FormItem>
 
@@ -98,6 +98,29 @@
     name: 'editor',
     data() {
       return {
+
+        ruleValidate: {
+          articleTitleIcon: [
+            { required: true, message: '请选择标题图片', trigger: 'blur' }
+          ],
+          articleTitleName: [
+            { required: true, message: '请输入标题', trigger: 'blur' }
+          ],
+          articleAuthId: [
+            { required: true, message: '请选择权限', trigger: 'change' }
+          ],
+          articleClassifyGroup: [
+            { required: true, type: 'array', min: 1, message: '请选择文章分类', trigger: 'change' },
+          ],
+          articleSummary: [
+            { required: true, message: '请输入文章简介', trigger: 'blur' }
+          ],
+          articleContent: [
+            { required: true, message: '请输入内容', trigger: 'blur' }
+          ],
+        },
+
+
         articleTitleImage:'',
         visible: false,
         uploadList: [],
@@ -134,39 +157,54 @@
         alert(this.editorContent)
       },
       handleSpinCustom () {
-        this.$Spin.show({
-          render: (h) => {
-            return h('div',   [
-              h('Icon', {
-                'class': 'demo-spin-icon-load',
-                props: {
-                  type: 'ios-loading',
-                  size: 18
-                }
-              }),
-              h('div', '文章发布中')
-            ])
-          }
-        });
+        this.$Spin.show();
+        // this.$Spin.show({
+        //   render: (h) => {
+        //     return h('div',   [
+        //       h('Icon', {
+        //         'class': 'demo-spin-icon-load',
+        //         props: {
+        //           type: 'ios-loading',
+        //           size: 18
+        //         }
+        //       }),
+        //       h('div', '文章发布中')
+        //     ])
+        //   }
+        // });
         // setTimeout(() => {
         //   this.$Spin.hide();
         // }, 3000);
       },
 
-      submitArticleMsg(){
-        this.handleSpinCustom()
-        this.articleMsg.articleTitleIcon = this.articleTitleImage
-        // this.spinShow = true
-        axios.post('/api/article/add', this.articleMsg)
-          .then((response) => {
-            if(response.data.status === 200){
-              // this.spinShow = false
-              this.$Spin.hide();
-              this.$router.push('/article')
-            }
+      submitArticleMsg(articleMsg){
 
-            console.log("add...article:" , response)
-          })
+        this.articleMsg.articleTitleIcon = this.articleTitleImage
+
+
+        this.$refs[articleMsg].validate((valid) => {
+
+          if (valid) {
+            this.$Message.success('Success!');
+
+            this.handleSpinCustom()
+
+
+            // this.spinShow = true
+            axios.post('/api/article/add', this.articleMsg)
+              .then((response) => {
+                if(response.data.status === 200){
+                  // this.spinShow = false
+                  this.$Spin.hide();
+                  this.$router.push('/article')
+                }
+
+                console.log("add...article:" , response)
+              })
+          } else {
+            this.$Message.error('Fail!');
+          }
+        })
       },
 
       //图片上传

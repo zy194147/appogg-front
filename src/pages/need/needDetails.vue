@@ -45,6 +45,8 @@
 
 
 
+
+
       <div v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;margin-top: 20px;" :dis-hover="true">
         <p style="font-size: 18px;">
           <span style="line-height: 40px;color: darkgray">我也要回答</span>
@@ -171,7 +173,7 @@
           </ul>
         </Card>
 
-        <Button style="width:100%;margin-bottom: 10px;" type="primary">
+        <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush">
           <Icon type="ios-create-outline"/>
           我也要发布软件
         </Button>
@@ -320,6 +322,13 @@
           })
         console.log("结束")
       },
+
+      needPush(){
+        this.$Loading.start()
+        this.$router.push('/needPush')
+        this.$Loading.finish()
+      },
+
       getAnswerData(params) {
         this.$http.get('/api/need/answer/detail', {params})
           .then((response) => {
@@ -403,12 +412,18 @@
         this.needAnswerMsg.answerNeedId = this.needId
         this.needAnswerMsg.answerContent = this.answerContentMsg
 
+        if(this.needAnswerMsg.answerContent === ''){
+          alert("回答内容不能为空")
+          return false
+
+        }
+
         this.$http.post('/api/need/answer/add', this.needAnswerMsg)
           .then((response) => {
             if (response.data.status === 200) {
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/needIndex')
+              this.$router.push('/need')
               // this.getData(this.needId);
             }
 
@@ -444,7 +459,7 @@
       },
 
       getMoreAnswer() {
-        this.filter.page = this.filter.page + 1;
+        this.filter.limit = this.filter.limit + 10;
         this.getAnswerData(this.filter);
       }
     },
