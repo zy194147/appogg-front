@@ -87,13 +87,13 @@
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
-            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
+            <img style="float: left;width:40px;height:40px;" :src=comment.commentUserIcon>
 
           </Col>
           <Col span="23">
             <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true">
               <p style="color: darkgray">
-                {{comment.createUserName}}　
+                {{comment.commentUserName}}　
                 <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
                 　{{comment.createDateTime}}　
               </p>
@@ -241,7 +241,8 @@
 
         softCommentMsg: {
           commentContent: '',
-          commentSoftId: ''
+          commentSoftId: '',
+          commentUserId:'',
 
         },
 
@@ -301,6 +302,7 @@
         // this.updatetDictType();
 
         this.softCommentMsg.commentSoftId = this.softId
+        this.softCommentMsg.commentUserId = window.localStorage.getItem("userId")
         // this.softCommentMsg.commentContent = this.commentContentMsg
 
         this.$refs[softCommentMsg].validate((valid) => {

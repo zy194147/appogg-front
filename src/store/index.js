@@ -8,7 +8,8 @@ const store = new Vuex.Store({
     // 存储token
     token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
     userName: '',
-    userId:''
+    userId:'',
+    userIcon:''
   },
 
   mutations: {
@@ -20,6 +21,7 @@ const store = new Vuex.Store({
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userName', res.data.user.userName);
       localStorage.setItem('userId', res.data.user.id);
+      localStorage.setItem('userIcon', res.data.user.userHeadIcon);
     }
   }
 });

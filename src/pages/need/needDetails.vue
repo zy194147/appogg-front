@@ -86,20 +86,20 @@
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
-            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
+            <img style="float: left;width:40px;height:40px;" :src=answer.commentUserIcon>
 
           </Col>
           <Col span="23">
             <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true">
               <p style="color: darkgray">
-                {{answer.createUserName}}　
+                {{answer.commentUserName}}　
                 <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
                 　{{answer.createDateTime}}　
               </p>
 
-              <div v-if="answer.backToUserId === 0"><p v-html="answer.answerContent">{{answer.answerContent}}</p></div>
+              <div v-if="answer.backToUserId === 0"><p v-html="answer.commentContent">{{answer.commentContent}}</p></div>
 
-              <div v-else>{{answer.createUserName}} @ {{answer.backToUserName}} : <p v-html="answer.answerContent">{{answer.answerContent}}</p></div>
+              <div v-else>{{answer.createUserName}} @ {{answer.backToUserName}} : <p v-html="answer.commentContent">{{answer.commentContent}}</p></div>
 
               <div v-if="answer.children" class="children-item">
                 <needAnswerList :list="answer.children"></needAnswerList>
@@ -208,7 +208,9 @@
 
         needAnswerMsg: {
           answerContent: '',
-          answerNeedId: ''
+          answerNeedId: '',
+
+          answerUserId:''
 
         },
 
@@ -412,6 +414,8 @@
         this.needAnswerMsg.answerNeedId = this.needId
         this.needAnswerMsg.answerContent = this.answerContentMsg
 
+        this.needAnswerMsg.answerUserId = window.localStorage.getItem("userId")
+
         if(this.needAnswerMsg.answerContent === ''){
           alert("回答内容不能为空")
           return false
@@ -423,7 +427,13 @@
             if (response.data.status === 200) {
               // this.spinShow = false
               this.$Spin.hide();
-              this.$router.push('/need')
+
+              this.$Message.info("评论成功")
+
+              this.needAnswerMsg.answerContent = ''
+              this.getAnswerData(this.filter);
+
+              // this.$router.push('/need')
               // this.getData(this.needId);
             }
 

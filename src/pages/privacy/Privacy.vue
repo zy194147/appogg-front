@@ -80,75 +80,10 @@
   export default {
     data () {
       return {
-        formInline: {
-          user: '',
-          password: ''
-        },
-        ruleInline: {
-          user: [
-            { required: true, message: '请填写用户名', trigger: 'blur' }
-          ],
-          password: [
-            { required: true, message: '请填写密码', trigger: 'blur' },
-            { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
-          ]
-        },
         http:Httpservice.getAxios,
         listdata:[],
         theme1: 'light',
-        movieList: [
-          {
-            name: 'The Shawshank Redemption',
-            url: 'https://movie.douban.com/subject/1292052/',
-            rate: 9.6
-          },
-          {
-            name: 'Leon:The Professional',
-            url: 'https://movie.douban.com/subject/1295644/',
-            rate: 9.4
-          },
-          {
-            name: 'Farewell to My Concubine',
-            url: 'https://movie.douban.com/subject/1291546/',
-            rate: 9.5
-          },
-          {
-            name: 'Forrest Gump',
-            url: 'https://movie.douban.com/subject/1292720/',
-            rate: 9.4
-          },
-          {
-            name: 'Life Is Beautiful',
-            url: 'https://movie.douban.com/subject/1292063/',
-            rate: 9.5
-          },
-          {
-            name: 'Spirited Away',
-            url: 'https://movie.douban.com/subject/1291561/',
-            rate: 9.2
-          },
-          {
-            name: 'Schindlers List',
-            url: 'https://movie.douban.com/subject/1295124/',
-            rate: 9.4
-          },
-          {
-            name: 'The Legend of 1900',
-            url: 'https://movie.douban.com/subject/1292001/',
-            rate: 9.2
-          },
-          {
-            name: 'WALL·E',
-            url: 'https://movie.douban.com/subject/2131459/',
-            rate: 9.3
-          },
-          {
-            name: 'Inception',
-            url: 'https://movie.douban.com/subject/3541415/',
-            rate: 9.2
-          }
-        ],
-        randomMovieList: [],
+
       }
     },
     methods: {

@@ -85,13 +85,13 @@
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
-            <img style="float: left;width:40px;height:40px;" src="../../assets/article/avatar.jpg">
+            <img style="float: left;width:40px;height:40px;" :src=comment.commentUserIcon>
 
           </Col>
           <Col span="23">
             <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true">
               <p style="color: darkgray">
-                {{comment.createUserName}}　
+                {{comment.commentUserName}}　
                 <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
                 　{{comment.createDateTime}}　
               </p>
@@ -226,7 +226,8 @@
 
         articleCommentMsg: {
           commentContent: '',
-          commentArticleId: ''
+          commentArticleId: '',
+          commentUserId:'',
 
         },
 
@@ -419,6 +420,7 @@
       commentPush(articleCommentMsg) {
         this.articleCommentMsg.commentArticleId = this.articleId
         // this.articleCommentMsg.commentContent = this.commentContentMsg
+        this.articleCommentMsg.commentUserId = window.localStorage.getItem("userId")
 
         this.$refs[articleCommentMsg].validate((valid) => {
           if (valid) {
@@ -429,7 +431,14 @@
                 if (response.data.status === 200) {
                   // this.spinShow = false
                   this.$Spin.hide();
-                  this.$router.push('/article')
+                  this.$Message.info("评论成功")
+
+                  this.articleCommentMsg.commentContent = ''
+
+                  this.getCommentData(this.filter);
+
+
+                  // this.$router.push('/article')
                   // this.getData(this.articleId);
                 }
 

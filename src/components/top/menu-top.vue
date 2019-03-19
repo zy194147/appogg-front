@@ -5,12 +5,13 @@
       <Menu @on-select="articleIndex" style="float: left;width: 100%;" mode="horizontal" :theme="theme1"
             active-name="1">
         <!--<FormItem>-->
-        <a href="/" >
+        <a href="/">
           <img style="height:40px;width: 116px;left:0;top:10px;position: absolute;" src="../../assets/logo2.svg">
         </a>
         <!--</FormItem>-->
         <FormItem style="margin-top: 15px;position: relative;left:120px;">
-          <Input v-model.trim="searchText" style="width:100%;" search icon placeholder="搜索..." @on-search="goSearch(searchText)"/>
+          <Input v-model.trim="searchText" style="width:100%;" search icon placeholder="搜索..."
+                 @on-search="goSearch(searchText)"/>
         </FormItem>
 
         <MenuItem style="position: relative;left:130px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
@@ -18,35 +19,75 @@
         </MenuItem>
         <FormItem style="margin-top: 15px;position: relative;left: 200px;">
           <div v-if="loginUserName !== null && loginUserName !== ''">
-            <span>欢迎你，　</span>
+
+            <!--<span>欢迎你，　</span>-->
+
+            <Dropdown trigger="click" @on-click="userAction">
+              <Badge :count="0" type="error">
+
+                <a href="javascript:void(0)">
+                  <img
+                    style="width:30px;height:30px;border-radius:50%; overflow:hidden;object-fit: cover;s"
+                    :src=loginUserIcon>
+
+                  <a href="#" class="demo-badge"></a>
+
+                </a>
+              </Badge>
+
+              <DropdownMenu slot="list" >
+
+
+                <DropdownItem>
+                  <strong style="font-size: 16px;">{{loginUserName}}</strong><br/>
+                  <span>普通会员</span>
+                </DropdownItem>
+                <DropdownItem divided name="user">个人中心</DropdownItem>
+                <!--<DropdownItem  >通知</DropdownItem>-->
+                <DropdownItem divided name="logout">退出登录</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown trigger="click" @on-click="userAction" style="margin-left: 10px;" >
+              <a href="javascript:void(0)">
+                <img style="width:20px;height:20px;margin-bottom: 4px;" src="../../assets/head/add_menu.svg">
+                <!--<Icon style="width:10px;height:10px;" type="md-add"/>-->
+              </a>
+              <DropdownMenu slot="list">
+                <DropdownItem name="pushSoft">发布软件</DropdownItem>
+                <DropdownItem name="pushArticle">发布文章</DropdownItem>
+                <DropdownItem name="pushNeed">发布需求</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
 
             <!--<Badge :count="5" type="error">-->
-            <Poptip placement="bottom" width="80">
-              <a>{{loginUserName}}</a>
-              <div class="api" slot="content">
-                <a @click="userDetails">个人中心</a><Divider/>
-                <a @click="softPush">发布软件</a><Divider/>
-                <a @click="articlePush">发布文章</a><Divider/>
-                <a @click="needPush">发布需求</a><Divider/>
-                <a @click="modal1 = true">退出登录</a>
-              </div>
-            </Poptip>
+            <!--<Poptip placement="bottom" width="80">-->
+            <!--<img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=loginUserIcon>-->
+
+            <!--<a>{{loginUserName}}</a>-->
+            <!--<div class="api" slot="content">-->
+            <!--<a @click="userDetails">个人中心</a><Divider/>-->
+            <!--<a @click="softPush">发布软件</a><Divider/>-->
+            <!--<a @click="articlePush">发布文章</a><Divider/>-->
+            <!--<a @click="needPush">发布需求</a><Divider/>-->
+            <!--<a @click="modal1 = true">退出登录</a>-->
+            <!--</div>-->
+            <!--</Poptip>-->
 
             <!--<a @click="value1 = true" type="primary">{{loginUserName}}</a>-->
             <!--<Drawer :title=loginUserName :closable="false" v-model="value1" >-->
-              <!--<a @click="userDetails">个人中心</a><Divider/>-->
-              <!--<a @click="softPush">发布软件</a><Divider/>-->
-              <!--<a @click="articlePush">发布文章</a><Divider/>-->
-              <!--<a @click="needPush">发布需求</a><Divider/>-->
-              <!--<a @click="modal1 = true">退出登录</a><Divider/>-->
+            <!--<a @click="userDetails">个人中心</a><Divider/>-->
+            <!--<a @click="softPush">发布软件</a><Divider/>-->
+            <!--<a @click="articlePush">发布文章</a><Divider/>-->
+            <!--<a @click="needPush">发布需求</a><Divider/>-->
+            <!--<a @click="modal1 = true">退出登录</a><Divider/>-->
 
             <!--</Drawer>-->
 
             <!--<Poptip title="Title" content="content" placement="bottom">-->
-              <!--<Button>{{loginUserName}}</Button>-->
+            <!--<Button>{{loginUserName}}</Button>-->
             <!--</Poptip>-->
 
-              <!--<a @click="userDetails">{{loginUserName}}　</a>-->
+            <!--<a @click="userDetails">{{loginUserName}}　</a>-->
             <!--</Badge>-->
             <!--<Button @click="modal1 = true">退出登录</Button>-->
 
@@ -77,6 +118,8 @@
         value1: false,
         modal1: false,
 
+        loginUserIcon: '',
+
         loginUserName: '',
         // modal6: false,
         // loading: true,
@@ -102,7 +145,7 @@
     },
     methods: {
 
-      ok () {
+      ok() {
 
         this.$http.get('/api/user/logout')
           .then((response) => {
@@ -126,7 +169,7 @@
             console.log(error);
           })
       },
-      cancel () {
+      cancel() {
         // this.$Message.info('Clicked cancel');
       },
       logoutModal() {
@@ -171,6 +214,7 @@
           })
         // 更新登录名
         this.loginUserName = window.localStorage.getItem("userName");
+        this.loginUserIcon = window.localStorage.getItem("userIcon");
         console.log("结束")
       },
 
@@ -210,7 +254,7 @@
       },
 
       articlePush() {
-        if(this.$store.state.userName !== null){
+        if (this.$store.state.userName !== null) {
           this.$router.push('/articlePush')
         } else {
           this.$router.push('/login')
@@ -218,7 +262,7 @@
         this.value1 = false
 
       },
-      needPush(){
+      needPush() {
         this.$Loading.start()
         this.$router.push('/needPush')
         this.$Loading.finish()
@@ -226,6 +270,24 @@
 
       },
 
+      userAction(item) {
+        if (item === 'user') {
+          this.userDetails();
+        } else if (item === 'pushSoft') {
+          this.softPush();
+        }
+        else if (item === 'pushArticle') {
+          this.articlePush();
+        }
+        else if (item === 'pushNeed') {
+          this.needPush();
+        }
+        else if (item === 'logout') {
+          this.modal1 = true
+        }
+
+
+      },
 
       userDetails() {
         var loginUserId = window.localStorage.getItem("userId");
@@ -248,7 +310,7 @@
         this.$router.push('/signup')
         this.$Loading.finish()
       },
-      goSearch(searchText){
+      goSearch(searchText) {
         this.$Message.warning("暂不能搜索")
       },
 
