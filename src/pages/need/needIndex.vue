@@ -85,7 +85,7 @@
 
         filter: {
           // 全部系统：0全部，，，，
-          isSolved:0,
+          isSolved:'',
           createUserId:'',
           limit: 10,
           page: 1

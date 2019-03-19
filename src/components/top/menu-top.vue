@@ -155,6 +155,8 @@
               this.$store.state.token = null
               window.localStorage.removeItem("token")
               window.localStorage.removeItem("userName")
+              window.localStorage.removeItem("userId")
+              window.localStorage.removeItem("userIcon")
               // this.getData();
               this.$router.go('/')
             } else {

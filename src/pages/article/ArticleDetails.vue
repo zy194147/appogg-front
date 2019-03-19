@@ -446,7 +446,7 @@
               })
 
           } else {
-            this.$Message.error('Fail!');
+            this.$Message.error('发布评论失败');
           }
         })
 

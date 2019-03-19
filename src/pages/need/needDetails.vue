@@ -91,11 +91,31 @@
           </Col>
           <Col span="23">
             <Card style="text-align:left;width:98%;float: left;margin-left: 20px;" :dis-hover="true">
+              <div v-if="answer.isAdopt === 1 && loginUserId == needUserId">
+
+                <Poptip
+                  confirm
+                  title="确定取消推荐?"
+                  @on-ok="unAdoptAnswer"
+                  @on-cancel="cancel">
+                  <Button type="success" style="height:30px;" @click="putAnswerId(answer.id)"><Icon type="md-checkmark" />推荐答案</Button>
+                </Poptip>
+                <!--<Tag checkable color="primary"></Tag>-->
+              </div>
+              <div v-if="answer.isAdopt === 1 && loginUserId != needUserId">
+                <Button type="success" style="height:30px;"><Icon type="md-checkmark" />推荐答案</Button>
+
+              </div>
+
               <p style="color: darkgray">
                 {{answer.commentUserName}}　
                 <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
                 　{{answer.createDateTime}}　
               </p>
+              <div v-if="needDetail.isSolved === 0 && loginUserId == needUserId " style="position:absolute;right: 20px;top:15px; width:120px;height: 80px;">
+                <Button type="dashed" @click="adoptAnswer(answer.id)">采用</Button>
+              </div>
+
 
               <div v-if="answer.backToUserId === 0"><p v-html="answer.commentContent">{{answer.commentContent}}</p></div>
 
@@ -110,12 +130,21 @@
           </Col>
         </Row>
       </Card>
+
+
       <div style="text-align: center;">
         <Button style="text-align: center;margin:0 auto;" @click="getMoreAnswer">查看更多</Button>
 
       </div>
 
     </FormItem>
+
+    <Modal
+      v-model="modal1"
+      @on-ok="ok"
+      @on-cancel="cancel">
+      <p style="text-align: center;font-size: 16px;">确定推荐这条回答?</p>
+    </Modal>
 
 
     <FormItem style="position: relative;left: 10px;width:24%;">
@@ -214,6 +243,11 @@
 
         },
 
+        modal1:false,
+
+        answerId:'',
+        unAdoptAnswerId:'',
+
         needTrendingList:[],
         trendingSort: {
           needUserId:'',
@@ -230,6 +264,7 @@
           limit: 10,
           page: 1
         },
+        loginUserId:'',
 
         needId: {},
         needUserId: '',
@@ -409,6 +444,70 @@
             console.log(error);
           })
       },
+
+      adoptAnswer(answerId) {
+        alert(this.loginUserId)
+        this.modal1 = true
+        this.answerId = answerId
+
+      },
+
+      ok(){
+
+        this.$http.get('/api/need/answer/adoptAnswer',{
+          params: {
+            'id':this.answerId,
+          }
+        })
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.info('推荐答案成功');
+              this.getData(this.needId);
+              this.getAnswerData(this.filter);
+
+            }
+          })
+          .catch(function (error) {
+            this.$Message.info('推荐答案失败');
+
+            console.log(error);
+          })
+      },
+
+      putAnswerId(answerId){
+        if( this.loginUserId == this.needUserId ){
+          this.unAdoptAnswerId = answerId;
+        } else {
+          alert("无法取消")
+        }
+      },
+
+      unAdoptAnswer(){
+
+        this.$http.get('/api/need/answer/unAdoptAnswer',{
+          params: {
+            'id':this.unAdoptAnswerId,
+          }
+        })
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.info('取消推荐成功');
+              this.getData(this.needId);
+              this.getAnswerData(this.filter);
+
+            }
+          })
+          .catch(function (error) {
+            this.$Message.info('推荐答案失败');
+
+            console.log(error);
+          })
+      },
+      cancel() {
+        // this.$Message.info('Clicked cancel');
+      },
+
+
       answerPush() {
         // alert("an:" + this.answerContentMsg);
         this.needAnswerMsg.answerNeedId = this.needId
@@ -467,6 +566,9 @@
           this.answerContentMsg = html;
         };
       },
+
+
+
 
       getMoreAnswer() {
         this.filter.limit = this.filter.limit + 10;
@@ -560,6 +662,9 @@
 
 
     created() {
+
+
+      this.loginUserId = window.localStorage.getItem('userId')
 
       this.needId = this.$route.query.needId
       this.filter.answerNeedId = this.$route.query.needId
