@@ -159,10 +159,16 @@
               window.localStorage.removeItem("userIcon")
               // this.getData();
               this.$router.go('/')
-            } else {
-              console.log("no")
-
-              this.articleDetail = ''
+            } else { // 后台redis中的用户登录信息已失效，直接退出登录
+              this.$Message.info('退出登录成功');
+              this.$store.state.userName = null
+              this.$store.state.token = null
+              window.localStorage.removeItem("token")
+              window.localStorage.removeItem("userName")
+              window.localStorage.removeItem("userId")
+              window.localStorage.removeItem("userIcon")
+              // this.getData();
+              this.$router.go('/')
             }
           })
           .catch(function (error) {

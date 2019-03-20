@@ -130,7 +130,7 @@ router.beforeEach((to, from, next) => {
     || to.path === '/softPush'
     || to.path === '/needPush') {
     let token = localStorage.getItem('token');
-    if (token === null || token === '') {
+    if (token === null || token === '') {z
       next('/login');
     } else {
       next();

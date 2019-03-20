@@ -20,7 +20,7 @@
             <Tag v-else color="orange">未解决</Tag></span>
         </div>
         <div style="position:absolute;right: 40px;top:30px; width:120px;height: 80px;">
-          <Icon type="ios-chatbubbles" />32
+          <Icon type="ios-chatbubbles" />{{need.answerNum}}
         </div>
       </Card>
       <Page v-if="needPublicList.length != 0" style="text-align: center" :total="needPublicTotal" show-total show-elevator  @on-change="pageChange" @on-page-size-change="pageSizeChange" />
