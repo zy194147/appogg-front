@@ -2,9 +2,9 @@
 
 
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
+    <Spin size="large" fix v-if="articlePublicList.length == 0"></Spin>
 
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
-      <Spin size="large" fix v-if="articlePublicList.length == 0"></Spin>
 
       <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>

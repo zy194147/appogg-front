@@ -32,9 +32,9 @@
               </Button>
 
 
-              <Button style="position: absolute;right:10px;margin-top:3px;margin-left: 30px;" @click="handleRender">
-                给ta留言
-              </Button>
+              <!--<Button style="position: absolute;right:10px;margin-top:3px;margin-left: 30px;" @click="handleRender">-->
+                <!--给ta留言-->
+              <!--</Button>-->
 
               <Poptip
                 confirm

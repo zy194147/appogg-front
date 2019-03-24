@@ -10,10 +10,14 @@
 
         <Tabs value="name1" :animated="false" >
           <TabPane :label="label" name="name1">
+            <div v-if="commentNoticeList.length === 0" style="text-align: center">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无评论</p>
+            </div>
 
             <div v-for="commentNotice in commentNoticeList">
               {{commentNotice.actionFromUserName}} 在 {{commentNotice.createDateTime}}评论了你的文章
-              <a @click="viewNotice">查看详情</a>
+              <a @click="viewNotice(commentNotice)">查看详情</a>
               <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;" @click="setArticleRead(commentNotice.id)">置为已读</Button>
               <Button v-else style="position: absolute;right: 20px;"><Icon type="md-checkmark" />已读</Button>
               <Divider/>
@@ -21,6 +25,11 @@
 
           </TabPane>
           <TabPane :label="label2" name="name2">
+            <div style="text-align: center">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无留言</p>
+            </div>
+
 
             <div v-for="commentNotice in leaveMsgNotice">
               {{commentNotice.actionFromUserName}} 在 {{commentNotice.createDateTime}}评论了你的文章
@@ -33,9 +42,13 @@
 
           </TabPane>
           <TabPane :label="label3" name="name3">
+            <div v-if="systemNoticeList.length === 0" style="text-align: center">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
+              <p>暂无通知</p>
+            </div>
             <div v-for="commentNotice in systemNoticeList">
-              {{commentNotice.actionFromUserName}} 在 {{commentNotice.createDateTime}}评论了你的文章
-              <a @click="viewNotice">查看详情</a>
+              {{commentNotice.noticeToUserName}},恭喜您，在 {{commentNotice.createDateTime}}成功注册了appogg账号。
+              <a @click="viewNotice(commentNotice)">查看详情</a>
               <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;" @click="setArticleRead(commentNotice.id)">置为已读</Button>
               <Button v-else style="position: absolute;right: 20px;"><Icon type="md-checkmark" />已读</Button>
               <Divider/>
@@ -66,16 +79,17 @@
       return {
 
         noticeReadStatus:0,
+        loginUserId:'',
 
         noticeFilter:{
           id:'',
-          noticeType:'article',
+          noticeType:'comment',
         },
         leaveMessageNotice:{
           id:'',
           noticeType:'leaveMsg',
         },
-        SystemNotice:{
+        systemNotice:{
           id:'',
           noticeType:'system',
         },
@@ -131,10 +145,30 @@
     },
     methods: {
 
-      viewNotice(){
+      viewNotice(notice){
 
         const title = '评论信息';
-        const content = '<p>张三评论了你的文章</p>';
+        let content;
+        if(notice.noticeType === "comment"){
+          content = '<p>' + notice.actionFromUserName + '在' + notice.createDateTime + '评论了你的文章</p>';
+          if(notice.noticeModule === 'article'){
+            // const content = '<p>' + notice.actionFromUserName + '在' + notice.createDateTime + '评论了你的文章</p><a href="/articleDetails?articleId=32&articleUserId=1">查看详情</a>';
+
+            // alert("article==" + notice.actionAccepter)
+          }
+          else if(notice.noticeModule === 'soft'){
+            // alert("soft==" + notice.actionAccepter)
+          }
+          else if(notice.noticeModule === 'need'){
+            // alert("need==" + notice.actionAccepter)
+          }
+        }
+        else if(notice.noticeType === "system"){
+          content = '<p>' + notice.noticeToUserName + '恭喜您，在' + notice.createDateTime + '成功注册了appogg账号。</p>' +
+            '<p>我们忠心希望您在网站上获得您需要的东西，祝您愉快！</p>';
+
+        }
+        // alert(notice.noticeType +)
         this.$Modal.info({
           title: title,
           content: content,
@@ -271,6 +305,7 @@
             if (response.data.status === 200) {
               this.getNotReadCommentNoticeTotal(this.noticeFilter);
               this.listCommentNotice(this.noticeFilter);
+              this.$router.go("/")
 
             }
           })
@@ -304,9 +339,12 @@
     created() {
 
       this.noticeFilter.id = window.localStorage.getItem("userId")
+      this.leaveMessageNotice.id = window.localStorage.getItem("userId")
+      this.systemNotice.id = window.localStorage.getItem("userId")
+      this.loginUserId = window.localStorage.getItem("userId")
       this.getNotReadCommentNoticeTotal(this.noticeFilter);
       this.getNotReadLeaveMsgNoticeTotal(this.leaveMessageNotice);
-      this.getNotReadSystemNoticeTotal(this.SystemNotice);
+      this.getNotReadSystemNoticeTotal(this.systemNotice);
       this.listCommentNotice(this.noticeFilter);
 
 

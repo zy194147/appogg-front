@@ -141,9 +141,10 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/articlePush'
     || to.path === '/user'
     || to.path === '/softPush'
-    || to.path === '/needPush') {
+    || to.path === '/needPush'
+    || to.path === '/notice') {
     let token = localStorage.getItem('token');
-    if (token === null || token === '') {z
+    if (token === null || token === '') {
       next('/login');
     } else {
       next();
