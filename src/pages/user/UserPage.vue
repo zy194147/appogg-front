@@ -13,8 +13,9 @@
 
           <img style="width:100%;height:200px;object-fit: cover;"
                :src=userDetail.userPageIcon>
-          <img style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
-               :src=userDetail.userHeadIcon>
+          <img
+            style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+            :src=userDetail.userHeadIcon>
 
           <div style="text-align: left;width:70%;margin-left: 240px;">
             <p>
@@ -23,15 +24,27 @@
 
               {{userDetail.memberLevelName}}
 
-              <Button v-if="articleUser.userName == loginUserName" style="margin-left: 30px;" type="dashed" @click="editMsg">编辑我的信息</Button>
-              <Button v-if="followStatus == '0' && articleUser.userName != loginUserName" style="margin-left: 30px;" type="success" @click="followUser">关注Ta</Button>
+              <Button v-if="articleUser.userName == loginUserName" style="margin-left: 30px;" type="dashed"
+                      @click="editMsg">编辑我的信息
+              </Button>
+              <Button v-if="followStatus == '0' && articleUser.userName != loginUserName" style="margin-left: 30px;"
+                      type="success" @click="followUser">关注Ta
+              </Button>
+
+
+              <Button style="position: absolute;right:10px;margin-top:3px;margin-left: 30px;" @click="handleRender">
+                给ta留言
+              </Button>
 
               <Poptip
                 confirm
                 title="确定取消关注?"
                 @on-ok="ok"
                 @on-cancel="cancel">
-                <Button v-if="followStatus == '1' " style="margin-left: 30px;" type="success" ><Icon type="md-checkmark" />已关注</Button>
+                <Button v-if="followStatus == '1' " style="margin-left: 30px;" type="success">
+                  <Icon type="md-checkmark"/>
+                  已关注
+                </Button>
               </Poptip>
 
             </p>
@@ -45,6 +58,7 @@
             <p v-else style="margin-bottom: 10px;">
               暂时没有任何简介。
             </p>
+
 
           </div>
 
@@ -64,20 +78,38 @@
       <!--</div>-->
 
 
+
+    </FormItem>
+
+    <FormItem>
+
+      <Modal v-model="leaveMessage" title="留言" @on-cancel="cancel">
+        <Form>
+          <FormItem style="width: 100%;" prop="commentContent">
+            <Input style="width: 100%;margin-bottom: 20px;"  type="textarea"
+                   :autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入留言内容..."/>
+          </FormItem>
+        </Form>
+        <div slot="footer">
+          <Button @click="confirm('softCommentMsg')" type="primary">保存</Button>
+        </div>
+      </Modal>
+
     </FormItem>
 
 
-    <FormItem style="width:74%;margin-top: -10px;">
+    <FormItem style="width:72%;margin-top: -10px;">
 
       <Card :bordered="true" dis-hover="false">
         <Tabs :animated="false">
           <TabPane :label=articleNum>
             <Card v-if="articles.length == 0" style="text-align: center" dis-hover="false">
-              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
               <p>暂无文章</p>
             </Card>
             <div v-for="article in articles">
-              <p style="font-size: 20px;"><Tag color="green">文</Tag>
+              <p style="font-size: 20px;">
+                <Tag color="green">文</Tag>
                 <span style="line-height: 40px; cursor: pointer" @click="articleDetails(article)">{{article.articleTitleName}}</span>
               </p>
               <div style="width: 100%;">
@@ -85,43 +117,50 @@
                   {{article.articleSummary}}
                 </p>
                 <div>
-                  <img @click="articleDetails(article)" style="position:relative;right: -10px;top:-40px; width:120px;height: 80px;" :src=article.articleTitleIcon>
+                  <img @click="articleDetails(article)"
+                       style="position:relative;right: -10px;top:-40px; width:120px;height: 80px;"
+                       :src=article.articleTitleIcon>
                 </div>
                 <Divider/>
               </div>
             </div>
-            <Page v-if="articles.length != 0" style="text-align: center" :total=articles.length show-total show-elevator />
+            <Page v-if="articles.length != 0" style="text-align: center" :total=articles.length show-total
+                  show-elevator/>
 
 
           </TabPane>
           <TabPane :label=softNum>
             <Card v-if="softs.length == 0" style="text-align: center" dis-hover="false">
-              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
               <p>暂无软件</p>
             </Card>
             <div v-for="soft in softs">
-              <p style="font-size: 20px;"><Tag color="green">软</Tag>
-                <span @click="softDetails(soft)" style="line-height: 40px; cursor: pointer">{{soft.softTitleName}}</span>
+              <p style="font-size: 20px;">
+                <Tag color="green">软</Tag>
+                <span @click="softDetails(soft)"
+                      style="line-height: 40px; cursor: pointer">{{soft.softTitleName}}</span>
               </p>
-                <Divider/>
+              <Divider/>
             </div>
 
-            <Page  v-if="softs.length != 0" style="text-align: center" :total=softs.length show-total show-elevator />
+            <Page v-if="softs.length != 0" style="text-align: center" :total=softs.length show-total show-elevator/>
 
           </TabPane>
           <TabPane :label=needNum>
             <Card v-if="softs.length == 0" style="text-align: center" dis-hover="false">
-              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
               <p>暂无提问</p>
             </Card>
             <div v-for="need in needs">
-              <p style="font-size: 20px;"><Tag color="green">问</Tag>
-                <span @click="needdetails(need)" style="line-height: 40px; cursor: pointer">{{need.needTitleName}}</span>
+              <p style="font-size: 20px;">
+                <Tag color="green">问</Tag>
+                <span @click="needdetails(need)"
+                      style="line-height: 40px; cursor: pointer">{{need.needTitleName}}</span>
               </p>
-                <Divider/>
+              <Divider/>
             </div>
 
-            <Page v-if="softs.length != 0" style="text-align: center" :total=needs.length show-total show-elevator />
+            <Page v-if="softs.length != 0" style="text-align: center" :total=needs.length show-total show-elevator/>
 
           </TabPane>
 
@@ -138,13 +177,14 @@
               <Divider/>
             </div>
 
-            <Page v-if="followToUsers.length != 0" style="text-align: center" :total=followToUsers.length show-total show-elevator />
+            <Page v-if="followToUsers.length != 0" style="text-align: center" :total=followToUsers.length show-total
+                  show-elevator/>
 
           </TabPane>
           <TabPane :label=followNum>
 
             <Card v-if="followers.length == 0" style="text-align: center" dis-hover="false">
-              <img  style="height:100px;" src="../../assets/article/no_user.png">
+              <img style="height:100px;" src="../../assets/article/no_user.png">
               <p>暂无关注者</p>
             </Card>
             <div v-for="follower in followers">
@@ -152,7 +192,8 @@
               <span style="font-size: 16px;"><strong>{{follower.userName}}</strong></span>
               <Divider/>
             </div>
-            <Page v-if="followers.length != 0"  style="text-align: center" :total=followers.length show-total show-elevator />
+            <Page v-if="followers.length != 0" style="text-align: center" :total=followers.length show-total
+                  show-elevator/>
 
 
           </TabPane>
@@ -164,13 +205,13 @@
     <FormItem style="width:23%;margin-top: -10px;">
 
       <!--<Card :bordered="true" style="text-align: left;margin-bottom: 10px;">-->
-        <!--<p slot="title">分类标签</p>-->
-        <!--<a slot="extra">编辑</a>-->
-        <!--<Tag color="cyan">java</Tag>-->
-        <!--<Tag color="cyan">c语言</Tag>-->
-        <!--<Tag color="cyan">python</Tag>-->
-        <!--<Tag color="cyan">spring</Tag>-->
-        <!--<Tag color="cyan">编程</Tag>-->
+      <!--<p slot="title">分类标签</p>-->
+      <!--<a slot="extra">编辑</a>-->
+      <!--<Tag color="cyan">java</Tag>-->
+      <!--<Tag color="cyan">c语言</Tag>-->
+      <!--<Tag color="cyan">python</Tag>-->
+      <!--<Tag color="cyan">spring</Tag>-->
+      <!--<Tag color="cyan">编程</Tag>-->
       <!--</Card>-->
       <Card :bordered="true" style="text-align: center;margin-bottom: 10px;" dis-hover="false">
         <Icon type="md-paw"/>
@@ -193,27 +234,29 @@
     data() {
       return {
 
-        followStatus:'0',
+        leaveMessage:false,
 
-        articles:[],
-        articleNum:'',
-        softs:[],
-        softNum:'',
-        needs:[],
-        needNum:'',
+        followStatus: '0',
 
-        followers:[],
-        followNum:'',
-        followToUsers:[],
-        followToNum:'',
+        articles: [],
+        articleNum: '',
+        softs: [],
+        softNum: '',
+        needs: [],
+        needNum: '',
 
-        userId:'',
-        userDetail:'',
-        articleUser:'',
+        followers: [],
+        followNum: '',
+        followToUsers: [],
+        followToNum: '',
 
-        loginUserName:'',
+        userId: '',
+        userDetail: '',
+        articleUser: '',
 
-        articleUserName:'',
+        loginUserName: '',
+
+        articleUserName: '',
 
         articleListType: "all",
         formInline: {
@@ -247,14 +290,15 @@
       getData(userId) {
         console.log("开始")
 
-        this.$http.get('/api/user/detail',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/user/detail', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.userDetail = response.data.data
-              console.log("111*******////***11111",this.userDetail,)
+              console.log("111*******////***11111", this.userDetail,)
             } else {
               console.log("no")
 
@@ -268,14 +312,15 @@
       getFollowStatus(userId) {
         console.log("开始")
 
-        this.$http.get('/api/follow/status',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/follow/status', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.followStatus = response.data.data
-              console.log("111*******////***11111",this.userDetail,)
+              console.log("111*******////***11111", this.userDetail,)
             } else {
               console.log("no")
 
@@ -286,18 +331,44 @@
             console.log(error);
           })
       },
+
+
+      handleRender() {
+
+        this.leaveMessage = true;
+
+        // this.$Modal.confirm({
+        //   render: (h) => {
+        //     return h('Input', {
+        //       props: {
+        //         value: this.value,
+        //         autofocus: true,
+        //         placeholder: '请留言...'
+        //       },
+        //       on: {
+        //         input: (val) => {
+        //           this.value = val;
+        //         }
+        //       }
+        //     })
+        //   }
+        // })
+      },
+
+
       getFollowers(userId) {
         console.log("开始")
 
-        this.$http.get('/api/follow/listFollow',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/follow/listFollow', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.followers = response.data.data.rows
               this.followNum = "关注者 " + response.data.data.rows.length
-              console.log("111*******////***11111",this.userDetail,)
+              console.log("111*******////***11111", this.userDetail,)
             } else {
               console.log("no")
 
@@ -311,16 +382,17 @@
       getFollowToUsers(userId) {
         console.log("开始")
 
-        this.$http.get('/api/follow/listFollowTo',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/follow/listFollowTo', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.followToUsers = response.data.data.rows
               this.followToNum = "关注的人 " + response.data.data.rows.length
 
-              console.log("111*******////***11111",this.userDetail,)
+              console.log("111*******////***11111", this.userDetail,)
             } else {
               console.log("no")
 
@@ -334,16 +406,17 @@
       getArticles(userId) {
         console.log("开始")
 
-        this.$http.get('/api/user/listArticle',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/user/listArticle', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.articles = response.data.data.rows
               this.articleNum = "文章 " + response.data.data.rows.length
 
-              console.log("111*******////***11111",this.userDetail,)
+              console.log("111*******////***11111", this.userDetail,)
             } else {
               console.log("no")
 
@@ -357,16 +430,17 @@
       getSofts(userId) {
         console.log("开始")
 
-        this.$http.get('/api/user/listSoft',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/user/listSoft', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.softs = response.data.data.rows
               this.softNum = "软件 " + response.data.data.rows.length
 
-              console.log("111*******////***11111",this.userDetail,)
+              console.log("111*******////***11111", this.userDetail,)
             } else {
               console.log("no")
 
@@ -380,16 +454,17 @@
       getNeeds(userId) {
         console.log("开始")
 
-        this.$http.get('/api/user/listNeed',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/user/listNeed', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.needs = response.data.data.rows
               this.needNum = "需求 " + response.data.data.rows.length
 
-              console.log("111*******////***11111",this.userDetail,)
+              console.log("111*******////***11111", this.userDetail,)
             } else {
               console.log("no")
 
@@ -403,12 +478,13 @@
       getArticleUser(userId) {
         console.log("开始")
 
-        this.$http.get('/api/user/detail',{
-          params : {
-            'userId' : userId
-          }})
+        this.$http.get('/api/user/detail', {
+          params: {
+            'userId': userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.articleUser = response.data.data
               // console.log("111*******////***11111",this.userDetail,)
             } else {
@@ -446,44 +522,46 @@
 
       articleDetails(article) {
         // 页面带参跳转
-        this.$router.push({name: 'ArticleDetails',query: {articleId:article.id,articleUserId:article.createUserId}})
+        this.$router.push({name: 'ArticleDetails', query: {articleId: article.id, articleUserId: article.createUserId}})
       },
       softDetails(soft) {
         this.$router.push({name: 'softDetails', query: {softId: soft.id, softUserId: soft.createUserId}})
 
       },
-      needdetails(need){
-        this.$router.push({name: 'needDetails',query: {needId:need.id,needUserId:need.createUserId}})
+      needdetails(need) {
+        this.$router.push({name: 'needDetails', query: {needId: need.id, needUserId: need.createUserId}})
 
       },
 
-      followUser(){
+      followUser() {
         this.$http.get('/api/follow/followUser', {
-          params : {
-            'userId' : this.userId
-          }})
+          params: {
+            'userId': this.userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.followStatus = response.data.data
               this.$Message.success('关注成功');
             }
-            console.log("user.....login:" , response)
+            console.log("user.....login:", response)
           })
       },
-      ok () {
+      ok() {
         this.$http.get('/api/follow/unfollowUser', {
-          params : {
-            'userId' : this.userId
-          }})
+          params: {
+            'userId': this.userId
+          }
+        })
           .then((response) => {
-            if(response.data.status === 200){
+            if (response.data.status === 200) {
               this.followStatus = response.data.data
               this.$Message.success('取消关注成功');
             }
-            console.log("user.....login:" , response)
+            console.log("user.....login:", response)
           })
       },
-      cancel () {
+      cancel() {
       },
 
 

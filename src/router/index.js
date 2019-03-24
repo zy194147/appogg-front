@@ -118,6 +118,19 @@ const router = new Router({
       component: () => import('@/pages/remind/signUpRemind.vue'),
     },
 
+
+
+
+    // notice
+    {
+      path: '/notice',
+      name: 'Notice',
+      component: () => import('@/pages/notice/noticeIndex.vue'),
+    },
+
+
+
+
   ]
 });
 

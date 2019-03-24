@@ -96,43 +96,25 @@
       },
 
       userLoginSubmit(userLogin) {
-
-
         this.$refs[userLogin].validate((valid) => {
           if (valid) {
-            // this.$Message.success('Success!');
-
             this.userLogin.userPassword = this.$md5(this.userLogin.userPassword)
-
-            axios.post('/api/user/login', this.userLogin)
+            this.$http.post('/api/user/login', this.userLogin)
               .then((response) => {
                 let data = response.data;
                 this.$store.commit('changeLogin', data);
                 if (response.data.status === 200) {
-
-                  // this.spinShow = false
-
                   this.userToken = response.data.data.token
-
-                  // this.changeLogin({ Authorization: this.userToken });
-
-                  // window.localStorage.setItem('token',this.userToken)
-                  // console.log("userName:" ,response.data.data.user.userName,this.$store)
-                  // this.$store.commit('handleUserName',response.data.data.user.userName);
-                  // window.localStorage.setItem('loginUser',response.data.data.user)
-
-                  console.log("loginUser:", window.localStorage.getItem("loginUser"))
-                  this.$router.go("/")
+                  this.$Message.error('登录成功');
                   this.$router.push("/")
-                }
+                  this.$router.go("/")
 
-                console.log("user.....login:", response)
+                }
               })
           } else {
             this.$Message.error('登录失败');
           }
         })
-
       },
 
       signup() {

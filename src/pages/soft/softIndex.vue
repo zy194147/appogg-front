@@ -4,6 +4,9 @@
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
+
+      <Spin size="large" fix v-if="softPublicList.length == 0"></Spin>
+
       <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
           <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=soft.userHeadIcon>

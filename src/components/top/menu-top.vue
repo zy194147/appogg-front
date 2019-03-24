@@ -23,11 +23,11 @@
             <!--<span>欢迎你，　</span>-->
 
             <Dropdown trigger="click" @on-click="userAction">
-              <Badge :count="0" type="error">
+              <Badge :count="noticeTotal" type="error">
 
                 <a href="javascript:void(0)">
                   <img
-                    style="width:30px;height:30px;border-radius:50%; overflow:hidden;object-fit: cover;s"
+                    style="width:30px;height:30px;border-radius:50%; overflow:hidden;object-fit: cover;"
                     :src=loginUserIcon>
 
                   <a href="#" class="demo-badge"></a>
@@ -35,19 +35,38 @@
                 </a>
               </Badge>
 
-              <DropdownMenu slot="list" >
+              <DropdownMenu slot="list" style="text-align: left">
 
 
                 <DropdownItem>
                   <strong style="font-size: 16px;">{{loginUserName}}</strong><br/>
                   <span>普通会员</span>
                 </DropdownItem>
-                <DropdownItem divided name="user">个人中心</DropdownItem>
-                <!--<DropdownItem  >通知</DropdownItem>-->
-                <DropdownItem divided name="logout">退出登录</DropdownItem>
+                <DropdownItem divided name="user">
+                  <Icon type="ios-person-outline"/>
+                  个人中心
+                </DropdownItem>
+                <DropdownItem name="notice">
+
+                  <Badge v-if="noticeTotal != 0" type="error" dot>
+                    <Icon type="md-notifications-outline"/>
+                    <span> 通知</span>
+
+                  </Badge>
+                  <div v-else>
+                    <Icon type="md-notifications-outline"/>
+                    <span> 通知</span>
+                  </div>
+
+
+                </DropdownItem>
+                <DropdownItem divided name="logout">
+                  <Icon type="ios-log-out"/>
+                  退出登录
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <Dropdown trigger="click" @on-click="userAction" style="margin-left: 10px;" >
+            <Dropdown trigger="click" @on-click="userAction" style="margin-left: 10px;">
               <a href="javascript:void(0)">
                 <img style="width:20px;height:20px;margin-bottom: 4px;" src="../../assets/head/add_menu.svg">
                 <!--<Icon style="width:10px;height:10px;" type="md-add"/>-->
@@ -117,6 +136,12 @@
       return {
         value1: false,
         modal1: false,
+
+        noticeFilter: {
+          id: '',
+        },
+
+        noticeTotal: '',
 
         loginUserIcon: '',
 
@@ -226,6 +251,24 @@
         console.log("结束")
       },
 
+      getNoticeTotal(params) {
+        console.log("开始")
+        axios.get('/api/notice/noticeTotal', {params})
+          .then((response) => {
+
+            if (response.data.status === 200) {
+              this.noticeTotal = response.data.data;
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        // 更新登录名
+        this.loginUserName = window.localStorage.getItem("userName");
+        this.loginUserIcon = window.localStorage.getItem("userIcon");
+        console.log("结束")
+      },
+
       articleIndex(name) {
         console.log("name:", name)
         if (name === "indexPage") {
@@ -278,6 +321,14 @@
 
       },
 
+
+      toNoticePage() {
+        this.$Loading.start()
+        this.$router.push('/notice')
+        this.$Loading.finish()
+        this.value1 = false
+      },
+
       userAction(item) {
         if (item === 'user') {
           this.userDetails();
@@ -292,6 +343,9 @@
         }
         else if (item === 'logout') {
           this.modal1 = true
+        }
+        else if (item === 'notice') {
+          this.toNoticePage();
         }
 
 
@@ -333,6 +387,9 @@
     },
     created() {
       this.getData();
+
+      this.noticeFilter.id = window.localStorage.getItem("userId")
+      this.getNoticeTotal(this.noticeFilter);
     }
   }
 </script>

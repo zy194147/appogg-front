@@ -1,12 +1,16 @@
 <template>
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
     <FormItem style="width:70%;text-align: left;margin-right: 20px;">
-      <Card v-if="needPublicList.length == 0" style="text-align: center" dis-hover="false">
-        <img src="../../assets/article/not_login.jpg">
-        <p>暂无数据</p>
-      </Card>
+      <!--<Card v-if="needPublicList.length != 0" style="text-align: center" dis-hover="false">-->
+        <!--<Spin size="large" fix v-if="needPublicList.length != 0"></Spin>-->
+        <!--<img src="../../assets/article/not_login.jpg">-->
+        <!--<p>暂无数据</p>-->
+      <!--</Card>-->
+      <Spin size="large" fix v-if="needPublicList.length == 0"></Spin>
 
       <Card v-for="need in needPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
+        <!--<Spin size="large" fix v-if="needPublicList.length != 0"></Spin>-->
+
         <div>
           <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=need.userHeadIcon>
           <span>{{need.createUserName}}</span>
