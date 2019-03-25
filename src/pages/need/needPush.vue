@@ -12,13 +12,41 @@
 
       <FormItem label="需求分类" prop="needClassifyGroup">
         <CheckboxGroup v-model.trim="needMsg.needClassifyGroup" style="float: left">
-          <Checkbox label="java资料"></Checkbox>
-          <Checkbox label="求软件"></Checkbox>
-          <Checkbox label="破解技能"></Checkbox>
-          <Checkbox label="软件使用技巧"></Checkbox>
+
+          <Checkbox v-for="classify in softClassifyList" :label="classify.classifyName">
+            <span>{{classify.classifyName}}</span>
+          </Checkbox>
+
+          <!--<Checkbox label="java资料"></Checkbox>-->
+          <!--<Checkbox label="求软件"></Checkbox>-->
+          <!--<Checkbox label="破解技能"></Checkbox>-->
+          <!--<Checkbox label="软件使用技巧"></Checkbox>-->
         </CheckboxGroup>
-        <a style="position: absolute;right: 10px;">添加分类</a>
+        <a style="position: absolute;right: 10px;" @click="addData">添加分类</a>
       </FormItem>
+
+
+      <Modal v-model.trim="addModal" title="添加分类" @on-cancel="cancel" >
+        <Form>
+
+          <!--<div style="width: 100%;">-->
+          <!--<Input style="width: 100%;margin-bottom: 20px;" v-model="commentContentMsg" type="textarea"-->
+          <!--:autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>-->
+          <!--</div>-->
+          <FormItem :label-width="80" label="名称">
+            <Input v-model.trim="classifyAddMsg.classifyName" placeholder="请输入分类名称"></Input>
+          </FormItem>
+
+          <Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>
+        </Form>
+        <div slot="footer">
+          <Button @click="cancel">取消</Button>
+          <Button @click="confirm" :loading="addClassifyLoading" type="primary">
+            <span v-if="!addClassifyLoading">添加</span>
+            <span v-else>正在添加...</span>
+          </Button>
+        </div>
+      </Modal>
 
 
       <FormItem label="需求简介" prop="needContent">
@@ -32,7 +60,10 @@
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitNeedMsg('needMsg')">发布</Button>
+        <Button type="primary" :loading="submitNeedLoading" @click="submitNeedMsg('needMsg')">
+          <span v-if="!submitNeedLoading">发布</span>
+          <span v-else>正在发布...</span>
+          </Button>
 
       </FormItem>
 
@@ -56,6 +87,21 @@
     name: 'editor',
     data() {
       return {
+
+        addClassifyLoading:false,
+
+        submitNeedLoading:false,
+
+        addModal:false,
+
+        softClassifyList:[],
+        listClassifyType:{
+          classifyType:"need"
+        },
+        classifyAddMsg:{
+          classifyType:"need",
+          classifyName:""
+        },
 
         ruleValidate: {
           needTitleName: [
@@ -95,6 +141,45 @@
       }
     },
     methods: {
+
+      addData() {
+        this.addModal = true;
+      },
+      cancel() {
+        this.addModal = false;
+      },
+
+
+      confirm() {
+
+        this.addClassifyLoading = true
+
+
+        this.$http.post('/api/classify/add', this.classifyAddMsg)
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.info("添加分类成功")
+              this.addModal = false;
+              this.getClassifyData(this.listClassifyType)
+
+            }
+            console.log("add...soft...comment:", response)
+          }).catch(function (error) {
+          this.$Message.info('添加分类失败，请稍后再试');
+          this.addModal = false;
+
+          console.log(error);
+        })
+        this.addClassifyLoading = false
+
+
+
+
+        // this.addDictType();
+      },
+
+
+
       getContent: function () {
         alert(this.editorContent)
       },
@@ -120,6 +205,7 @@
       },
 
       submitNeedMsg(needMsg) {
+        this.submitNeedLoading = true
 
         this.$refs[needMsg].validate((valid) => {
           if (valid) {
@@ -141,9 +227,32 @@
             this.$Message.error('请填写完整');
           }
         })
+        this.submitNeedLoading = false
+      },
+
+
+      getClassifyData(params){
+
+        this.$http.get('/api/classify/list', {params})
+          .then((response) => {
+            if (response.data.status === 200) {
+
+              this.softClassifyList = response.data.data
+            } else {
+              console.log("no")
+
+              this.listdata = []
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
       },
     },
     mounted() {
+
+      this.getClassifyData(this.listClassifyType)
+
       this.editor = new E(this.$refs.editor)
 
       // 获取编辑器内容

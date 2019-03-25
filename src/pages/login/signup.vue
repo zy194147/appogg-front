@@ -23,7 +23,10 @@
           <FormItem style="width: 70%;margin:20px;" prop="userPassword">
             <Input v-model.trim="userSignUp.userPassword" prefix="md-lock" type="password"  placeholder="密码" style="width: 100%;"/>
           </FormItem>
-          <Button type="success" style="width: 70%;margin:20px;" @click="userSignUpSubmit('userSignUp')">注册</Button>
+          <Button type="success" :loading="signUpLoading" style="width: 70%;margin:20px;" @click="userSignUpSubmit('userSignUp')">
+            <span v-if="!signUpLoading">注册</span>
+            <span v-else>正在注册...</span>
+          </Button>
           <p>注册即表示您同意我们的
             <a href="/privacy">服务条款与隐私政策</a>
 
@@ -49,6 +52,10 @@
   export default {
     data() {
       return {
+
+        signUpLoading:false,
+
+
         ruleValidate: {
           userEmail: [
             { required: true, message: '邮箱不能为空', trigger: 'blur' },
@@ -124,6 +131,7 @@
 
 
       userSignUpSubmit(userSignUp) {
+        this.signUpLoading = true
 
         this.$refs[userSignUp].validate((valid) => {
           if (valid) {
@@ -152,8 +160,7 @@
             this.$Message.error('注册失败');
           }
         })
-
-
+        this.signUpLoading = false
 
       },
 

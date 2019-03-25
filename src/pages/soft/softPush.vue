@@ -78,7 +78,10 @@
         </Form>
         <div slot="footer">
           <Button @click="cancel">取消</Button>
-          <Button @click="confirm" type="primary">保存</Button>
+          <Button @click="confirm" :loading="addClassifyLoading" type="primary">
+            <span v-if="!addClassifyLoading">添加</span>
+            <span v-else>正在添加...</span>
+            </Button>
         </div>
       </Modal>
 
@@ -99,7 +102,10 @@
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitsoftMsg('softMsg')">发布</Button>
+        <Button type="primary" :loading="submitSoftLoading" @click="submitsoftMsg('softMsg')">
+          <span v-if="!submitSoftLoading">发布</span>
+          <span v-else>正在发布...</span>
+        </Button>
 
       </FormItem>
 
@@ -123,6 +129,10 @@
     name: 'editor',
     data() {
       return {
+        submitSoftLoading:false,
+
+        addClassifyLoading:false,
+
         ruleValidate: {
           softTitleIcon: [
             { required: true, message: '请选择标题图片', trigger: 'blur' }
@@ -202,6 +212,7 @@
 
       confirm() {
 
+        this.addClassifyLoading = true
 
 
         this.$http.post('/api/classify/add', this.classifyAddMsg)
@@ -219,6 +230,9 @@
 
           console.log(error);
         })
+        this.addClassifyLoading = false
+
+
 
 
         // this.addDictType();
@@ -254,6 +268,7 @@
       },
 
       submitsoftMsg(softMsg) {
+        this.submitSoftLoading = true
         this.softMsg.softTitleIcon = this.softTitleImage
 
 
@@ -278,6 +293,8 @@
             this.$Message.error('填写不完整');
           }
         })
+
+        this.submitSoftLoading = false
 
 
 
@@ -330,7 +347,7 @@
           .then((response) => {
             if (response.data.status === 200) {
 
-              this.softClassifyList = response.data.data.rows
+              this.softClassifyList = response.data.data
             } else {
               console.log("no")
 

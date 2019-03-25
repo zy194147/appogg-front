@@ -50,13 +50,42 @@
       </FormItem>
       <FormItem label="文章分类" prop="articleClassifyGroup">
         <CheckboxGroup v-model.trim="articleMsg.articleClassifyGroup" style="float: left">
-          <Checkbox label="java"></Checkbox>
-          <Checkbox label="编程"></Checkbox>
-          <Checkbox label="生活"></Checkbox>
-          <Checkbox label="python"></Checkbox>
+
+          <Checkbox v-for="classify in softClassifyList" :label="classify.classifyName">
+            <span>{{classify.classifyName}}</span>
+          </Checkbox>
+          <!--<Checkbox label="java"></Checkbox>-->
+          <!--<Checkbox label="编程"></Checkbox>-->
+          <!--<Checkbox label="生活"></Checkbox>-->
+          <!--<Checkbox label="python"></Checkbox>-->
         </CheckboxGroup>
-        <a style="position: absolute;right: 10px;">添加分类</a>
+        <a style="position: absolute;right: 10px;" @click="addData">添加分类</a>
       </FormItem>
+
+
+      <Modal v-model.trim="addModal" title="添加分类" @on-cancel="cancel" >
+        <Form>
+
+          <!--<div style="width: 100%;">-->
+          <!--<Input style="width: 100%;margin-bottom: 20px;" v-model="commentContentMsg" type="textarea"-->
+          <!--:autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>-->
+          <!--</div>-->
+          <FormItem :label-width="80" label="名称">
+            <Input v-model.trim="classifyAddMsg.classifyName" placeholder="请输入分类名称"></Input>
+          </FormItem>
+
+          <Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>
+        </Form>
+        <div slot="footer">
+          <Button @click="cancel">取消</Button>
+          <Button @click="confirm" :loading="addClassifyLoading" type="primary">
+            <span v-if="!addClassifyLoading">添加</span>
+            <span v-else>正在添加...</span>
+          </Button>
+        </div>
+      </Modal>
+
+
       <FormItem label="文章概述" prop="articleSummary">
         <Input v-model.trim="articleMsg.articleSummary" type="textarea" :maxlength="200" :autosize="{minRows: 2,maxRows: 5}"
                placeholder="输入文章概述(最多200个汉字)..."></Input>
@@ -74,7 +103,11 @@
 
       <FormItem>
         <Button style="margin-left: 8px">取消</Button>
-        <Button type="primary" @click="submitArticleMsg('articleMsg')">发布</Button>
+        <Button type="primary"  :loading="submitArticleLoading" @click="submitArticleMsg('articleMsg')">
+
+          <span v-if="!submitArticleLoading">发布</span>
+          <span v-else>正在发布...</span>
+        </Button>
 
       </FormItem>
 
@@ -98,6 +131,23 @@
     name: 'editor',
     data() {
       return {
+
+        submitArticleLoading:false,
+
+        addClassifyLoading:false,
+
+
+        addModal:false,
+        listClassifyType:{
+          classifyType:"article"
+        },
+        classifyAddMsg:{
+          classifyType:"article",
+          classifyName:""
+        },
+
+        softClassifyList:[],
+
 
         ruleValidate: {
           articleTitleIcon: [
@@ -153,6 +203,46 @@
       }
     },
     methods: {
+
+
+
+      confirm() {
+
+        this.addClassifyLoading = true
+
+
+        this.$http.post('/api/classify/add', this.classifyAddMsg)
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.info("添加分类成功")
+              this.addModal = false;
+              this.getClassifyData(this.listClassifyType)
+
+            }
+            console.log("add...soft...comment:", response)
+          }).catch(function (error) {
+          this.$Message.info('添加分类失败，请稍后再试');
+          this.addModal = false;
+
+          console.log(error);
+        })
+        this.addClassifyLoading = false
+
+
+
+
+        // this.addDictType();
+      },
+
+
+      addData() {
+        this.addModal = true;
+      },
+
+      cancel() {
+        this.addModal = false;
+      },
+
       getContent: function () {
         alert(this.editorContent)
       },
@@ -178,6 +268,7 @@
       },
 
       submitArticleMsg(articleMsg){
+        this.submitArticleLoading = true;
 
         this.articleMsg.articleTitleIcon = this.articleTitleImage
 
@@ -205,6 +296,8 @@
             this.$Message.error('Fail!');
           }
         })
+        this.submitArticleLoading = false;
+
       },
 
       //图片上传
@@ -243,11 +336,32 @@
           });
         }
         return check;
-      }
+      },
+
+
+
+      getClassifyData(params){
+
+        this.$http.get('/api/classify/list', {params})
+          .then((response) => {
+            if (response.data.status === 200) {
+
+              this.softClassifyList = response.data.data
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
+
 
 
     },
     mounted() {
+
+      this.getClassifyData(this.listClassifyType)
+
+
       this.editor = new E(this.$refs.editor)
 
       // 获取编辑器内容

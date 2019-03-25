@@ -22,7 +22,10 @@
             <Input v-model.trim="userLogin.userPassword" prefix="md-lock" type="password" placeholder="密码"
                    style="width: 100%;"/>
           </FormItem>
-          <Button type="success" style="width: 70%;margin:20px;" @click="userLoginSubmit('userLogin')">登录</Button>
+          <Button type="success" :loading="loginLoading" style="width: 70%;margin:20px;" @click="userLoginSubmit('userLogin')">
+            <span v-if="!loginLoading">登录</span>
+            <span v-else>正在登录...</span>
+            </Button>
 
 
           <p>
@@ -51,6 +54,8 @@
   export default {
     data() {
       return {
+
+        loginLoading:false,
 
         ruleValidate: {
           userName: [
@@ -96,6 +101,7 @@
       },
 
       userLoginSubmit(userLogin) {
+        this.loginLoading = true;
         this.$refs[userLogin].validate((valid) => {
           if (valid) {
             this.userLogin.userPassword = this.$md5(this.userLogin.userPassword)
@@ -105,7 +111,8 @@
                 this.$store.commit('changeLogin', data);
                 if (response.data.status === 200) {
                   this.userToken = response.data.data.token
-                  this.$Message.error('登录成功');
+                  this.$Message.success('登录成功');
+
                   this.$router.push("/")
                   this.$router.go("/")
 
@@ -114,6 +121,7 @@
           } else {
             this.$Message.error('登录失败');
           }
+          this.loginLoading = false;
         })
       },
 

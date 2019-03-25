@@ -6,7 +6,7 @@
             active-name="1">
         <!--<FormItem>-->
         <a href="/">
-          <img style="height:40px;width: 116px;left:0;top:10px;position: absolute;" src="../../assets/logo2.svg">
+          <img style="height:40px;width: 116px;left:0;top:10px;position: absolute;" src="../../assets/logo3.png">
         </a>
         <!--</FormItem>-->
         <FormItem style="margin-top: 15px;position: relative;left:120px;">
