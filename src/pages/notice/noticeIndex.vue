@@ -47,7 +47,7 @@
               <p>暂无通知</p>
             </div>
             <div v-for="commentNotice in systemNoticeList">
-              {{commentNotice.noticeToUserName}},恭喜您，在 {{commentNotice.createDateTime}}成功注册了appogg账号。
+              {{commentNotice.noticeToUserName}},{{commentNotice.noticeContent}}
               <a @click="viewNotice(commentNotice)">查看详情</a>
               <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;" @click="setArticleRead(commentNotice.id)">置为已读</Button>
               <Button v-else style="position: absolute;right: 20px;"><Icon type="md-checkmark" />已读</Button>
@@ -164,9 +164,7 @@
           }
         }
         else if(notice.noticeType === "system"){
-          content = '<p>' + notice.noticeToUserName + '恭喜您，在' + notice.createDateTime + '成功注册了appogg账号。</p>' +
-            '<p>我们忠心希望您在网站上获得您需要的东西，祝您愉快！</p>';
-
+          content = '<p>' + notice.noticeToUserName +"," + notice.noticeContent +  '</p>';
         }
         // alert(notice.noticeType +)
         this.$Modal.info({

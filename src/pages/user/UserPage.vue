@@ -27,6 +27,9 @@
               <Button v-if="articleUser.userName == loginUserName" style="margin-left: 30px;" type="dashed"
                       @click="editMsg">编辑我的信息
               </Button>
+              <Button v-if="loginUserName == 'appogg'" style="margin-left: 30px;" type="primary"
+                      @click="editMsg">发布系统通知
+              </Button>
               <Button v-if="followStatus == '0' && articleUser.userName != loginUserName" style="margin-left: 30px;"
                       type="success" @click="followUser">关注Ta
               </Button>

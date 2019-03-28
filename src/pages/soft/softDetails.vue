@@ -97,10 +97,16 @@
                 <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
                 　{{comment.createDateTime}}　
               </p>
+              <div style="position: absolute;right: 20px;top:10px;">
+                <Tooltip content="回复">
+                  <Icon type="md-chatboxes" style="cursor: pointer;" @click="backCommentModal(comment)"/>
+                </Tooltip>
+              </div>
+
 
               <p v-if="comment.backToUserId === 0">{{comment.commentContent}}</p>
 
-              <p v-else>{{comment.createUserName}} @ {{comment.backToUserName}} : {{comment.commentContent}}</p>
+              <p v-else><strong>@ {{comment.backToUserName}} : </strong>{{comment.commentContent}}</p>
 
               <div v-if="comment.children" class="children-item">
                 <softCommentList :list="comment.children"></softCommentList>
@@ -111,26 +117,28 @@
         </Row>
       </Card>
       <div style="text-align: center;">
-        <Button style="text-align: center;margin:0 auto;" @click="getMoreComment">查看更多</Button>
+        <!--<Button style="text-align: center;margin:0 auto;" @click="getMoreComment">查看更多</Button>-->
 
       </div>
 
 
 
-      <!--<Modal v-model="addModal" title="评论" @on-cancel="cancel">-->
-        <!--<Form ref="softCommentMsg" :model="softCommentMsg" :rules="ruleValidate">-->
+      <Modal v-model="backComment" :title="backCommentModalTitle" @on-cancel="cancelBackComment">
+        <Form ref="softCommentMsg" :model="softCommentMsg" :rules="ruleValidate">
+          <strong style="margin-bottom: 10px;">Ta说：{{backCommentContent}}</strong>
 
-          <!--<FormItem style="width: 100%;"  prop="commentContent">-->
-            <!--<Input style="width: 100%;margin-bottom: 20px;" v-model="softCommentMsg.commentContent" type="textarea"-->
-                   <!--:autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入评论内容..."/>-->
-          <!--</FormItem>-->
+          <FormItem style="width: 100%;margin-top: 20px;"  prop="commentContent">
 
-        <!--</Form>-->
-        <!--<div slot="footer">-->
-          <!--<Button @click="cancel">取消</Button>-->
-          <!--<Button @click="confirm('softCommentMsg')" type="primary">保存</Button>-->
-        <!--</div>-->
-      <!--</Modal>-->
+            <Input style="width: 100%;margin-bottom: 20px;" v-model="softCommentMsg.commentContent" type="textarea"
+                   :autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入回复内容..."/>
+          </FormItem>
+
+        </Form>
+        <div slot="footer">
+          <Button @click="cancelBackComment">取消</Button>
+          <Button @click="confirm('softCommentMsg')" type="primary">保存</Button>
+        </div>
+      </Modal>
 
     </FormItem>
 
@@ -224,6 +232,10 @@
         list: Array
       }
       return {
+
+        backComment:false,
+
+
         ruleValidate: {
           commentContent: [
             { required: true, message: '评论内容不能为空', trigger: 'blur' }
@@ -243,8 +255,15 @@
           commentContent: '',
           commentSoftId: '',
           commentUserId:'',
+          commentParentId:'',
+          backToUserId:0,
+          backToUserName:null,
 
         },
+        backCommentModalTitle:'',
+        backCommentUserName:'',
+        backCommentUserId:'',
+        backCommentContent:'',
 
         softCommentList: [],
         softCommentTotal: '',
@@ -297,12 +316,32 @@
       cancel() {
         this.addModal = false;
       },
+      cancelBackComment() {
+        this.backComment = false;
+      },
+
+      backCommentModal(comment){
+
+        let loginUserId = window.localStorage.getItem("userId")
+        if(loginUserId !== null){
+          this.backComment = true;
+          this.backCommentUserName = comment.commentUserName
+          this.backCommentUserId = comment.commentUserId
+          this.softCommentMsg.commentParentId = comment.id
+          this.backCommentModalTitle = "回复" + comment.commentUserName + "的评论"
+          this.backCommentContent = comment.commentContent
+        } else {
+          this.$Message.warning('登录后才能回复');
+        }
+      },
 
       confirm(softCommentMsg) {
         // this.updatetDictType();
 
         this.softCommentMsg.commentSoftId = this.softId
         this.softCommentMsg.commentUserId = window.localStorage.getItem("userId")
+        this.softCommentMsg.backToUserId = this.backCommentUserId
+        this.softCommentMsg.backToUserName = this.backCommentUserName
         // this.softCommentMsg.commentContent = this.commentContentMsg
 
         this.$refs[softCommentMsg].validate((valid) => {
@@ -316,6 +355,7 @@
                   this.softCommentMsg.commentContent = ''
                   this.getCommentData(this.systemPlatform);
                   this.addModal = false;
+                  this.backComment = false;
 
                 }
 
@@ -424,8 +464,8 @@
 
 
               console.log("yes", response.data.data.rows)
-              this.softCommentList = response.data.data.rows
-              this.softCommentTotal = response.data.data.total
+              this.softCommentList = response.data.data
+              this.softCommentTotal = response.data.total
 
               console.log("yes......", response.data.data.rows)
 

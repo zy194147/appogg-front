@@ -60,6 +60,7 @@
           </RadioGroup>
         </Card>
 
+
         <!--<Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">-->
           <!--<p slot="title">分类</p>-->
           <!--<a slot="extra">换一批</a>-->
@@ -82,6 +83,16 @@
               </Tag>
             </li>
           </ul>
+        </Card>
+
+
+
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+          <p slot="title">没找到想要的?</p>
+          <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush">
+            <Icon type="ios-create-outline"/>
+            去发布需求
+          </Button>
         </Card>
 
         <!--<Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">-->
@@ -146,6 +157,14 @@
       }
     },
     methods: {
+
+      needPush(){
+        this.$Loading.start()
+        this.$router.push('/needPush')
+        this.$Loading.finish()
+      },
+
+
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
