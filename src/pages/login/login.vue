@@ -104,7 +104,7 @@
         this.loginLoading = true;
         this.$refs[userLogin].validate((valid) => {
           if (valid) {
-            this.userLogin.userPassword = this.$md5(this.userLogin.userPassword)
+            this.userLogin.userPassword = this.$md5("[9wZ)@To&4h%M&.#_DL]" + this.userLogin.userPassword)
             this.$http.post('/api/user/login', this.userLogin)
               .then((response) => {
                 let data = response.data;

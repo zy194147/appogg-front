@@ -137,7 +137,7 @@
           if (valid) {
             // this.$Message.success('Success!');
 
-            this.userSignUp.userPassword = this.$md5(this.userSignUp.userPassword)
+            this.userSignUp.userPassword = this.$md5("[9wZ)@To&4h%M&.#_DL]" + this.userSignUp.userPassword)
 
             axios.post('/api/user/signUp', this.userSignUp)
               .then((response) => {
