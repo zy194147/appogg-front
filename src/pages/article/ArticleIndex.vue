@@ -8,8 +8,9 @@
 
       <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
-          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src="article.userHeadIcon">
-          <span>{{article.createUserName}}</span>
+
+          <img  @click="userDetail(article.createUserId)" style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;cursor: pointer" :src="article.userHeadIcon">
+          <span style="cursor: pointer" @click="userDetail(article.createUserId)">{{article.createUserName}}</span>
           <!--<span>{{$store.getters.username}}</span>-->
           <Tooltip content="钻石会员" placement="bottom">
             <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
@@ -135,6 +136,14 @@
       }
     },
     methods: {
+
+      userDetail(userId){
+        this.$router.push({name: 'UserPage', query: {userId: userId}})
+
+      },
+
+
+
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {

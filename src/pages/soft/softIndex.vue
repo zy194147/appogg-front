@@ -9,8 +9,8 @@
 
       <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
-          <img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=soft.userHeadIcon>
-          <span>{{soft.createUserName}}</span>
+          <img @click="userDetail(soft.createUserId)" style="cursor:pointer;width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=soft.userHeadIcon>
+          <span  style="cursor: pointer" @click="userDetail(soft.createUserId)">{{soft.createUserName}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
           <span>　{{soft.createDateTime}}　</span>
           <Icon type="ios-chatbubbles"/>
@@ -157,6 +157,12 @@
       }
     },
     methods: {
+
+
+      userDetail(userId){
+        this.$router.push({name: 'UserPage', query: {userId: userId}})
+
+      },
 
       needPush(){
         this.$Loading.start()

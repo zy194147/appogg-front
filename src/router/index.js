@@ -62,6 +62,11 @@ const router = new Router({
       name: 'UserPage',
       component: () => import('@/pages/user/UserPage.vue'),
     },
+    {
+      path: '/userEdit',
+      name: 'UserPageEdit',
+      component: () => import('@/pages/user/UserPageEdit.vue'),
+    },
 
 
 

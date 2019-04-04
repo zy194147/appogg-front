@@ -14,7 +14,7 @@
         <!--Change-->
         <!--</a>-->
         <div>
-          <FormItem style="width: 70%;margin:20px;" prop="userEmail">
+          <FormItem style="width: 70%;margin:20px;" :model="userSignUp" prop="userEmail">
             <Input v-model.trim="userSignUp.userEmail" prefix="ios-mail" placeholder="邮箱" style="width: 100%;"/>
           </FormItem>
           <FormItem style="width: 70%;margin:20px;" prop="userName">
@@ -22,6 +22,9 @@
           </FormItem>
           <FormItem style="width: 70%;margin:20px;" prop="userPassword">
             <Input v-model.trim="userSignUp.userPassword" prefix="md-lock" type="password"  placeholder="密码" style="width: 100%;"/>
+          </FormItem>
+          <FormItem style="width: 70%;margin:20px;" prop="userPasswordCheck">
+            <Input v-model.trim="userSignUp.userPasswordCheck" prefix="md-lock" type="password"  placeholder="确认密码" style="width: 100%;"/>
           </FormItem>
           <Button type="success" :loading="signUpLoading" style="width: 70%;margin:20px;" @click="userSignUpSubmit('userSignUp')">
             <span v-if="!signUpLoading">注册</span>
@@ -51,6 +54,17 @@
 
   export default {
     data() {
+      const validatePassCheck = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.userSignUp.userPassword) {
+          callback(new Error('两次输入的密码不一致'));
+        } else {
+          callback();
+        }
+      };
+
+
       return {
 
         signUpLoading:false,
@@ -69,13 +83,17 @@
             {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
 
           ],
+          userPasswordCheck: [
+            { validator: validatePassCheck, trigger: 'blur' }
+          ],
 
         },
 
         userSignUp: {
           userEmail: "",
           userName: "",
-          userPassword: ""
+          userPassword: "",
+          userPasswordCheck: ""
         },
 
         formInline: {
@@ -136,8 +154,9 @@
         this.$refs[userSignUp].validate((valid) => {
           if (valid) {
             // this.$Message.success('Success!');
-
             this.userSignUp.userPassword = this.$md5("[9wZ)@To&4h%M&.#_DL]" + this.userSignUp.userPassword)
+            this.userSignUp.userPasswordCheck = this.$md5("[9wZ)@To&4h%M&.#_DL]" + this.userSignUp.userPasswordCheck)
+
 
             axios.post('/api/user/signUp', this.userSignUp)
               .then((response) => {

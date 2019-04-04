@@ -46,6 +46,10 @@
                   <Icon type="ios-person-outline"/>
                   个人中心
                 </DropdownItem>
+                <DropdownItem name="userEdit">
+                  <Icon type="ios-person-outline"/>
+                  设置
+                </DropdownItem>
                 <DropdownItem name="notice">
 
                   <Badge v-if="noticeTotal != 0" type="error" dot>
@@ -328,6 +332,13 @@
         this.$Loading.finish()
         this.value1 = false
       },
+      toUserEdit() {
+        this.$Loading.start()
+        var loginUserId = window.localStorage.getItem("userId");
+        this.$router.push({name: 'UserPageEdit', query: {userId: loginUserId}})
+        this.$Loading.finish()
+        this.value1 = false
+      },
 
       userAction(item) {
         if (item === 'user') {
@@ -342,13 +353,29 @@
           this.needPush();
         }
         else if (item === 'logout') {
-          this.modal1 = true
+
+          this.logoutModal();
+          // this.modal1 = true
         }
         else if (item === 'notice') {
           this.toNoticePage();
         }
+        else if (item === 'userEdit') {
+          this.toUserEdit();
+        }
 
 
+      },
+      logoutModal () {
+        this.$Modal.confirm({
+          title: '提醒',
+          content: '<p>确定要退出登录吗</p>',
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+            this.ok()
+          }
+        });
       },
 
       userDetails() {

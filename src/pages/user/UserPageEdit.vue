@@ -11,56 +11,142 @@
 
         <div style="width: 100%;">
 
-          <img style="width:100%;height:200px;object-fit: cover;"
+          <img v-if="userPageImage === ''" style="width:100%;height:200px;object-fit: cover;"
                :src=userDetail.userPageIcon>
+          <img v-else style="width:100%;height:200px;object-fit: cover;"
+               :src=userPageImage>
+
+          <Upload
+            ref="upload"
+            :show-upload-list="false"
+            :on-success="handleSuccess"
+            :format="['jpg','jpeg','png']"
+            :max-size="1024"
+            :on-format-error="handleFormatError"
+            :on-exceeded-size="handleMaxSize"
+            :before-upload="handleBeforeUpload"
+            type="drag"
+            action="/api/image/upload"
+            style="position:absolute;top:10px;left:10px">
+            <div style="width: 20px;height:20px;line-height: 16px;">
+              <Icon type="ios-camera" size="20"></Icon>
+            </div>
+          </Upload>
+
+          <!--<Icon style="object-fit: cover;position:absolute;top:10px;right:10px;cursor:pointer" type="ios-camera"  size="20"></Icon>-->
+
           <img
             style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
             :src=userDetail.userHeadIcon>
 
+          <img v-if="userHeadImage === ''"
+               style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+               :src=userDetail.userHeadIcon>
+          <img v-else
+               style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+               :src=userHeadImage>
+
+          <Upload
+            ref="upload"
+            :show-upload-list="false"
+            :on-success="handleSuccess1"
+            :format="['jpg','jpeg','png']"
+            :max-size="1024"
+            :on-format-error="handleFormatError1"
+            :on-exceeded-size="handleMaxSize1"
+            :before-upload="handleBeforeUpload1"
+            type="drag"
+            action="/api/image/upload"
+            style="position:absolute;top:140px;left:30px">
+            <div style="width: 20px;height:20px;line-height: 16px;">
+              <Icon type="ios-camera" size="20"></Icon>
+            </div>
+          </Upload>
+
+          <!--<Icon style="object-fit: cover;position:absolute;top:140px;left:30px;cursor:pointer" type="ios-camera"  size="20"></Icon>-->
+
           <div style="text-align: left;width:70%;margin-left: 240px;">
-            <p>
-              <span style="font-size: 18px;"><strong>{{userDetail.userName}}</strong></span>
-              <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
 
-              {{userDetail.memberLevelName}}
+            <span style="font-size: 18px;"><strong>{{userDetail.userName}}　</strong></span>
+            <Poptip
+              v-model="nameVisible"
+              @on-ok="ok"
+              @on-cancel="cancel">
+              <a>编辑用户名</a>
+              <div class="api" slot="content" style="text-align: right">
+                <FormItem>
+                  <Input :placeholder="userDetail.userName"
+                         style="width: 100%;margin-bottom: 20px;"/>
+                </FormItem>
+                <br/>
+                <Button size="small" @click="nameCancel">取消</Button>
+                <Button size="small" type="primary" @click="nameSure">确定</Button>
+              </div>
+            </Poptip>
+            <br/>
 
-              <Button v-if="articleUser.userName === loginUserName" style="margin-left: 30px;" type="dashed"
-                      @click="editUserMsg">编辑我的信息
-              </Button>
-              <Button v-if="loginUserName === 'appogg'" style="margin-left: 30px;" type="primary"
-                      @click="editMsg">发布系统通知
-              </Button>
-              <Button v-if="followStatus === '0' && articleUser.userName != loginUserName" style="margin-left: 30px;"
-                      type="success" @click="followUser">关注Ta
-              </Button>
-
-
-              <!--<Button style="position: absolute;right:10px;margin-top:3px;margin-left: 30px;" @click="handleRender">-->
-                <!--给ta留言-->
-              <!--</Button>-->
-
-              <Poptip
-                confirm
-                title="确定取消关注?"
-                @on-ok="ok"
-                @on-cancel="cancel">
-                <Button v-if="followStatus == '1' " style="margin-left: 30px;" type="success">
-                  <Icon type="md-checkmark"/>
-                  已关注
-                </Button>
-              </Poptip>
-
-            </p>
             <p>
               <Icon type="ios-pin"/>
-              {{userDetail.userCity}}
+              {{userDetail.userCity}}　
+              <Poptip
+                v-model="cityVisible">
+                <a>编辑城市</a>
+                <div class="api" slot="content" style="text-align: right">
+                  <FormItem>
+                    <Input placeholder="城市"
+                           style="width: 100%;margin-bottom: 20px;"/>
+                  </FormItem>
+                  <br/>
+                  <Button size="small" @click="cityCancel">取消</Button>
+                  <Button size="small" type="primary" @click="citySure">确定</Button>
+                </div>
+              </Poptip>
               |
               <Icon type="md-male"/>
+              男　
+              <Poptip
+                v-model="sexVisible">
+                <a>编辑性别</a>
+                <div class="api" slot="content" style="text-align: right">
+                  <FormItem>
+                    <Select size="small" v-model="model1" style="width:200px">
+                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </FormItem>
+                  <br/>
+                  <Button size="small" @click="sexCancel">取消</Button>
+                  <Button size="small" type="primary" @click="sexSure">确定</Button>
+                </div>
+              </Poptip>
             </p>
-            <p v-if="userDetail.userIntroduce !== null">{{userDetail.userIntroduce}}</p>
-            <p v-else style="margin-bottom: 10px;">
-              暂时没有任何简介。
+            <p>{{userDetail.userIntroduce}}
+              <!--<p v-else style="margin-bottom: 10px;"></p>-->
+              <Poptip
+                v-model="intrVisible" width="400">
+                <a>编辑简介</a>
+                <div class="api" slot="content" style="width: 96%;text-align: right">
+                  <FormItem style="width: 100%;margin-bottom: 20px">
+                    <Input placeholder="一句话介绍下自己"
+                           style="width: 100%"/>
+                  </FormItem>
+                  <br/>
+                  <Button size="small" @click="intrCancel">取消</Button>
+                  <Button size="small" type="primary" @click="intrSure">确定</Button>
+                </div>
+              </Poptip>
             </p>
+
+            <!--<FormItem>-->
+            <!--<Input placeholder="输入简介"-->
+            <!--style="width: 100%;margin-bottom: 20px;"/>-->
+            <!--</FormItem>-->
+
+
+            <!--<FormItem>-->
+            <!--<Select v-model="model1" style="width:200px">-->
+            <!--<Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>-->
+            <!--</Select>-->
+            <!--</FormItem>-->
 
 
           </div>
@@ -69,160 +155,16 @@
         </div>
 
 
-      </Card>
+        <div style="text-align: center;margin-bottom: 30px">
+          <Button @click="cancelUserEdit">取消</Button>
+          <Button type="primary">保存</Button>
 
-
-      <!--<div>-->
-      <!--<Tabs :animated="false">-->
-      <!--<TabPane label="标签一">标签一的内容</TabPane>-->
-      <!--<TabPane label="标签二">标签二的内容</TabPane>-->
-      <!--<TabPane label="标签三">标签三的内容</TabPane>-->
-      <!--</Tabs>-->
-      <!--</div>-->
-
-
-
-    </FormItem>
-
-    <FormItem>
-
-      <Modal v-model="leaveMessage" title="留言" @on-cancel="cancel">
-        <Form>
-          <FormItem style="width: 100%;" prop="commentContent">
-            <Input style="width: 100%;margin-bottom: 20px;"  type="textarea"
-                   :autosize="{minRows: 3,maxRows: 7}" :rows="4" placeholder="输入留言内容..."/>
-          </FormItem>
-        </Form>
-        <div slot="footer">
-          <Button @click="confirm('softCommentMsg')" type="primary">保存</Button>
         </div>
-      </Modal>
-
-    </FormItem>
 
 
-    <FormItem style="width:72%;margin-top: -10px;">
-
-      <Card :bordered="true" dis-hover="false">
-        <Tabs :animated="false">
-          <TabPane :label=articleNum>
-            <Card v-if="articles.length == 0" style="text-align: center" dis-hover="false">
-              <img style="height:100px;" src="../../assets/article/no_user.png">
-              <p>暂无文章</p>
-            </Card>
-            <div v-for="article in articles">
-              <p style="font-size: 20px;">
-                <Tag color="green">文</Tag>
-                <span style="line-height: 40px; cursor: pointer" @click="articleDetails(article)">{{article.articleTitleName}}</span>
-              </p>
-              <div style="width: 100%;">
-                <p style="width: 76%;float: left;margin-right: 30px;" @click="articleDetails(article)">
-                  {{article.articleSummary}}
-                </p>
-                <div>
-                  <img @click="articleDetails(article)"
-                       style="position:relative;right: -10px;top:-40px; width:120px;height: 80px;"
-                       :src=article.articleTitleIcon>
-                </div>
-                <Divider/>
-              </div>
-            </div>
-            <Page v-if="articles.length != 0" style="text-align: center" :total=articles.length show-total
-                  show-elevator/>
-
-
-          </TabPane>
-          <TabPane :label=softNum>
-            <Card v-if="softs.length == 0" style="text-align: center" dis-hover="false">
-              <img style="height:100px;" src="../../assets/article/no_user.png">
-              <p>暂无软件</p>
-            </Card>
-            <div v-for="soft in softs">
-              <p style="font-size: 20px;">
-                <Tag color="green">软</Tag>
-                <span @click="softDetails(soft)"
-                      style="line-height: 40px; cursor: pointer">{{soft.softTitleName}}</span>
-              </p>
-              <Divider/>
-            </div>
-
-            <Page v-if="softs.length != 0" style="text-align: center" :total=softs.length show-total show-elevator/>
-
-          </TabPane>
-          <TabPane :label=needNum>
-            <Card v-if="softs.length == 0" style="text-align: center" dis-hover="false">
-              <img style="height:100px;" src="../../assets/article/no_user.png">
-              <p>暂无提问</p>
-            </Card>
-            <div v-for="need in needs">
-              <p style="font-size: 20px;">
-                <Tag color="green">问</Tag>
-                <span @click="needdetails(need)"
-                      style="line-height: 40px; cursor: pointer">{{need.needTitleName}}</span>
-              </p>
-              <Divider/>
-            </div>
-
-            <Page v-if="softs.length != 0" style="text-align: center" :total=needs.length show-total show-elevator/>
-
-          </TabPane>
-
-
-          <TabPane :label=followToNum>
-            <Card v-if="followToUsers.length == 0" style="text-align: center" dis-hover="false">
-              <img style="height:100px;" src="../../assets/article/no_user.png">
-              <p>暂无关注</p>
-            </Card>
-
-            <div v-for="followToUser in followToUsers">
-              <img style="width:40px;height:40px;margin-right: 10px;" :src=followToUser.userHeadIcon>
-              <span style="font-size: 16px;"><strong>{{followToUser.userName}}</strong></span>
-              <Divider/>
-            </div>
-
-            <Page v-if="followToUsers.length != 0" style="text-align: center" :total=followToUsers.length show-total
-                  show-elevator/>
-
-          </TabPane>
-          <TabPane :label=followNum>
-
-            <Card v-if="followers.length == 0" style="text-align: center" dis-hover="false">
-              <img style="height:100px;" src="../../assets/article/no_user.png">
-              <p>暂无关注者</p>
-            </Card>
-            <div v-for="follower in followers">
-              <img style="width:40px;height:40px;margin-right: 10px;" :src=follower.userHeadIcon>
-              <span style="font-size: 16px;"><strong>{{follower.userName}}</strong></span>
-              <Divider/>
-            </div>
-            <Page v-if="followers.length != 0" style="text-align: center" :total=followers.length show-total
-                  show-elevator/>
-
-
-          </TabPane>
-        </Tabs>
-      </Card>
-    </FormItem>
-
-
-    <FormItem style="width:23%;margin-top: -10px;">
-
-      <!--<Card :bordered="true" style="text-align: left;margin-bottom: 10px;">-->
-      <!--<p slot="title">分类标签</p>-->
-      <!--<a slot="extra">编辑</a>-->
-      <!--<Tag color="cyan">java</Tag>-->
-      <!--<Tag color="cyan">c语言</Tag>-->
-      <!--<Tag color="cyan">python</Tag>-->
-      <!--<Tag color="cyan">spring</Tag>-->
-      <!--<Tag color="cyan">编程</Tag>-->
-      <!--</Card>-->
-      <Card :bordered="true" style="text-align: center;margin-bottom: 10px;" dis-hover="false">
-        <Icon type="md-paw"/>
-        <p>{{userDetail.createDateTime}}加入appogg</p>
       </Card>
 
     </FormItem>
-
 
   </Form>
 
@@ -237,7 +179,38 @@
     data() {
       return {
 
-        leaveMessage:false,
+        nameVisible: false,
+        cityVisible: false,
+        sexVisible: false,
+        intrVisible: false,
+
+        userPageImage: '',
+        visible: false,
+        uploadList: [],
+
+        userHeadImage: '',
+        visible1: false,
+        uploadList1: [],
+
+
+        cityList: [
+          {
+            value: '保密',
+            label: '保密'
+          },
+          {
+            value: '男',
+            label: '男'
+          },
+          {
+            value: '女',
+            label: '女'
+          },
+
+        ],
+        model1: '',
+
+        leaveMessage: false,
 
         followStatus: '0',
 
@@ -281,6 +254,143 @@
       }
     },
     methods: {
+
+      //图片上传
+      handleView(name) {
+        this.userPageImage = name;
+        this.visible = true;
+      },
+      handleRemove(file) {
+        const fileList = this.$refs.upload.fileList;
+        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+      },
+      handleSuccess(res, file) {
+        console.log(res.data)
+        console.log(file)
+        this.userPageImage = res.data
+        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+      },
+      handleFormatError(file) {
+        this.$Notice.warning({
+          title: 'The file format is incorrect',
+          desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+        });
+      },
+      handleMaxSize(file) {
+        this.$Notice.warning({
+          title: 'Exceeding file size limit',
+          desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+        });
+      },
+      handleBeforeUpload() {
+        const check = this.uploadList.length < 5;
+        if (!check) {
+          this.$Notice.warning({
+            title: 'Up to five pictures can be uploaded.'
+          });
+        }
+        return check;
+      },
+
+      //图片上传
+      handleView1(name) {
+        this.userHeadImage = name;
+        this.visible1 = true;
+      },
+      handleRemove2(file) {
+        const fileList = this.$refs.upload.fileList;
+        this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+      },
+      handleSuccess1(res, file) {
+        console.log(res.data)
+        console.log(file)
+        this.userHeadImage = res.data
+        file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+        file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+      },
+      handleFormatError1(file) {
+        this.$Notice.warning({
+          title: 'The file format is incorrect',
+          desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+        });
+      },
+      handleMaxSize1(file) {
+        this.$Notice.warning({
+          title: 'Exceeding file size limit',
+          desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+        });
+      },
+      handleBeforeUpload1() {
+        const check = this.uploadList1.length < 5;
+        if (!check) {
+          this.$Notice.warning({
+            title: 'Up to five pictures can be uploaded.'
+          });
+        }
+        return check;
+      },
+
+      nameCancel() {
+        // alert("cancel")
+        this.nameVisible = false;
+      },
+
+      nameSure() {
+        // alert("sure")
+        this.nameVisible = false;
+
+
+      },
+      cityCancel() {
+        // alert("cancel")
+        this.cityVisible = false;
+      },
+
+      citySure() {
+        // alert("sure")
+        this.cityVisible = false;
+
+
+      },
+      sexCancel() {
+        // alert("cancel")
+        this.sexVisible = false;
+      },
+
+      sexSure() {
+        // alert("sure")
+        this.sexVisible = false;
+
+
+      },
+      intrCancel() {
+        // alert("cancel")
+        this.intrVisible = false;
+      },
+
+      intrSure() {
+        // alert("sure")
+        this.intrVisible = false;
+
+
+      },
+
+      cancelUserEdit(){
+        var loginUserId = window.localStorage.getItem("userId");
+        this.$router.push({name: 'UserPage', query: {userId: loginUserId}})
+      },
+
+
+
+
+
+
+
+
+
+
+
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -565,11 +675,6 @@
           })
       },
       cancel() {
-      },
-
-      editUserMsg(){
-        var loginUserId = window.localStorage.getItem("userId");
-        this.$router.push({name: 'UserPageEdit', query: {userId: loginUserId}})
       },
 
 

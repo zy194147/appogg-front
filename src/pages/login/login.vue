@@ -107,23 +107,30 @@
             this.userLogin.userPassword = this.$md5("[9wZ)@To&4h%M&.#_DL]" + this.userLogin.userPassword)
             this.$http.post('/api/user/login', this.userLogin)
               .then((response) => {
+
                 let data = response.data;
-                this.$store.commit('changeLogin', data);
+                // this.$store.commit('changeLogin', data);
                 if (response.data.status === 200) {
                   if(response.data.data.status === 10010){
                     this.$Message.error(response.data.data.message);
                   } else if(response.data.data.status === 10011){
+
                     this.$Message.error(response.data.data.message);
+
 
                   } else if(response.data.data.status === 10012){
                     this.$Message.error(response.data.data.message);
 
                   } else {
+                    this.$store.commit('changeLogin', data);
+
                     this.userToken = response.data.data.token
-                    this.$Message.success('登录成功');
 
                     this.$router.push("/")
                     this.$router.go("/")
+
+                    this.$Message.success('登录成功');
+
                   }
 
 
