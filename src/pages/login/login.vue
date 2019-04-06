@@ -15,7 +15,7 @@
         <!--</a>-->
         <div>
           <FormItem style="width: 70%;margin:20px;" prop="userName">
-            <Input v-model.trim="userLogin.userName" prefix="ios-contact" placeholder="用户名或邮箱"
+            <Input v-model.trim="userLogin.userName" prefix="ios-contact" placeholder="用户名"
                    style="width: 100%;"/>
           </FormItem>
           <FormItem style="width: 70%;margin:20px;" prop="userPassword">

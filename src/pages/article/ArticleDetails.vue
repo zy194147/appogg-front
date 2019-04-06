@@ -182,8 +182,11 @@
           <p slot="title">ta的其他文章</p>
           <ul style="list-style:none;">
             <li v-for="trendingArticle in authorTrendingList" style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
+              <!--<Icon type="ios-book-outline"/>-->
+              <p style="float: left;width:auto;max-width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
+
               <a @click="articleDetails(trendingArticle)">{{trendingArticle.articleTitleName}}</a>
+              </p>
               <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingArticle.commentNum}}</Tag>
             </li>
           </ul>

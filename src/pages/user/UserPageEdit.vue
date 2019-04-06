@@ -1,7 +1,7 @@
 <template>
 
 
-  <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
+  <Form style="text-align: left" ref="userMsgEdit" :model="userMsgEdit" :rules="ruleInline" inline>
 
     <FormItem style="width:100%;text-align: left;margin-right: 20px;">
       <Card style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" :padding="0">
@@ -75,7 +75,7 @@
               <a>编辑用户名</a>
               <div class="api" slot="content" style="text-align: right">
                 <FormItem>
-                  <Input :placeholder="userDetail.userName"
+                  <Input v-model.trim="userMsgEdit.userName" :placeholder="userDetail.userName"
                          style="width: 100%;margin-bottom: 20px;"/>
                 </FormItem>
                 <br/>
@@ -93,7 +93,7 @@
                 <a>编辑城市</a>
                 <div class="api" slot="content" style="text-align: right">
                   <FormItem>
-                    <Input placeholder="城市"
+                    <Input v-model.trim="userMsgEdit.userCity" placeholder="城市"
                            style="width: 100%;margin-bottom: 20px;"/>
                   </FormItem>
                   <br/>
@@ -102,17 +102,24 @@
                 </div>
               </Poptip>
               |
-              <Icon type="md-male"/>
-              男　
+              <!--<Icon type="md-male"/>-->
+              <span v-if="userDetail.userSex === 1">男　</span>
+              <span v-if="userDetail.userSex === 2">女　</span>
+              <span v-if="userDetail.userSex === 0">保密　</span>
               <Poptip
                 v-model="sexVisible">
                 <a>编辑性别</a>
                 <div class="api" slot="content" style="text-align: right">
                   <FormItem>
-                    <Select size="small" v-model="model1" style="width:200px">
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    <Select v-model.trim="userMsgEdit.userSex" size="small" style="width:200px">
+                      <Option v-for="item in sexList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                   </FormItem>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
                   <br/>
                   <Button size="small" @click="sexCancel">取消</Button>
                   <Button size="small" type="primary" @click="sexSure">确定</Button>
@@ -126,7 +133,7 @@
                 <a>编辑简介</a>
                 <div class="api" slot="content" style="width: 96%;text-align: right">
                   <FormItem style="width: 100%;margin-bottom: 20px">
-                    <Input placeholder="一句话介绍下自己"
+                    <Input v-model.trim="userMsgEdit.userIntroduce" placeholder="一句话介绍下自己"
                            style="width: 100%"/>
                   </FormItem>
                   <br/>
@@ -157,7 +164,7 @@
 
         <div style="text-align: center;margin-bottom: 30px">
           <Button @click="cancelUserEdit">取消</Button>
-          <Button type="primary">保存</Button>
+          <Button type="primary" @click="saveUserMsg('userMsgEdit')">保存</Button>
 
         </div>
 
@@ -192,18 +199,33 @@
         visible1: false,
         uploadList1: [],
 
+        userMsgEdit: {
+          id:"",
+          userPageIcon: "",
+          userHeadIcon: "",
+          userName: "",
+          userCity: "",
+          userSex: "",
+          userIntroduce: ""
+        },
 
-        cityList: [
+
+        userCheckByName: {
+          userName: "",
+        },
+
+
+        sexList: [
           {
-            value: '保密',
+            value: 0,
             label: '保密'
           },
           {
-            value: '男',
+            value: 1,
             label: '男'
           },
           {
-            value: '女',
+            value: 2,
             label: '女'
           },
 
@@ -253,7 +275,29 @@
         theme1: 'light',
       }
     },
+
+    computed:{
+
+    },
     methods: {
+      initUserMsg(){
+        this.userMsgEdit.id = window.localStorage.getItem("userId");
+        if(this.userPageImage === ''){
+          this.userMsgEdit.userPageIcon = this.userDetail.userPageIcon
+        } else {
+          this.userMsgEdit.userPageIcon = this.userPageImage
+        }
+        if(this.userHeadImage === ''){
+          this.userMsgEdit.userHeadIcon = this.userDetail.userHeadIcon
+        } else {
+          this.userMsgEdit.userHeadIcon = this.userHeadImage
+        }
+        this.userMsgEdit.userName = this.userDetail.userName
+        this.userMsgEdit.userCity = this.userDetail.userCity
+        this.userMsgEdit.userSex = this.userDetail.userSex
+        this.userMsgEdit.userIntroduce = this.userDetail.userIntroduce
+      },
+
 
       //图片上传
       handleView(name) {
@@ -338,6 +382,19 @@
 
       nameSure() {
         // alert("sure")
+
+        this.userCheckByName.userName = this.userMsgEdit.userName
+
+        axios.post('/api/user/checkNameExist', this.userCheckByName)
+          .then((response) => {
+            if (response.data.status === 200) {
+              if (response.data.data.status === 1) {
+                alert("用户已存在")
+              } else {
+                this.userDetail.userName=this.userMsgEdit.userName
+              }
+            }
+          })
         this.nameVisible = false;
 
 
@@ -349,6 +406,8 @@
 
       citySure() {
         // alert("sure")
+
+        this.userDetail.userCity=this.userMsgEdit.userCity
         this.cityVisible = false;
 
 
@@ -360,6 +419,9 @@
 
       sexSure() {
         // alert("sure")
+
+        this.userDetail.userSex=this.userMsgEdit.userSex
+
         this.sexVisible = false;
 
 
@@ -371,6 +433,8 @@
 
       intrSure() {
         // alert("sure")
+
+        this.userDetail.userIntroduce=this.userMsgEdit.userIntroduce
         this.intrVisible = false;
 
 
@@ -466,6 +530,32 @@
         //     })
         //   }
         // })
+      },
+
+
+
+      saveUserMsg(userEditMsg){
+        this.initUserMsg()
+
+        console.log("===========",userEditMsg,"------",this.userMsgEdit)
+
+        this.userMsgEdit.id = window.localStorage.getItem("userId");
+
+        axios.post('/api/user/updateMsg', this.userMsgEdit)
+          .then((response) => {
+            if (response.data.status === 200) {
+              if (response.data.data.status === 0) {
+
+                var loginUserId = window.localStorage.getItem("userId");
+                this.$router.push({name: 'UserPage', query: {userId: loginUserId}})
+
+                this.$Message.success('修改成功!')
+              } else {
+                this.$Message.error('修改失败!')
+              }
+            }
+            console.log("user.....login:", response)
+          })
       },
 
 

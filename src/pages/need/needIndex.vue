@@ -60,7 +60,13 @@
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">最新需求</p>
           <ul style="list-style:none;">
-            <li v-for="trendingNeed in needTrendingList" style="margin-bottom: 4px;"><Icon type="ios-book-outline" /> <a>{{trendingNeed.needTitleName}}</a><Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingNeed.answerNum}}</Tag></li>
+            <li v-for="trendingNeed in needTrendingList" style="margin-bottom: 4px;">
+              <!--<Icon type="ios-book-outline" />-->
+              <p style="float: left;width:auto;max-width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
+              <a>{{trendingNeed.needTitleName}}</a>
+              </p>
+              <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingNeed.answerNum}}</Tag>
+            </li>
           </ul>
         </Card>
         <!--<Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush"><Icon type="ios-create-outline"/> 发布需求</Button>-->

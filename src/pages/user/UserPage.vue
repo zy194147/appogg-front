@@ -55,7 +55,11 @@
               <Icon type="ios-pin"/>
               {{userDetail.userCity}}
               |
-              <Icon type="md-male"/>
+              <!--<Icon type="md-male"/>-->
+              <Icon type="ios-man" />
+              <span v-if="userDetail.userSex === 1">男　</span>
+              <span v-if="userDetail.userSex === 2">女　</span>
+              <span v-if="userDetail.userSex === 0">保密　</span>
             </p>
             <p v-if="userDetail.userIntroduce !== null">{{userDetail.userIntroduce}}</p>
             <p v-else style="margin-bottom: 10px;">
@@ -95,6 +99,27 @@
         </Form>
         <div slot="footer">
           <Button @click="confirm('softCommentMsg')" type="primary">保存</Button>
+        </div>
+      </Modal>
+
+    </FormItem>
+    <FormItem>
+
+
+      <Modal v-model.trim="globalNoticeModal" title="发送系统通知" @on-cancel="cancel" >
+        <Form>
+          <FormItem>
+            <Input v-model.trim="globalNotice" placeholder="请输入通知内容..."></Input>
+          </FormItem>
+
+          <Alert type="warning" show-icon v-if="errorMsg">{{errorMsg}}</Alert>
+        </Form>
+        <div slot="footer">
+          <Button @click="cancelNotice">取消</Button>
+          <Button @click="sendGlobalNotice" :loading="sendNoticeLoading" type="primary">
+            <span v-if="!sendNoticeLoading">发送</span>
+            <span v-else>正在发送...</span>
+          </Button>
         </div>
       </Modal>
 
@@ -237,6 +262,15 @@
     data() {
       return {
 
+        globalNotice:"",
+        globalNoticeModal:false,
+        sendNoticeLoading:false,
+        noticeContent:"",
+
+        sendNotice: {
+          noticeContent:"",
+        },
+
         leaveMessage:false,
 
         followStatus: '0',
@@ -281,6 +315,35 @@
       }
     },
     methods: {
+      sendGlobalNotice(){
+        this.globalNoticeModal = false;
+
+
+        // this.noticeContent = this.globalNotice
+        // alert(this.noticeContent)
+        if(this.globalNotice == '' || this.globalNotice == null){
+          alert("通知内容不能为空")
+          return false
+        }
+        this.sendNotice.noticeContent = this.globalNotice
+        this.$http.post('/api/notice/sendGlobal', this.sendNotice)
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.$Message.success("发送系统通知成功!")
+              this.globalNotice = "";
+            }
+          })
+
+
+      },
+      cancelNotice(){
+        this.globalNoticeModal = false;
+
+      },
+
+
+
+
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -565,11 +628,37 @@
           })
       },
       cancel() {
+        this.globalNoticeModal = false
       },
 
       editUserMsg(){
         var loginUserId = window.localStorage.getItem("userId");
         this.$router.push({name: 'UserPageEdit', query: {userId: loginUserId}})
+      },
+
+
+      editMsg(){
+        this.globalNoticeModal = true;
+
+        // this.$Modal.confirm({
+        //   render: (h) => {
+        //     return h('Input', {
+        //       props: {
+        //         value: this.value,
+        //         autofocus: true,
+        //         placeholder: '输入通知内容...'
+        //       },
+        //       on: {
+        //         input: (val) => {
+        //           this.globalNotice = val;
+        //         }
+        //       },
+        //       onOk: () => {
+        //         alert(this.globalNotice)
+        //       }
+        //     })
+        //   }
+        // })
       },
 
 

@@ -7,8 +7,7 @@
       <Card :bordered="true" dis-hover="false">
 
 
-
-        <Tabs value="name1" :animated="false" >
+        <Tabs value="name1" :animated="false">
           <TabPane :label="label" name="name1">
             <div v-if="commentNoticeList.length === 0" style="text-align: center">
               <img style="height:100px;" src="../../assets/article/no_user.png">
@@ -18,8 +17,13 @@
             <div v-for="commentNotice in commentNoticeList">
               {{commentNotice.actionFromUserName}} 在 {{commentNotice.createDateTime}}评论了你的文章
               <a @click="viewNotice(commentNotice)">查看详情</a>
-              <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;" @click="setArticleRead(commentNotice.id)">置为已读</Button>
-              <Button v-else style="position: absolute;right: 20px;"><Icon type="md-checkmark" />已读</Button>
+              <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;"
+                      @click="setArticleRead(commentNotice.id)">置为已读
+              </Button>
+              <Button v-else style="position: absolute;right: 20px;">
+                <Icon type="md-checkmark"/>
+                已读
+              </Button>
               <Divider/>
             </div>
 
@@ -34,8 +38,13 @@
             <div v-for="commentNotice in leaveMsgNotice">
               {{commentNotice.actionFromUserName}} 在 {{commentNotice.createDateTime}}评论了你的文章
               <a @click="viewNotice">查看详情</a>
-              <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;" @click="setArticleRead(commentNotice.id)">置为已读</Button>
-              <Button v-else style="position: absolute;right: 20px;"><Icon type="md-checkmark" />已读</Button>
+              <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;"
+                      @click="setArticleRead(commentNotice.id)">置为已读
+              </Button>
+              <Button v-else style="position: absolute;right: 20px;">
+                <Icon type="md-checkmark"/>
+                已读
+              </Button>
               <Divider/>
             </div>
 
@@ -47,10 +56,19 @@
               <p>暂无通知</p>
             </div>
             <div v-for="commentNotice in systemNoticeList">
-              {{commentNotice.noticeToUserName}},{{commentNotice.noticeContent}}
-              <a @click="viewNotice(commentNotice)">查看详情</a>
-              <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;" @click="setArticleRead(commentNotice.id)">置为已读</Button>
-              <Button v-else style="position: absolute;right: 20px;"><Icon type="md-checkmark" />已读</Button>
+              <p
+                style="float: left;width:auto;max-width: 30%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
+
+                {{commentNotice.noticeToUserName}},{{commentNotice.noticeContent}}
+              </p>
+              <a  @click="viewNotice(commentNotice)">查看详情</a>
+              <Button v-if="commentNotice.readStatus === 0" style="position: absolute;right: 20px;"
+                      @click="setArticleRead(commentNotice.id)">置为已读
+              </Button>
+              <Button v-else style="position: absolute;right: 20px;">
+                <Icon type="md-checkmark"/>
+                已读
+              </Button>
               <Divider/>
             </div>
 
@@ -61,8 +79,6 @@
 
       </Card>
     </FormItem>
-
-
 
 
   </Form>
@@ -78,33 +94,33 @@
     data() {
       return {
 
-        noticeReadStatus:0,
-        loginUserId:'',
+        noticeReadStatus: 0,
+        loginUserId: '',
 
-        noticeFilter:{
-          id:'',
-          noticeType:'comment',
+        noticeFilter: {
+          id: '',
+          noticeType: 'comment',
         },
-        leaveMessageNotice:{
-          id:'',
-          noticeType:'leaveMsg',
+        leaveMessageNotice: {
+          id: '',
+          noticeType: 'leaveMsg',
         },
-        systemNotice:{
-          id:'',
-          noticeType:'system',
+        systemNotice: {
+          id: '',
+          noticeType: 'system',
         },
 
-        commentNoticeTotal:'',
+        commentNoticeTotal: '',
 
-        notReadCommentNoticeTotal:'',
+        notReadCommentNoticeTotal: '',
 
-        notReadLeaveMsgNoticeTotal:'',
+        notReadLeaveMsgNoticeTotal: '',
 
-        notReadSystemNoticeTotal:'',
+        notReadSystemNoticeTotal: '',
 
-        commentNoticeList:[],
-        leaveMsgNoticeList:[],
-        systemNoticeList:[],
+        commentNoticeList: [],
+        leaveMsgNoticeList: [],
+        systemNoticeList: [],
 
 
         label: (h) => {
@@ -145,26 +161,26 @@
     },
     methods: {
 
-      viewNotice(notice){
+      viewNotice(notice) {
 
         const title = '评论信息';
         let content;
-        if(notice.noticeType === "comment"){
+        if (notice.noticeType === "comment") {
           content = '<p>' + notice.actionFromUserName + '在' + notice.createDateTime + '评论了你的文章</p>';
-          if(notice.noticeModule === 'article'){
+          if (notice.noticeModule === 'article') {
             // const content = '<p>' + notice.actionFromUserName + '在' + notice.createDateTime + '评论了你的文章</p><a href="/articleDetails?articleId=32&articleUserId=1">查看详情</a>';
 
             // alert("article==" + notice.actionAccepter)
           }
-          else if(notice.noticeModule === 'soft'){
+          else if (notice.noticeModule === 'soft') {
             // alert("soft==" + notice.actionAccepter)
           }
-          else if(notice.noticeModule === 'need'){
+          else if (notice.noticeModule === 'need') {
             // alert("need==" + notice.actionAccepter)
           }
         }
-        else if(notice.noticeType === "system"){
-          content = '<p>' + notice.noticeToUserName +"," + notice.noticeContent +  '</p>';
+        else if (notice.noticeType === "system") {
+          content = '<p>' + notice.noticeToUserName + "," + notice.noticeContent + '</p>';
         }
         // alert(notice.noticeType +)
         this.$Modal.info({
@@ -178,7 +194,7 @@
           // }
         });
       },
-      viewMessage(){
+      viewMessage() {
 
         const title = '留言信息';
         const content = '<p>张三在 2019-12-21 给你留言：</p><p>你好啊，交个盆友啊</p>';
@@ -197,7 +213,7 @@
 
       getNotReadCommentNoticeTotal(params) {
         console.log("开始")
-        axios.get('/api/notice/noticeTotal',{params})
+        axios.get('/api/notice/noticeTotal', {params})
           .then((response) => {
 
             if (response.data.status === 200) {
@@ -216,7 +232,7 @@
 
       getNotReadLeaveMsgNoticeTotal(params) {
         console.log("开始")
-        axios.get('/api/notice/noticeTotal',{params})
+        axios.get('/api/notice/noticeTotal', {params})
           .then((response) => {
 
             if (response.data.status === 200) {
@@ -233,7 +249,7 @@
       },
       getNotReadSystemNoticeTotal(params) {
         console.log("开始")
-        axios.get('/api/notice/noticeTotal',{params})
+        axios.get('/api/notice/noticeTotal', {params})
           .then((response) => {
 
             if (response.data.status === 200) {
@@ -252,7 +268,7 @@
 
       listCommentNotice(params) {
         console.log("开始")
-        axios.get('/api/notice/noticeList',{params})
+        axios.get('/api/notice/noticeList', {params})
           .then((response) => {
 
             if (response.data.status === 200) {
@@ -274,7 +290,7 @@
 
       listLeaveMsgNotice(params) {
         console.log("开始")
-        axios.get('/api/notice/noticeList',{params})
+        axios.get('/api/notice/noticeList', {params})
           .then((response) => {
 
             if (response.data.status === 200) {
@@ -293,9 +309,9 @@
 
       setArticleRead(noticeId) {
         console.log("开始")
-        axios.get('/api/notice/setRead',{
+        axios.get('/api/notice/setRead', {
           params: {
-            'id':noticeId,
+            'id': noticeId,
           }
         })
           .then((response) => {
@@ -317,7 +333,7 @@
       },
 
 
-      systemMessage(){
+      systemMessage() {
 
         const title = '系统通知';
         const content = '<p>appogg提醒您：</p><p>你好啊，交个盆友啊</p>';

@@ -154,6 +154,7 @@
         this.$refs[userSignUp].validate((valid) => {
           if (valid) {
             // this.$Message.success('Success!');
+            // 加入自己的加密规则
             this.userSignUp.userPassword = this.$md5("[9wZ)@To&4h%M&.#_DL]" + this.userSignUp.userPassword)
             this.userSignUp.userPasswordCheck = this.$md5("[9wZ)@To&4h%M&.#_DL]" + this.userSignUp.userPasswordCheck)
 

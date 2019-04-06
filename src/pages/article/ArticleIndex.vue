@@ -9,7 +9,9 @@
       <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
 
-          <img  @click="userDetail(article.createUserId)" style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;cursor: pointer" :src="article.userHeadIcon">
+          <img @click="userDetail(article.createUserId)"
+               style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;cursor: pointer"
+               :src="article.userHeadIcon">
           <span style="cursor: pointer" @click="userDetail(article.createUserId)">{{article.createUserName}}</span>
           <!--<span>{{$store.getters.username}}</span>-->
           <Tooltip content="钻石会员" placement="bottom">
@@ -24,7 +26,8 @@
 
         </div>
         <p style="font-size: 20px;">
-          <span style="line-height: 40px;cursor: pointer;" @click="articleDetails(article)">{{article.articleTitleName}}</span>
+          <span style="line-height: 40px;cursor: pointer;"
+                @click="articleDetails(article)">{{article.articleTitleName}}</span>
         </p>
         <div style="position:absolute;width:50px;right: 15px;top:15px;">
           <Tag v-if="article.isSticky === 1" style="float: left;" color="green">置顶</Tag>
@@ -38,9 +41,12 @@
         <!--Change-->
         <!--</a>-->
         <div style="width: 100%;">
-          <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;" @click="articleDetails(article)">{{article.articleSummary}}</p>
-          <div >
-            <img @click="articleDetails(article)" style="object-fit: cover;position:absolute;right: 40px; top:80px; width:120px;height: 80px;cursor:pointer;" :src="article.articleTitleIcon">
+          <p style="width: 76%;float: left;margin-right: 30px;cursor: pointer;" @click="articleDetails(article)">
+            {{article.articleSummary}}</p>
+          <div>
+            <img @click="articleDetails(article)"
+                 style="object-fit: cover;position:absolute;right: 40px; top:80px; width:120px;height: 80px;cursor:pointer;"
+                 :src="article.articleTitleIcon">
           </div>
         </div>
         <div style="width: 100%;float: left;margin:10px;">
@@ -50,7 +56,8 @@
 
       </Card>
 
-      <Page style="text-align: center" :total="articlePublicTotal" @on-change="pageChange" @on-page-size-change="pageSizeChange" ref="page"
+      <Page style="text-align: center" :total="articlePublicTotal" @on-change="pageChange"
+            @on-page-size-change="pageSizeChange" ref="page"
             show-total show-sizer/>
     </FormItem>
 
@@ -71,16 +78,22 @@
           <p slot="title">优质文章</p>
           <ul style="list-style:none;">
             <li v-for="trendingArticle in articleTrendingList" style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a @click="articleDetails(trendingArticle)">{{trendingArticle.articleTitleName}}</a>
-              <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{trendingArticle.commentNum}}</Tag>
+              <!--<Icon type="ios-book-outline"/>-->
+              <p
+                style="float: left;width:auto;max-width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
+                <a @click="articleDetails(trendingArticle)">{{trendingArticle.articleTitleName}}</a>
+              </p>
+              <Tag color="volcano" style="margin-left: 10px;">
+                <Icon type="ios-chatbubbles"/>
+                {{trendingArticle.commentNum}}
+              </Tag>
             </li>
           </ul>
         </Card>
 
         <!--<Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">-->
-          <!--<Icon type="ios-create-outline"/>-->
-          <!--写文章-->
+        <!--<Icon type="ios-create-outline"/>-->
+        <!--写文章-->
         <!--</Button>-->
       </div>
 
@@ -104,11 +117,11 @@
         articlePublicTotal: '',
         filter: {
           // 是否精选文章：0全部，1精选
-          ifFine:'0',
+          ifFine: '0',
           limit: 10,
           page: 1
         },
-        articleTrendingList:[],
+        articleTrendingList: [],
 
         trendingSort: {
           limit: 10,
@@ -137,11 +150,10 @@
     },
     methods: {
 
-      userDetail(userId){
+      userDetail(userId) {
         this.$router.push({name: 'UserPage', query: {userId: userId}})
 
       },
-
 
 
       handleSubmit(name) {
@@ -202,7 +214,7 @@
       },
       articleDetails(article) {
         // 页面带参跳转
-        this.$router.push({name: 'ArticleDetails',query: {articleId:article.id,articleUserId:article.createUserId}})
+        this.$router.push({name: 'ArticleDetails', query: {articleId: article.id, articleUserId: article.createUserId}})
       },
       // articlePush() {
       //   if(this.$store.state.userName !== null){
@@ -219,11 +231,11 @@
         this.filter.page = page;
         this.getData(this.filter);
       },
-      pageSizeChange(limit){
+      pageSizeChange(limit) {
         this.filter.limit = limit;
         this.getData(this.filter);
       },
-      articleType(type){
+      articleType(type) {
         this.filter.isFine = type
         this.getData(this.filter);
 

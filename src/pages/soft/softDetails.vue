@@ -199,9 +199,12 @@
           <p slot="title">其他相关软件</p>
           <ul style="list-style:none;">
             <li v-for="soft in softRecommendList" style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
+              <!--<Icon type="ios-book-outline"/>-->
+              <p style="float: left;width:auto;max-width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
+
               <!--<a :href="'/softDetails?id='+soft.id">链接</a>-->
               <a @click="getOtherSoftDetails(soft)">{{soft.softTitleName}}</a>
+              </p>
               <Tag color="volcano" style="margin-left: 10px;"><Icon type="ios-chatbubbles"/>{{soft.commentNum}}</Tag>
             </li>
 

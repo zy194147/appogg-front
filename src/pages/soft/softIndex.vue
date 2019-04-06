@@ -9,8 +9,10 @@
 
       <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
         <div>
-          <img @click="userDetail(soft.createUserId)" style="cursor:pointer;width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=soft.userHeadIcon>
-          <span  style="cursor: pointer" @click="userDetail(soft.createUserId)">{{soft.createUserName}}</span>
+          <img @click="userDetail(soft.createUserId)"
+               style="cursor:pointer;width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;"
+               :src=soft.userHeadIcon>
+          <span style="cursor: pointer" @click="userDetail(soft.createUserId)">{{soft.createUserName}}</span>
           <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
           <span>　{{soft.createDateTime}}　</span>
           <Icon type="ios-chatbubbles"/>
@@ -21,13 +23,15 @@
           <span style="line-height: 40px;cursor: pointer;font-size: 18px;" @click="softDetails(soft)">{{soft.softTitleName}}</span>
         </div>
         <div>
-          <img style="object-fit: cover;position:absolute;right: 40px;top:40px; width:120px;height: 80px;" :src=soft.softTitleIcon>
+          <img style="object-fit: cover;position:absolute;right: 40px;top:40px; width:120px;height: 80px;"
+               :src=soft.softTitleIcon>
         </div>
         <div v-for="softTag in soft.softClassifyGroup" style="width: 100%;margin:10px;">
           <Tag style="float: left" color="cyan">{{softTag}}</Tag>
         </div>
       </Card>
-      <Page style="text-align: center" :total="softPublicTotal" show-total show-elevator  @on-change="pageChange" @on-page-size-change="pageSizeChange" />
+      <Page style="text-align: center" :total="softPublicTotal" show-total show-elevator @on-change="pageChange"
+            @on-page-size-change="pageSizeChange"/>
     </FormItem>
 
     <FormItem style="position: relative;left: 10px;width:24%;">
@@ -62,29 +66,41 @@
 
 
         <!--<Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">-->
-          <!--<p slot="title">分类</p>-->
-          <!--<a slot="extra">换一批</a>-->
-          <!--<CheckboxGroup>-->
-            <!--<Checkbox v-for="classify in softClassifyList" :label="classify.id">-->
-              <!--<span>{{classify.classifyName}}</span>-->
-            <!--</Checkbox>-->
-          <!--</CheckboxGroup>-->
+        <!--<p slot="title">分类</p>-->
+        <!--<a slot="extra">换一批</a>-->
+        <!--<CheckboxGroup>-->
+        <!--<Checkbox v-for="classify in softClassifyList" :label="classify.id">-->
+        <!--<span>{{classify.classifyName}}</span>-->
+        <!--</Checkbox>-->
+        <!--</CheckboxGroup>-->
         <!--</Card>-->
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
           <p slot="title">最热</p>
           <ul style="list-style:none;">
             <li v-for="trendingSoft in softTrendingList" style="margin-bottom: 4px;">
-              <Icon type="ios-book-outline"/>
-              <a @click="softDetails(trendingSoft)">{{trendingSoft.softTitleName}}</a>
+              <!--<Icon type="ios-book-outline"/>-->
+
+              <!--<div style="width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">-->
+
+              <p
+                style="float: left;width:auto;max-width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">
+                <a @click="softDetails(trendingSoft)">{{trendingSoft.softTitleName}}</a>
+
+              </p>
               <Tag color="volcano" style="margin-left: 10px;">
 
                 <Icon type="ios-chatbubbles"/>
                 {{trendingSoft.commentNum}}
               </Tag>
+              <!--</div>-->
+              <!--<Tag color="volcano" style="margin-left: 10px;">-->
+
+              <!--<Icon type="ios-chatbubbles"/>-->
+              <!--{{trendingSoft.commentNum}}-->
+              <!--</Tag>-->
             </li>
           </ul>
         </Card>
-
 
 
         <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
@@ -96,8 +112,8 @@
         </Card>
 
         <!--<Button style="width:100%;margin-bottom: 10px;" type="primary" @click="articlePush">-->
-          <!--<Icon type="ios-create-outline"/>-->
-          <!--发布软件-->
+        <!--<Icon type="ios-create-outline"/>-->
+        <!--发布软件-->
         <!--</Button>-->
       </div>
 
@@ -159,12 +175,12 @@
     methods: {
 
 
-      userDetail(userId){
+      userDetail(userId) {
         this.$router.push({name: 'UserPage', query: {userId: userId}})
 
       },
 
-      needPush(){
+      needPush() {
         this.$Loading.start()
         this.$router.push('/needPush')
         this.$Loading.finish()
@@ -280,7 +296,7 @@
         this.filter.page = page;
         this.getData(this.filter);
       },
-      pageSizeChange(limit){
+      pageSizeChange(limit) {
         this.filter.limit = limit;
         this.getData(this.filter);
       },
