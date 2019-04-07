@@ -1,0 +1,18 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <polygon fill="#bf00bf" id="svg_6" points="32,55.9 5.8,30.6 58.2,30.6     " class="st21"/>
+  <polygon fill="#bf00bf" id="svg_8" points="49.8,17 14.2,17 5.8,30.6 58.2,30.6     " class="st22"/>
+  <polygon fill="#ff00ff" id="svg_10" points="32,55.9 22.5,30.6 41.5,30.6    " class="st41"/>
+  <polygon fill="#ff00ff" id="svg_12" points="24.2,27.2 16.7,17 32,17    " class="st41"/>
+  <polygon fill="#ff00ff" id="svg_14" points="39.4,27.2 32,17 47.3,17    " class="st41"/>
+  <polygon fill="#ffffff" id="svg_16" points="50.5,31 48,30.2 50.5,29.3 51.4,26.8 52.2,29.3 54.7,30.2 52.2,31 51.4,33.5   " class="st3"/>
+  <polygon opacity="0.2" fill="#ffffff" id="svg_18" points="34.5,17 13.5,38.1 11.7,36.4 31.1,17    " class="st3"/>
+  <polygon opacity="0.2" fill="#bfbf00" id="svg_19" points="46.43698552250862,16.863013714551926 19.636986285448074,43.66301295161247 15.436986476182938,39.66301295161247 38.136986285448074,16.863013714551926 " class="st3"/>
+ </g>
+</svg>

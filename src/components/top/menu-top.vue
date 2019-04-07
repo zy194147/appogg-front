@@ -47,7 +47,7 @@
                   个人中心
                 </DropdownItem>
                 <DropdownItem name="userEdit">
-                  <Icon type="ios-person-outline"/>
+                  <Icon type="ios-cog-outline" />
                   设置
                 </DropdownItem>
                 <DropdownItem name="notice">

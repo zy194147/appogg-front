@@ -13,10 +13,15 @@
                style="cursor:pointer;width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;"
                :src=soft.userHeadIcon>
           <span style="cursor: pointer" @click="userDetail(soft.createUserId)">{{soft.createUserName}}</span>
-          <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+
+          <Tooltip :content="soft.userAuthName" placement="bottom">
+            <img style="width: 20px;height: 20px;" :src="soft.userAuthIcon">
+          </Tooltip>
+          <!--<img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
           <span>　{{soft.createDateTime}}　</span>
           <Icon type="ios-chatbubbles"/>
           {{soft.commentNum}}
+
         </div>
         <div
           style="width: 76%;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow: hidden;">

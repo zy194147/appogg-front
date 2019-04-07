@@ -163,7 +163,13 @@
               .then((response) => {
                 if (response.data.status === 200) {
                   if (response.data.data.status === 1) {
-                    alert("用户已存在")
+                    this.userSignUp.userPassword = ''
+                    this.userSignUp.userPasswordCheck = ''
+                    this.$Message.error(response.data.data.message)
+                  } else if (response.data.data.status === 2) {
+                    this.userSignUp.userPassword = ''
+                    this.userSignUp.userPasswordCheck = ''
+                    this.$Message.error(response.data.data.message)
                   } else {
 
                     this.$router.push({name: 'SignUpRemind', params: {signUpUserName: this.userSignUp.userName}})

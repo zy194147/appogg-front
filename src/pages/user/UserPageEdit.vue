@@ -67,12 +67,13 @@
 
           <div style="text-align: left;width:70%;margin-left: 240px;">
 
-            <span style="font-size: 18px;"><strong>{{userDetail.userName}}　</strong></span>
+            <span style="font-size: 18px;"><strong>{{userDetail.userName}}</strong></span>
             <Poptip
               v-model="nameVisible"
               @on-ok="ok"
               @on-cancel="cancel">
-              <a>编辑用户名</a>
+              <!--暂时不可编辑用户名-->
+              <!--<a>编辑用户名</a>-->
               <div class="api" slot="content" style="text-align: right">
                 <FormItem>
                   <Input v-model.trim="userMsgEdit.userName" :placeholder="userDetail.userName"
@@ -205,7 +206,7 @@
           userHeadIcon: "",
           userName: "",
           userCity: "",
-          userSex: "",
+          userSex: 0,
           userIntroduce: ""
         },
 

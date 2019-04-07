@@ -14,9 +14,9 @@
                :src="article.userHeadIcon">
           <span style="cursor: pointer" @click="userDetail(article.createUserId)">{{article.createUserName}}</span>
           <!--<span>{{$store.getters.username}}</span>-->
-          <Tooltip content="钻石会员" placement="bottom">
-            <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
 
+          <Tooltip :content="article.userAuthName" placement="bottom">
+            <img style="width: 20px;height: 20px;" :src="article.userAuthIcon">
           </Tooltip>
           <span>　{{article.createDateTime}}　</span>
           <Tooltip content="文章评论数" placement="bottom">

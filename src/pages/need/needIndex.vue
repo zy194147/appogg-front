@@ -15,7 +15,10 @@
         <div>
           <img  @click="userDetail(need.createUserId)" style="cursor:pointer;width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=need.userHeadIcon>
           <span style="cursor: pointer" @click="userDetail(need.createUserId)">{{need.createUserName}}</span>
-          <img  style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+          <Tooltip :content="need.userAuthName" placement="bottom">
+            <img style="width: 20px;height: 20px;" :src="need.userAuthIcon">
+          </Tooltip>
+          <!--<img  style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
           <span>　{{need.createDateTime}}　</span>
         </div>
         <div style="width: 100%;">
