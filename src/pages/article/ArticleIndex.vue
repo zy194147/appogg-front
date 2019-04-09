@@ -25,7 +25,7 @@
           </Tooltip>
 
         </div>
-        <p style="font-size: 20px;">
+        <p style="width:76%;font-size: 20px;">
           <span style="line-height: 40px;cursor: pointer;"
                 @click="articleDetails(article)">{{article.articleTitleName}}</span>
         </p>

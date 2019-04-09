@@ -1,0 +1,15 @@
+<svg width="67" height="67" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" fill-rule="evenodd" clip-rule="evenodd" fill="#56aaff" d="m42.5,40c-3.037,0 -5.5,-2.462 -5.5,-5.5s2.463,-5.5 5.5,-5.5s5.5,2.462 5.5,5.5s-2.463,5.5 -5.5,5.5zm-9.5,-5.5c0,-3.59 -2.91,-6.5 -6.5,-6.5s-6.5,2.91 -6.5,6.5s2.91,6.5 6.5,6.5s6.5,-2.91 6.5,-6.5zm9.5,-6.5c-3.59,0 -6.5,2.91 -6.5,6.5s2.91,6.5 6.5,6.5s6.5,-2.91 6.5,-6.5s-2.91,-6.5 -6.5,-6.5zm-8.5,36c-16.568,0 -30,-13.432 -30,-30c0,-16.569 13.432,-30 30,-30s30,13.431 30,30c0,16.568 -13.432,30 -30,30z"/>
+  <ellipse ry="11.328368" rx="18.856714" id="svg_2" cy="35.424657" cx="34.647174" stroke-opacity="null" stroke-width="null" stroke="null" fill="#56aaff"/>
+  <ellipse rx="0.071699" id="svg_3" cy="14.058494" cx="25.182968" fill-opacity="null" stroke-opacity="null" stroke-width="null" stroke="null" fill="#ED1983"/>
+  <ellipse id="svg_4" cy="39.726569" cx="30.703755" fill-opacity="null" stroke-opacity="null" stroke-width="null" stroke="null" fill="#ED1983"/>
+  <text opacity="0.6" xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="15" id="svg_5" y="38.74094" x="18.521803" stroke-opacity="null" stroke-width="0" stroke="null" fill="#4c4c4c">保存</text>
+ </g>
+</svg>

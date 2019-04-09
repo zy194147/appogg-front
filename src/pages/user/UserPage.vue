@@ -20,7 +20,10 @@
           <div style="text-align: left;width:70%;margin-left: 240px;">
             <p>
               <span style="font-size: 18px;"><strong>{{userDetail.userName}}</strong></span>
-              <img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">
+              <Tooltip :content="userDetail.userAuthName" placement="bottom">
+                <img style="width: 20px;height: 20px;" :src="userDetail.userAuthIcon">
+              </Tooltip>
+              <!--<img style="width: 20px;height: 20px;" src="../../assets/article/iconfinder-icon.svg">-->
 
               {{userDetail.memberLevelName}}
 
@@ -136,10 +139,37 @@
               <p>暂无文章</p>
             </Card>
             <div v-for="article in articles">
-              <p style="font-size: 20px;">
+              <div style="font-size: 20px;">
+                <span v-if="articleUser.userName === loginUserName">
+                  <Tooltip v-if="article.isEdit === 1" content="未发布" placement="right">
+                    <Button ghost type="error" @click="editArticle(article)" shape="circle">
+                      继续编辑
+                    </Button>
+                  </Tooltip>
+                  <Tooltip v-else content="已发布" placement="right">
+                    <Button ghost type="info" @click="editArticle(article)" shape="circle">
+                      修改
+                    </Button>
+                  </Tooltip>
+                </span>
+
+
+
                 <Tag color="green">文</Tag>
-                <span style="line-height: 40px; cursor: pointer" @click="articleDetails(article)">{{article.articleTitleName}}</span>
-              </p>
+
+                <span style="width:76%;">
+                  <span style="line-height: 40px; cursor: pointer" @click="articleDetails(article)">{{article.articleTitleName}}</span>
+                  <Tag v-if="article.articleAuthId === 1"  color="error">仅自己可见</Tag>
+                  <Tag v-else  color="primary">任何人可见</Tag>
+                  <Tag v-if="article.isEdit === 1"  color="warning">保存未发布</Tag>
+                </span>
+
+
+
+
+
+
+              </div>
               <div style="width: 100%;">
                 <p style="width: 76%;float: left;margin-right: 30px;" @click="articleDetails(article)">
                   {{article.articleSummary}}
@@ -288,6 +318,7 @@
         followToNum: '',
 
         userId: '',
+        userLoginId:'',
         userDetail: '',
         articleUser: '',
 
@@ -472,26 +503,52 @@
       getArticles(userId) {
         console.log("开始")
 
-        this.$http.get('/api/user/listArticle', {
-          params: {
-            'userId': userId
-          }
-        })
-          .then((response) => {
-            if (response.data.status === 200) {
-              this.articles = response.data.data.rows
-              this.articleNum = "文章 " + response.data.data.rows.length
-
-              console.log("111*******////***11111", this.userDetail,)
-            } else {
-              console.log("no")
-
-              this.articles = ''
+        this.userLoginId = window.localStorage.getItem("userId");
+        // 自己访问
+        if(this.userId === this.userLoginId){
+          this.$http.get('/api/user/listArticle', {
+            params: {
+              'userId': userId
             }
           })
-          .catch(function (error) {
-            console.log(error);
+            .then((response) => {
+              if (response.data.status === 200) {
+                this.articles = response.data.data.rows
+                this.articleNum = "文章教程 " + response.data.data.rows.length
+
+                console.log("111*******////***11111", this.userDetail,)
+              } else {
+                console.log("no")
+
+                this.articles = ''
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+        } else {            // 别人访问
+          this.$http.get('/api/user/listArticleForVisitor', {
+            params: {
+              'userId': userId
+            }
           })
+            .then((response) => {
+              if (response.data.status === 200) {
+                this.articles = response.data.data.rows
+                this.articleNum = "文章教程 " + response.data.data.rows.length
+
+                console.log("111*******////***11111", this.userDetail,)
+              } else {
+                console.log("no")
+
+                this.articles = ''
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+        }
+
       },
       getSofts(userId) {
         console.log("开始")
@@ -504,7 +561,7 @@
           .then((response) => {
             if (response.data.status === 200) {
               this.softs = response.data.data.rows
-              this.softNum = "软件 " + response.data.data.rows.length
+              this.softNum = "破解软件 " + response.data.data.rows.length
 
               console.log("111*******////***11111", this.userDetail,)
             } else {
@@ -528,7 +585,7 @@
           .then((response) => {
             if (response.data.status === 200) {
               this.needs = response.data.data.rows
-              this.needNum = "需求 " + response.data.data.rows.length
+              this.needNum = "软件需求 " + response.data.data.rows.length
 
               console.log("111*******////***11111", this.userDetail,)
             } else {
@@ -584,6 +641,10 @@
         }
 
         this.randomMovieList = getArrayItems(this.movieList, 5);
+      },
+
+      editArticle(article){
+        this.$router.push({name: 'ArticlePush', query: {articleId: article.id, articleUserId: article.createUserId}})
       },
 
       articleDetails(article) {
@@ -679,9 +740,12 @@
 
       this.getFollowers(this.userId);
       this.getFollowToUsers(this.userId);
+
+
       this.getArticles(this.userId);
       this.getSofts(this.userId);
       this.getNeeds(this.userId);
+
 
 
       this.changeLimit();

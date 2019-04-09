@@ -102,6 +102,10 @@
 
 
       <FormItem>
+        <div style="position: fixed;right: 50px;bottom: 100px;">
+          <img @click="saveEditMsg('articleMsg')" style="cursor:pointer;" src="../../assets/article/save_article.svg">
+        </div>
+
         <Button style="margin-left: 8px">取消</Button>
         <Button type="primary"  :loading="submitArticleLoading" @click="submitArticleMsg('articleMsg')">
 
@@ -131,6 +135,10 @@
     name: 'editor',
     data() {
       return {
+
+        editArticleId:'',
+        editArticleUserId:'',
+        articleDetail:'',
 
         submitArticleLoading:false,
 
@@ -179,6 +187,7 @@
         editor: {},
 
         articleMsg: {
+          id:"",
           articleTitleIcon: "",
           articleTitleName: "",
           articleAuthId: "",
@@ -267,10 +276,45 @@
         // }, 3000);
       },
 
+      saveEditMsg(articleMsg){
+        this.submitArticleLoading = true;
+
+        this.articleMsg.articleTitleIcon = this.articleTitleImage
+        this.articleMsg.id = this.editArticleId
+
+
+        this.$refs[articleMsg].validate((valid) => {
+
+          if (valid) {
+            this.$Message.success('Success!');
+
+            this.handleSpinCustom()
+
+
+            // this.spinShow = true
+            axios.post('/api/article/save', this.articleMsg)
+              .then((response) => {
+                if(response.data.status === 200){
+                  // this.spinShow = false
+                  this.$Spin.hide();
+                  // this.$router.push('/article')
+                }
+
+                console.log("add...article:" , response)
+              })
+          } else {
+            this.$Message.error('保存失败！');
+          }
+        })
+        this.submitArticleLoading = false;
+
+      },
+
       submitArticleMsg(articleMsg){
         this.submitArticleLoading = true;
 
         this.articleMsg.articleTitleIcon = this.articleTitleImage
+        this.articleMsg.id = this.editArticleId
 
 
         this.$refs[articleMsg].validate((valid) => {
@@ -293,7 +337,7 @@
                 console.log("add...article:" , response)
               })
           } else {
-            this.$Message.error('Fail!');
+            this.$Message.error('发布失败!');
           }
         })
         this.submitArticleLoading = false;
@@ -356,8 +400,46 @@
 
 
 
+      getData(articleId) {
+        console.log("开始")
+
+
+        this.$http.get('/api/article/detail', {
+          params: {
+            'id': articleId
+          }
+        })
+          .then((response) => {
+            if (response.data.status === 200) {
+              this.articleDetail = response.data.data
+              // alert(this.articleDetail+"..")
+              this.articleTitleImage = this.articleDetail.articleTitleIcon
+              this.articleMsg.articleTitleName = this.articleDetail.articleTitleName
+              this.articleMsg.articleAuthId = this.articleDetail.articleAuthId.toString()
+              this.articleMsg.articleClassifyGroup = this.articleDetail.articleClassifyGroup
+              this.articleMsg.articleSummary = this.articleDetail.articleSummary
+              this.articleMsg.articleContent = this.articleDetail.articleContent
+              this.editor.txt.html(this.articleDetail.articleContent)
+
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        console.log("结束")
+      },
+
+
+
     },
     mounted() {
+
+      this.editArticleUserId = this.$route.query.articleUserId
+      this.editArticleId = this.$route.query.articleId
+
+
+      this.getData(this.editArticleId);
+
 
       this.getClassifyData(this.listClassifyType)
 
@@ -442,6 +524,7 @@
 
       ];
       this.editor.create()
+      // alert(this.articleDetail)
       this.getEditorContent();
     }
   }
