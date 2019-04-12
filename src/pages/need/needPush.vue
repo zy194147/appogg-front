@@ -52,7 +52,7 @@
       <FormItem label="需求简介" prop="needContent">
 
         <div>
-          <div ref="editor" style="text-align:left"></div>
+          <div ref="editor" style="text-align:left;background-color: white"></div>
           <!--<button v-on:click="getContent">查看内容</button>-->
         </div>
       </FormItem>

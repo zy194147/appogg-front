@@ -11,10 +11,10 @@
 
         <div style="width: 100%;">
 
-          <img style="width:100%;height:200px;object-fit: cover;"
+          <img style="width:100%;height:240px;object-fit: cover;"
                :src=userDetail.userPageIcon>
           <img
-            style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+            style="object-fit: cover;position:absolute;width:160px;height:160px;top:160px;left:30px;border-radius: 4px;border:4px #ffffff solid"
             :src=userDetail.userHeadIcon>
 
           <div style="text-align: left;width:70%;margin-left: 240px;">

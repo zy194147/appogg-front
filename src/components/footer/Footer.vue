@@ -16,6 +16,6 @@ export default {
 </script>
 
 <style scoped>
-.footer{position:relative;height: 40px;line-height: 40px;background: #ffffff;bottom: 0;left: 0;}
+.footer{position:relative;height: 40px;line-height: 40px;background: #EAEAEA;bottom: 0;left: 0;}
 .footer-title{color: #000;text-align: center;}
 </style>

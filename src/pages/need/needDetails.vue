@@ -3,7 +3,7 @@
 
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
-    <FormItem style="width:70%;margin-right: 20px;">
+    <FormItem style="width:70%;margin-right: 20px;background-color: ">
       <Card v-model="needDetail" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
 
         <p style="font-size: 20px;">
@@ -54,7 +54,7 @@
         <!--<Divider/>-->
         <div style="width: 100%;margin-top: 10px;">
 
-          <div ref="editor" style="text-align:left"></div>
+          <div ref="editor" style="text-align:left;background-color: white"></div>
 
           <Button style="width: 100%;margin-top: 20px;" type="primary" @click="answerPush">提交</Button>
         </div>

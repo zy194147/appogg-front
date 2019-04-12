@@ -163,7 +163,7 @@
 
       viewNotice(notice) {
 
-        const title = '评论信息';
+        const title = '通知';
         let content;
         if (notice.noticeType === "comment") {
           content = '<p>' + notice.actionFromUserName + '在' + notice.createDateTime + '评论了你的文章</p>';

@@ -1,135 +1,146 @@
 <template>
-  <Form style="background-color: white;width: 100%;" ref="formInline" :model="formInline" :rules="ruleInline" inline>
+  <div >
 
-    <FormItem prop="user" style="width: 100%;">
-      <Menu @on-select="articleIndex" style="float: left;width: 100%;" mode="horizontal" :theme="theme1"
-            active-name="1">
-        <!--<FormItem>-->
-        <a href="/">
-          <img style="height:40px;width: 116px;left:0;top:10px;position: absolute;" src="../../assets/logo3.png">
-        </a>
-        <!--</FormItem>-->
-        <FormItem style="margin-top: 15px;position: relative;left:120px;">
-          <Input v-model.trim="searchText" style="width:100%;" search icon placeholder="搜索..."
-                 @on-search="goSearch(searchText)"/>
-        </FormItem>
+    <Form style="background-color: 	#EAEAEA;width: 100%;margin-bottom: -10px;" ref="formInline" :model="formInline"
+          :rules="ruleInline" inline>
 
-        <MenuItem style="position: relative;left:130px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
-          {{menu.menuName}}
-        </MenuItem>
-        <FormItem style="margin-top: 15px;position: relative;left: 200px;">
-          <div v-if="loginUserName !== null && loginUserName !== ''">
+      <FormItem prop="user" style="width: 100%;">
+        <Menu @on-select="articleIndex" style="float: left;width: 100%;" mode="horizontal" :theme="theme1"
+              active-name="1">
+          <!--<FormItem>-->
+          <a href="/">
+            <img style="height:40px;width: 116px;left:5%;top:10px;position: absolute;" src="../../assets/logo3.png">
+          </a>
+          <!--</FormItem>-->
+          <FormItem style="margin-top: 15px;position: relative;left:340px;">
+            <Input v-model.trim="searchText" style="width:100%;" search icon placeholder="搜索..."
+                   @on-search="goSearch(searchText)"/>
+          </FormItem>
 
-            <!--<span>欢迎你，　</span>-->
+          <MenuItem style="position: relative;left:200px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
+            {{menu.menuName}}
+          </MenuItem>
+          <FormItem style="margin-top: 15px;position: relative;float:right;right: 50px;">
+            <div v-if="loginUserName !== null && loginUserName !== ''">
 
-            <Dropdown trigger="click" @on-click="userAction">
-              <Badge :count="noticeTotal" type="error">
+              <!--<span>欢迎你，　</span>-->
 
+              <Dropdown trigger="click" @on-click="userAction">
+                <Badge :count="noticeTotal" type="error">
+
+                  <a href="javascript:void(0)">
+                    <img
+                      style="width:30px;height:30px;border-radius:50%; overflow:hidden;object-fit: cover;"
+                      :src=loginUserIcon>
+
+                    <a href="#" class="demo-badge"></a>
+
+                  </a>
+                </Badge>
+
+                <DropdownMenu slot="list" style="text-align: left">
+
+
+                  <DropdownItem>
+                    <strong style="font-size: 16px;">{{loginUserName}}</strong><br/>
+                    <span>普通会员</span>
+                  </DropdownItem>
+                  <DropdownItem divided name="user">
+                    <Icon type="ios-person-outline"/>
+                    个人中心
+                  </DropdownItem>
+                  <DropdownItem divided name="upgrade">
+
+                    <Badge type="error" dot>
+                      <Icon type="ios-ribbon-outline"/>
+                      <span> 升级会员</span>
+
+                    </Badge>
+
+                  </DropdownItem>
+                  <DropdownItem name="notice">
+
+                    <Badge v-if="noticeTotal != 0" type="error" dot>
+                      <Icon type="md-notifications-outline"/>
+                      <span> 通知</span>
+
+                    </Badge>
+                    <div v-else>
+                      <Icon type="md-notifications-outline"/>
+                      <span> 通知</span>
+                    </div>
+
+
+                  </DropdownItem>
+                  <DropdownItem divided name="logout">
+                    <Icon type="ios-log-out"/>
+                    退出登录
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              <Dropdown trigger="click" @on-click="userAction" >
                 <a href="javascript:void(0)">
-                  <img
-                    style="width:30px;height:30px;border-radius:50%; overflow:hidden;object-fit: cover;"
-                    :src=loginUserIcon>
-
-                  <a href="#" class="demo-badge"></a>
-
+                  <img style="width:20px;height:20px;margin-bottom: 4px;margin-left: 10px;" src="../../assets/head/add_menu.svg">
+                  <!--<Icon style="width:10px;height:10px;" type="md-add"/>-->
                 </a>
-              </Badge>
+                <DropdownMenu slot="list">
+                  <DropdownItem name="pushSoft">发布软件</DropdownItem>
+                  <DropdownItem name="pushArticle">发布文章</DropdownItem>
+                  <DropdownItem name="pushNeed">发布需求</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
 
-              <DropdownMenu slot="list" style="text-align: left">
+              <!--<Badge :count="5" type="error">-->
+              <!--<Poptip placement="bottom" width="80">-->
+              <!--<img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=loginUserIcon>-->
 
+              <!--<a>{{loginUserName}}</a>-->
+              <!--<div class="api" slot="content">-->
+              <!--<a @click="userDetails">个人中心</a><Divider/>-->
+              <!--<a @click="softPush">发布软件</a><Divider/>-->
+              <!--<a @click="articlePush">发布文章</a><Divider/>-->
+              <!--<a @click="needPush">发布需求</a><Divider/>-->
+              <!--<a @click="modal1 = true">退出登录</a>-->
+              <!--</div>-->
+              <!--</Poptip>-->
 
-                <DropdownItem>
-                  <strong style="font-size: 16px;">{{loginUserName}}</strong><br/>
-                  <span>普通会员</span>
-                </DropdownItem>
-                <DropdownItem divided name="user">
-                  <Icon type="ios-person-outline"/>
-                  个人中心
-                </DropdownItem>
-                <DropdownItem name="userEdit">
-                  <Icon type="ios-cog-outline" />
-                  设置
-                </DropdownItem>
-                <DropdownItem name="notice">
+              <!--<a @click="value1 = true" type="primary">{{loginUserName}}</a>-->
+              <!--<Drawer :title=loginUserName :closable="false" v-model="value1" >-->
+              <!--<a @click="userDetails">个人中心</a><Divider/>-->
+              <!--<a @click="softPush">发布软件</a><Divider/>-->
+              <!--<a @click="articlePush">发布文章</a><Divider/>-->
+              <!--<a @click="needPush">发布需求</a><Divider/>-->
+              <!--<a @click="modal1 = true">退出登录</a><Divider/>-->
 
-                  <Badge v-if="noticeTotal != 0" type="error" dot>
-                    <Icon type="md-notifications-outline"/>
-                    <span> 通知</span>
+              <!--</Drawer>-->
 
-                  </Badge>
-                  <div v-else>
-                    <Icon type="md-notifications-outline"/>
-                    <span> 通知</span>
-                  </div>
+              <!--<Poptip title="Title" content="content" placement="bottom">-->
+              <!--<Button>{{loginUserName}}</Button>-->
+              <!--</Poptip>-->
 
+              <!--<a @click="userDetails">{{loginUserName}}　</a>-->
+              <!--</Badge>-->
+              <!--<Button @click="modal1 = true">退出登录</Button>-->
 
-                </DropdownItem>
-                <DropdownItem divided name="logout">
-                  <Icon type="ios-log-out"/>
-                  退出登录
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown trigger="click" @on-click="userAction" style="margin-left: 10px;">
-              <a href="javascript:void(0)">
-                <img style="width:20px;height:20px;margin-bottom: 4px;" src="../../assets/head/add_menu.svg">
-                <!--<Icon style="width:10px;height:10px;" type="md-add"/>-->
-              </a>
-              <DropdownMenu slot="list">
-                <DropdownItem name="pushSoft">发布软件</DropdownItem>
-                <DropdownItem name="pushArticle">发布文章</DropdownItem>
-                <DropdownItem name="pushNeed">发布需求</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+              <Modal
+                v-model="modal1"
+                @on-ok="ok"
+                @on-cancel="cancel">
+                <p style="text-align: center;font-size: 16px;">确定退出登录?</p>
+              </Modal>
+            </div>
+            <div v-else>
+              <Button @click="login">登录</Button>
+              <Button type="primary" @click="signup">注册</Button>
+            </div>
+          </FormItem>
+        </Menu>
 
-            <!--<Badge :count="5" type="error">-->
-            <!--<Poptip placement="bottom" width="80">-->
-            <!--<img style="width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;" :src=loginUserIcon>-->
+      </FormItem>
+    </Form>
 
-            <!--<a>{{loginUserName}}</a>-->
-            <!--<div class="api" slot="content">-->
-            <!--<a @click="userDetails">个人中心</a><Divider/>-->
-            <!--<a @click="softPush">发布软件</a><Divider/>-->
-            <!--<a @click="articlePush">发布文章</a><Divider/>-->
-            <!--<a @click="needPush">发布需求</a><Divider/>-->
-            <!--<a @click="modal1 = true">退出登录</a>-->
-            <!--</div>-->
-            <!--</Poptip>-->
+  </div>
 
-            <!--<a @click="value1 = true" type="primary">{{loginUserName}}</a>-->
-            <!--<Drawer :title=loginUserName :closable="false" v-model="value1" >-->
-            <!--<a @click="userDetails">个人中心</a><Divider/>-->
-            <!--<a @click="softPush">发布软件</a><Divider/>-->
-            <!--<a @click="articlePush">发布文章</a><Divider/>-->
-            <!--<a @click="needPush">发布需求</a><Divider/>-->
-            <!--<a @click="modal1 = true">退出登录</a><Divider/>-->
-
-            <!--</Drawer>-->
-
-            <!--<Poptip title="Title" content="content" placement="bottom">-->
-            <!--<Button>{{loginUserName}}</Button>-->
-            <!--</Poptip>-->
-
-            <!--<a @click="userDetails">{{loginUserName}}　</a>-->
-            <!--</Badge>-->
-            <!--<Button @click="modal1 = true">退出登录</Button>-->
-
-            <Modal
-              v-model="modal1"
-              @on-ok="ok"
-              @on-cancel="cancel">
-              <p style="text-align: center;font-size: 16px;">确定退出登录?</p>
-            </Modal>
-          </div>
-          <div v-else>
-            <Button @click="login">登录</Button>
-            <Button type="primary" @click="signup">注册</Button>
-          </div>
-        </FormItem>
-      </Menu>
-
-    </FormItem>
-  </Form>
 </template>
 <script>
   import axios from 'axios'
@@ -339,6 +350,13 @@
         this.$Loading.finish()
         this.value1 = false
       },
+      toUpgrade() {
+        this.$Loading.start()
+        var loginUserId = window.localStorage.getItem("userId");
+        this.$router.push({name: 'Upgrade', query: {userId: loginUserId}})
+        this.$Loading.finish()
+        this.value1 = false
+      },
 
       userAction(item) {
         if (item === 'user') {
@@ -363,10 +381,13 @@
         else if (item === 'userEdit') {
           this.toUserEdit();
         }
+        else if (item === 'upgrade') {
+          this.toUpgrade();
+        }
 
 
       },
-      logoutModal () {
+      logoutModal() {
         this.$Modal.confirm({
           title: '提醒',
           content: '<p>确定要退出登录吗</p>',
@@ -420,4 +441,7 @@
     }
   }
 </script>
+
+
+
 

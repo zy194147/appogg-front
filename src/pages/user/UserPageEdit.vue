@@ -11,9 +11,9 @@
 
         <div style="width: 100%;">
 
-          <img v-if="userPageImage === ''" style="width:100%;height:200px;object-fit: cover;"
+          <img v-if="userPageImage === ''" style="width:100%;height:240px;object-fit: cover;"
                :src=userDetail.userPageIcon>
-          <img v-else style="width:100%;height:200px;object-fit: cover;"
+          <img v-else style="width:100%;height:240px;object-fit: cover;"
                :src=userPageImage>
 
           <Upload
@@ -36,14 +36,14 @@
           <!--<Icon style="object-fit: cover;position:absolute;top:10px;right:10px;cursor:pointer" type="ios-camera"  size="20"></Icon>-->
 
           <img
-            style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+            style="object-fit: cover;position:absolute;width:160px;height:160px;top:160px;left:30px;border-radius: 4px;border:4px #ffffff solid"
             :src=userDetail.userHeadIcon>
 
           <img v-if="userHeadImage === ''"
-               style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+               style="object-fit: cover;position:absolute;width:160px;height:160px;top:160px;left:30px;border-radius: 4px;border:4px #ffffff solid"
                :src=userDetail.userHeadIcon>
           <img v-else
-               style="object-fit: cover;position:absolute;width:160px;height:160px;top:140px;left:30px;border-radius: 4px;border:4px #ffffff solid"
+               style="object-fit: cover;position:absolute;width:160px;height:160px;top:160px;left:30px;border-radius: 4px;border:4px #ffffff solid"
                :src=userHeadImage>
 
           <Upload
@@ -57,7 +57,7 @@
             :before-upload="handleBeforeUpload1"
             type="drag"
             action="/api/image/upload"
-            style="position:absolute;top:140px;left:30px">
+            style="position:absolute;top:160px;left:30px">
             <div style="width: 20px;height:20px;line-height: 16px;">
               <Icon type="ios-camera" size="20"></Icon>
             </div>
@@ -68,6 +68,9 @@
           <div style="text-align: left;width:70%;margin-left: 240px;">
 
             <span style="font-size: 18px;"><strong>{{userDetail.userName}}</strong></span>
+            <Tooltip content="暂不能修改用户名">
+              <Icon type="ios-help-circle-outline" />
+            </Tooltip>
             <Poptip
               v-model="nameVisible"
               @on-ok="ok"
@@ -85,6 +88,14 @@
               </div>
             </Poptip>
             <br/>
+
+            <p>
+              邮箱：{{userDetail.userEmail}}
+
+              <Tooltip content="暂不能修改邮箱">
+                <Icon type="ios-help-circle-outline" />
+              </Tooltip>
+            </p>
 
             <p>
               <Icon type="ios-pin"/>

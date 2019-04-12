@@ -3,11 +3,11 @@
 
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
-    <FormItem style="width:70%;text-align: left;margin-right: 20px;">
+    <FormItem style="width:70%;text-align: left;">
       <Spin size="large" fix v-if="softPublicList.length == 0"></Spin>
 
 
-      <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
+      <Card v-for="soft in softPublicList" style="width:100%;float: left;margin-bottom: 6px;" :dis-hover="true">
         <div>
           <img @click="userDetail(soft.createUserId)"
                style="cursor:pointer;width:30px;height:30px;margin-right: 10px;border-radius:50%; overflow:hidden;"
@@ -39,10 +39,10 @@
             @on-page-size-change="pageSizeChange"/>
     </FormItem>
 
-    <FormItem style="position: relative;left: 10px;width:24%;">
+    <FormItem style="position: relative;left: 6px;width:24%;">
       <div style="width: 100%;">
 
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">平台</p>
           <RadioGroup v-model="articleListType" @on-change="systemChange">
             <Radio label="">
@@ -79,7 +79,7 @@
         <!--</Checkbox>-->
         <!--</CheckboxGroup>-->
         <!--</Card>-->
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">最热</p>
           <ul style="list-style:none;">
             <li v-for="trendingSoft in softTrendingList" style="margin-bottom: 4px;">
@@ -108,7 +108,7 @@
         </Card>
 
 
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">没找到想要的?</p>
           <Button style="width:100%;margin-bottom: 10px;" type="primary" @click="needPush">
             <Icon type="ios-create-outline"/>
@@ -331,7 +331,7 @@
 
       if (window.localStorage.getItem("userName") === "zhangyj") {
 
-        this.info(false)
+        // this.info(false)
       }
 
       this.getClassifyData(this.listClassifyType)

@@ -67,6 +67,11 @@ const router = new Router({
       name: 'UserPageEdit',
       component: () => import('@/pages/user/UserPageEdit.vue'),
     },
+    {
+      path: '/upgrade',
+      name: 'Upgrade',
+      component: () => import('@/pages/user/upgrade.vue'),
+    },
 
 
 
@@ -147,7 +152,8 @@ router.beforeEach((to, from, next) => {
     || to.path === '/user'
     || to.path === '/softPush'
     || to.path === '/needPush'
-    || to.path === '/notice') {
+    || to.path === '/notice'
+    || to.path === '/upgrade') {
     let token = localStorage.getItem('token');
     if (token === null || token === '') {
       next('/login');

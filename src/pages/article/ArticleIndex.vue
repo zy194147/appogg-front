@@ -1,12 +1,12 @@
 <template>
 
 
-  <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
+  <Form style="text-align: left;" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
-    <FormItem style="width:70%;text-align: left;margin-right: 20px;">
+    <FormItem style="width:70%;text-align: left;">
       <Spin size="large" fix v-if="articlePublicList.length == 0"></Spin>
 
-      <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
+      <Card v-for="article in articlePublicList" style="width:100%;float: left;margin-bottom: 6px;" :dis-hover="true">
         <div>
 
           <img @click="userDetail(article.createUserId)"
@@ -63,7 +63,7 @@
 
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">文章类型</p>
           <RadioGroup v-model="filter.ifFine" @on-change="articleType">
             <Radio label="0">
@@ -74,7 +74,7 @@
             </Radio>
           </RadioGroup>
         </Card>
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">优质文章</p>
           <ul style="list-style:none;">
             <li v-for="trendingArticle in articleTrendingList" style="margin-bottom: 4px;">

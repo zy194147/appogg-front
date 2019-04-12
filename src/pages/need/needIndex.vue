@@ -1,7 +1,7 @@
 <template>
   <Form style="text-align: left" ref="formInline" :model="formInline" :rules="ruleInline" inline>
 
-    <FormItem style="width:70%;text-align: left;margin-right: 20px;">
+    <FormItem style="width:70%;text-align: left;">
       <!--<Card v-if="needPublicList.length != 0" style="text-align: center" dis-hover="false">-->
         <!--<Spin size="large" fix v-if="needPublicList.length != 0"></Spin>-->
         <!--<img src="../../assets/article/not_login.jpg">-->
@@ -9,7 +9,7 @@
       <!--</Card>-->
       <Spin size="large" fix v-if="needPublicList.length == 0"></Spin>
 
-      <Card v-for="need in needPublicList" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true" >
+      <Card v-for="need in needPublicList" style="width:100%;float: left;margin-bottom: 6px;" :dis-hover="true" >
         <!--<Spin size="large" fix v-if="needPublicList.length != 0"></Spin>-->
 
         <div>
@@ -35,7 +35,7 @@
     </FormItem>
     <FormItem style="position: relative;left: 10px;width:24%;">
       <div style="width: 100%;">
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">状态</p>
           <RadioGroup v-model="needListType" @on-change="needSolved">
             <Radio label="">
@@ -49,7 +49,7 @@
             </Radio>
           </RadioGroup>
         </Card>
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">来源</p>
           <RadioGroup v-model="needListType1" @on-change="selfNeed">
             <Radio label="">
@@ -60,7 +60,7 @@
             </Radio>
           </RadioGroup>
         </Card>
-        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 10px;">
+        <Card :bordered="true" :dis-hover="true" style="width:100%;margin-bottom: 6px;">
           <p slot="title">最新需求</p>
           <ul style="list-style:none;">
             <li v-for="trendingNeed in needTrendingList" style="margin-bottom: 4px;">
