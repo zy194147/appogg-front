@@ -51,7 +51,7 @@
             </Card>
           </FormItem>
 
-          <Modal v-model="modal3">
+          <Modal v-model="modal3" footer-hide="true">
 
             <br/>
             <br/>

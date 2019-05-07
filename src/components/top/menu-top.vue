@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="menu-top">
 
     <Form style="background-color: 	#EAEAEA;width: 100%;margin-bottom: -10px;" ref="formInline" :model="formInline"
           :rules="ruleInline" inline>
@@ -12,10 +12,10 @@
             <img style="height:40px;width: 116px;left:5%;top:10px;position: absolute;" src="../../assets/logo3.png">
           </a>
           <!--</FormItem>-->
-          <FormItem style="margin-top: 15px;position: relative;left:340px;">
-            <Input v-model.trim="searchText" style="width:100%;" search icon placeholder="搜索..."
-                   @on-search="goSearch(searchText)"/>
-          </FormItem>
+          <!--<FormItem style="margin-top: 15px;position: relative;left:240px;">-->
+            <!--<Input v-model.trim="searchText" style="border: none!important;width:100%;" search icon placeholder="搜索..."-->
+                   <!--@on-focus="goSearch(searchText)"/>-->
+          <!--</FormI的软tem>-->
 
           <MenuItem style="position: relative;left:200px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
             {{menu.menuName}}

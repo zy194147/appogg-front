@@ -82,7 +82,7 @@
 
 
       <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card v-for="answer in needAnswerList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
+      <Card v-for="answer in needAnswerList" style="background-color:#EAEAEA;text-align:left;width:100%;float: left;margin-bottom: 5px;"
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">

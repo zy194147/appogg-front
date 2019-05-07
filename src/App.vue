@@ -37,7 +37,7 @@
     /*background-color: #F2F2F2;*/
   }
 
-  .ivu-form-inline .ivu-form-item {
+  .menu-top .ivu-form-inline .ivu-form-item {
      margin-right: 0;
   }
 </style>

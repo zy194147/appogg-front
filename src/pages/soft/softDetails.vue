@@ -26,6 +26,12 @@
             <div style="width: 100%;float: left;margin:10px;">
               <Tag v-for="softTag in softDetail.softClassifyGroup" color="cyan">{{softTag}}</Tag>
             </div>
+
+            <div v-if="softDetail.createUserName === 'appogg' || softDetail.createUserName === 'zhangyj' " style="text-align: center;margin:10px;">
+
+              <Button type="primary" @click="modal3 = true">打赏</Button>
+
+            </div>
           </TabPane>
 
           <TabPane label="下载地址">
@@ -39,6 +45,27 @@
 
 
       </Card>
+
+      <Modal v-model="modal3" footer-hide="true">
+
+        <br/>
+        <br/>
+        <Alert style="font-size: 16px;text-align: center">
+
+          您的支持就是我前进的动力
+        </Alert>
+        <div>
+          <div style="float: left;left:20px;margin-right: 50px;text-align: center">
+            <img style="width:200px;height:auto" src="../../assets/pay/wechatmoney.png">
+            <p style="font-size: 20px;color: green"><strong>微信</strong></p>
+          </div>
+          <div style="text-align: center">
+            <img style="width:200px;height:auto" src="../../assets/pay/alipaymoney.jpg">
+            <p style="font-size: 20px;color: deepskyblue;"><strong>支付宝</strong></p>
+
+          </div>
+        </div>
+      </Modal>
 
 
       <!--<Button v-if="isLogin" style="width: 100%;" type="info" @click="addData">写评论</Button>-->
@@ -83,7 +110,7 @@
       </div>
 
       <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card v-for="comment in softCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
+      <Card v-for="comment in softCommentList" style="background-color:#EAEAEA;text-align:left;width:100%;float: left;margin-bottom: 0;"
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
@@ -236,6 +263,9 @@
       }
       return {
 
+        modal3: false,
+
+
         backComment:false,
 
 
@@ -285,6 +315,7 @@
           limit: 10,
           page: 1
         },
+
 
         softId: {},
         softUserId: '',
@@ -583,6 +614,7 @@
     },
     created() {
 
+
       this.softId = this.$route.query.softId
       this.systemPlatform.commentSoftId = this.$route.query.softId
       this.softUserId = this.$route.query.softUserId
@@ -600,3 +632,8 @@
   }
 </script>
 
+<style>
+  .ivu-card-body {
+    padding: 6px;
+  }
+</style>

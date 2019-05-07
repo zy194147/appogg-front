@@ -41,7 +41,35 @@
           <Tag v-for="articleTag in articleDetail.articleClassifyGroup" color="cyan">{{articleTag}}</Tag>
         </div>
 
+
+        <div v-if="articleUserDetail.userName === 'appogg' || articleUserDetail.userName === 'zhangyj' " style="text-align: center;margin:10px;">
+
+          <Button type="primary" @click="modal3 = true">打赏</Button>
+
+        </div>
+
       </Card>
+
+
+      <Modal v-model="modal3" footer-hide="true">
+
+        <br/>
+        <br/>
+        <Alert style="font-size: 16px;text-align: center">
+          您的支持就是我前进的动力
+        </Alert>
+        <div>
+          <div style="float: left;left:20px;margin-right: 50px;text-align: center">
+            <img style="width:200px;height:auto" src="../../assets/pay/wechatmoney.png">
+            <p style="font-size: 20px;color: green"><strong>微信</strong></p>
+          </div>
+          <div style="text-align: center">
+            <img style="width:200px;height:auto" src="../../assets/pay/alipaymoney.jpg">
+            <p style="font-size: 20px;color: deepskyblue;"><strong>支付宝</strong></p>
+
+          </div>
+        </div>
+      </Modal>
 
 
       <Card v-if="isLogin" style="width:100%;float: left;margin-bottom: 20px;" :dis-hover="true">
@@ -81,7 +109,7 @@
 
 
       <!--<Divider type="vertical" style="margin-top: -45px;font-size: 30px"/>-->
-      <Card v-for="comment in articleCommentList" style="text-align:left;width:100%;float: left;margin-bottom: 5px;"
+      <Card v-for="comment in articleCommentList" style="background-color:#EAEAEA;text-align:left;width:100%;float: left;margin-bottom: 0;"
             :bordered="false" :dis-hover="true">
         <Row>
           <Col span="1">
@@ -225,6 +253,7 @@
 
         },
 
+        modal3:false,
 
         authorTrendingList:[],
 
@@ -510,3 +539,10 @@
   }
 </script>
 
+
+
+<style>
+  .ivu-card-body {
+    padding: 6px;
+  }
+</style>
