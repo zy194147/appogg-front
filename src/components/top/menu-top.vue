@@ -1,10 +1,12 @@
 <template>
   <div class="menu-top">
 
-    <Form style="background-color: 	#EAEAEA;width: 100%;margin-bottom: -10px;" ref="formInline" :model="formInline"
+    <Form style="background-color: 	#F5F5F5;width: 100%;margin-bottom: -10px;" ref="formInline" :model="formInline"
           :rules="ruleInline" inline>
 
       <FormItem prop="user" style="width: 100%;">
+
+
         <Menu @on-select="articleIndex" style="float: left;width: 100%;" mode="horizontal" :theme="theme1"
               active-name="1">
           <!--<FormItem>-->
@@ -136,6 +138,12 @@
           </FormItem>
         </Menu>
 
+        <div v-if="showSearchInput" style="float: left;background-color: #fff;width: 100%;height:80px;text-align: center">
+
+          <Input style="width: 40%;margin: 20px auto;" search enter-button="搜索" placeholder="输入文字搜索......" />
+
+        </div>
+
       </FormItem>
     </Form>
 
@@ -151,6 +159,8 @@
       return {
         value1: false,
         modal1: false,
+
+        showSearchInput:false,
 
         noticeFilter: {
           id: '',
@@ -288,24 +298,33 @@
         console.log("name:", name)
         if (name === "indexPage") {
           console.log("nnn1:" + name)
+          // this.showSearchInput = false
           this.$router.push('/')
         }
         else if (name === "article") {
           console.log("nnn2:" + name)
 
+          // this.showSearchInput = false
           this.$router.push('/article')
         }
         else if (name === "soft") {
+          // this.showSearchInput = false
           this.$router.push('/soft')
         }
         else if (name === "need") {
+          // this.showSearchInput = false
           this.$router.push('/need')
         }
         else if (name === "selfCenter") {
+          // this.showSearchInput = false
           this.$router.push('/user')
         }
         else if (name === "about") {
+          // this.showSearchInput = false
           this.$router.push('/about')
+        }
+        else if (name === "search") {
+          this.showSearchInput = !this.showSearchInput
         }
         // else {
         //   console.log("nnn3:" + name)
