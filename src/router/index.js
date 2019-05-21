@@ -141,6 +141,16 @@ const router = new Router({
 
 
 
+    // search
+    {
+      path: '/search',
+      name: 'Search',
+      component: () => import('@/pages/search/SearchResult.vue'),
+    },
+
+
+
+
   ]
 });
 

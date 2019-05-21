@@ -1,8 +1,7 @@
 <template>
   <div class="menu-top">
 
-    <Form style="background-color: 	#F5F5F5;width: 100%;margin-bottom: -10px;" ref="formInline" :model="formInline"
-          :rules="ruleInline" inline>
+    <Form style="background-color: 	#F5F5F5;width: 100%;margin-bottom: -10px;" inline>
 
       <FormItem prop="user" style="width: 100%;">
 
@@ -15,8 +14,8 @@
           </a>
           <!--</FormItem>-->
           <!--<FormItem style="margin-top: 15px;position: relative;left:240px;">-->
-            <!--<Input v-model.trim="searchText" style="border: none!important;width:100%;" search icon placeholder="搜索..."-->
-                   <!--@on-focus="goSearch(searchText)"/>-->
+          <!--<Input v-model.trim="searchText" style="border: none!important;width:100%;" search icon placeholder="搜索..."-->
+          <!--@on-focus="goSearch(searchText)"/>-->
           <!--</FormI的软tem>-->
 
           <MenuItem style="position: relative;left:200px;" v-for="menu in menuList" :name="menu.menuNameEnglish">
@@ -80,9 +79,10 @@
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <Dropdown trigger="click" @on-click="userAction" >
+              <Dropdown trigger="click" @on-click="userAction">
                 <a href="javascript:void(0)">
-                  <img style="width:20px;height:20px;margin-bottom: 4px;margin-left: 10px;" src="../../assets/head/add_menu.svg">
+                  <img style="width:20px;height:20px;margin-bottom: 4px;margin-left: 10px;"
+                       src="../../assets/head/add_menu.svg">
                   <!--<Icon style="width:10px;height:10px;" type="md-add"/>-->
                 </a>
                 <DropdownMenu slot="list">
@@ -138,11 +138,7 @@
           </FormItem>
         </Menu>
 
-        <div v-if="showSearchInput" style="float: left;background-color: #fff;width: 100%;height:80px;text-align: center">
 
-          <Input style="width: 40%;margin: 20px auto;" search enter-button="搜索" placeholder="输入文字搜索......" />
-
-        </div>
 
       </FormItem>
     </Form>
@@ -160,7 +156,8 @@
         value1: false,
         modal1: false,
 
-        showSearchInput:false,
+        showSearchInput: false,
+
 
         noticeFilter: {
           id: '',
@@ -175,25 +172,28 @@
         // loading: true,
 
         menuList: [],
-        formInline: {
-          user: '',
-          password: ''
-        },
-        ruleInline: {
-          user: [
-            {required: true, message: '请填写用户名', trigger: 'blur'}
-          ],
-          password: [
-            {required: true, message: '请填写密码', trigger: 'blur'},
-            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
-          ]
-        },
+        // formInline: {
+        //   user: '',
+        //   password: ''
+        // },
+        // ruleInline: {
+        //   user: [
+        //     {required: true, message: '请填写用户名', trigger: 'blur'}
+        //   ],
+        //   password: [
+        //     {required: true, message: '请填写密码', trigger: 'blur'},
+        //     {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
+        //   ]
+        // },
         http: Httpservice.getAxios,
         listdata: [],
         theme1: 'light',
       }
     },
     methods: {
+
+
+
 
       ok() {
 
@@ -324,7 +324,11 @@
           this.$router.push('/about')
         }
         else if (name === "search") {
-          this.showSearchInput = !this.showSearchInput
+          this.$router.push('/search')
+
+          // this.searchWord = ''
+          // this.showSearchInput = !this.showSearchInput
+
         }
         // else {
         //   console.log("nnn3:" + name)

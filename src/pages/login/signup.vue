@@ -1,9 +1,9 @@
 <template>
 
 
-  <Form style="background-color: #ffffff;" ref="userSignUp" :model="userSignUp" :rules="ruleValidate" inline>
+  <Form style="background-color: #F5F5F5;" ref="userSignUp" :model="userSignUp" :rules="ruleValidate" inline>
 
-    <FormItem style="background-color: #ffffff;width: 40%;">
+    <FormItem style="background-color: #F5F5F5;width: 40%;">
       <Card style="width:100%;float: left;margin-top: 40px;" :bordered="true" :dis-hover="true">
         <p style="font-size: 20px;">
           注册
